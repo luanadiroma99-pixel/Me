@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ma Transfo">
+<meta name="theme-color" content="#C97B84">
+<title>Ma Transformation Athlète</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjQzk3Qjg0Ii8+PHRleHQgeD0iOTAiIHk9IjExMCIgZm9udC1zaXplPSI5MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPvCfj4s8L3RleHQ+PC9zdmc+">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #FDF6F0 0%, #F8EADE 40%, #F5E6E0 100%);
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: #3D2C2E;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-x: hidden;
+  }
+  .header {
+    padding: 28px 20px 16px;
+    text-align: center;
+  }
+  .header .label {
+    font-size: 11px; letter-spacing: 3px; color: #C97B84;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 24px; color: #3D2C2E; line-height: 1.2;
+  }
+  .header .sub { font-size: 12px; color: #B08A8D; margin-top: 6px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; overflow-x: auto; gap: 6px;
+    padding: 0 16px 14px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 8px 12px; border-radius: 20px; border: none;
+    font-size: 11.5px; font-weight: 700; cursor: pointer;
+    white-space: nowrap; font-family: 'Nunito', sans-serif;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+  .tab-btn.active {
+    background: #C97B84; color: #FFF;
+    box-shadow: 0 4px 12px rgba(201,123,132,0.3);
+  }
+  .tab-btn:not(.active) {
+    background: #FFF; color: #8A7073;
+    box-shadow: 0 2px 6px rgba(61,44,46,0.06);
+  }
+
+  .content { padding: 0 16px 30px; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Stats */
+  .stats-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .stat {
+    background: #FFF; border-radius: 12px; padding: 14px 10px;
+    text-align: center; flex: 1; min-width: 65px;
+    box-shadow: 0 2px 8px rgba(61,44,46,0.06);
+  }
+  .stat-val {
+    font-size: 20px; font-weight: 800;
+    font-family: 'DM Serif Display', Georgia, serif;
+  }
+  .stat-unit { font-size: 11px; font-weight: 400; }
+  .stat-label { font-size: 10px; color: #8A7073; margin-top: 4px; }
+
+  /* Section */
+  .section {
+    background: #FFFAF8; border-radius: 14px;
+    padding: 18px 16px; margin-bottom: 14px;
+    border-left: 4px solid #E8B4B8;
+  }
+  .section h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 17px; color: #3D2C2E; margin-bottom: 10px;
+  }
+  .section p, .section .text {
+    font-size: 14px; color: #5A4245; line-height: 1.65; margin-bottom: 6px;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  /* Cards */
+  .card {
+    background: #FFF; border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 8px;
+    box-shadow: 0 2px 6px rgba(61,44,46,0.05);
+    cursor: pointer; transition: transform 0.15s ease;
+  }
+  .card:active { transform: scale(0.985); }
+  .card-header { display: flex; align-items: center; gap: 10px; }
+  .card-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .card-info { flex: 1; }
+  .card-title-row { display: flex; justify-content: space-between; align-items: center; }
+  .card-day { font-weight: 700; font-size: 14px; color: #3D2C2E; }
+  .card-dur { font-size: 11px; color: #B08A8D; }
+  .card-type { font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .card-detail { font-size: 11px; color: #8A7073; margin-top: 2px; font-style: italic; }
+  .card-arrow { color: #C5B0B3; font-size: 14px; transition: transform 0.2s; flex-shrink: 0; }
+  .card.open .card-arrow { transform: rotate(180deg); }
+  .card-body {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed #F0D5D8;
+    font-size: 13px; color: #5A4245; line-height: 1.8;
+    display: none;
+  }
+  .card.open .card-body { display: block; }
+  .card-tip {
+    margin-top: 8px; padding: 8px 10px;
+    background: #FFF5F0; border-radius: 8px;
+    font-size: 12px; color: #C97B84; font-style: italic;
+  }
+
+  /* Meal cards */
+  .meal-header { display: flex; justify-content: space-between; align-items: center; }
+  .meal-name { font-weight: 700; color: #3D2C2E; font-size: 15px; }
+  .meal-time { color: #B08A8D; font-size: 12px; margin-left: 8px; }
+  .meal-macros { color: #C97B84; font-size: 12px; font-weight: 600; }
+
+  /* Week row */
+  .week-row {
+    background: #FFF; border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 8px;
+    box-shadow: 0 2px 6px rgba(61,44,46,0.05);
+  }
+  .week-top { display: flex; justify-content: space-between; align-items: center; }
+  .week-name { font-weight: 800; font-size: 13px; color: #3D2C2E; }
+  .week-lr { font-size: 12px; font-weight: 700; }
+  .week-vol { font-size: 12px; color: #5A4245; margin-top: 4px; }
+  .week-focus { font-size: 11px; color: #B08A8D; font-style: italic; margin-top: 2px; }
+
+  /* Macros display */
+  .macros-row { display: flex; gap: 6px; margin: 8px 0; }
+  .macro-box {
+    flex: 1; text-align: center; padding: 10px; border-radius: 10px;
+  }
+  .macro-val { font-size: 20px; font-weight: 800; }
+  .macro-label { font-size: 11px; color: #8A7073; }
+
+  /* CTA banner */
+  .cta-banner {
+    background: linear-gradient(135deg, #C97B84 0%, #D4A574 100%);
+    border-radius: 14px; padding: 18px 16px; margin-top: 6px; text-align: center;
+  }
+  .cta-title {
+    font-size: 15px; font-weight: 800; color: #FFF;
+    font-family: 'DM Serif Display', Georgia, serif;
+  }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.85); margin-top: 6px; }
+
+  .small-note { font-size: 12px; color: #B08A8D; font-style: italic; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Programme Personnalisé</div>
+  <h1>Ta Transformation Athlète</h1>
+  <div class="sub">🏃‍♀️ 14km le 9 mai · 🎂 Objectif le 25 juin</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" onclick="showTab(0)">Bilan</button>
+  <button class="tab-btn" onclick="showTab(1)">Nutrition</button>
+  <button class="tab-btn" onclick="showTab(2)">Phase 1: 14km</button>
+  <button class="tab-btn" onclick="showTab(3)">Phase 2: Fonte</button>
+  <button class="tab-btn" onclick="showTab(4)">Semaine Type</button>
+</div>
+
+<div class="content">
+
+  <!-- ========== BILAN ========== -->
+  <div class="tab-panel active" id="panel-0">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" style="color:#C97B84">71<span class="stat-unit">kg</span></div><div class="stat-label">Poids actuel</div></div>
+      <div class="stat"><div class="stat-val" style="color:#7BA586">~64<span class="stat-unit">kg</span></div><div class="stat-label">Objectif</div></div>
+      <div class="stat"><div class="stat-val" style="color:#D4A574">10<span class="stat-unit"> sem</span></div><div class="stat-label">Deadline</div></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" style="color:#6B9BC3">9<span class="stat-unit"> mai</span></div><div class="stat-label">14km running</div></div>
+      <div class="stat"><div class="stat-val" style="color:#8B7CB5">89→80<span class="stat-unit">cm</span></div><div class="stat-label">Tour de taille</div></div>
+    </div>
+
+    <div class="section" style="border-left-color:#C97B84">
+      <h3>🔬 Métabolisme Ajusté (Hypothyroïdie)</h3>
+      <p><strong>MB thyroïde :</strong> ~1 210 kcal/j</p>
+      <p><strong>TDEE (entraînement 5-6j) :</strong> ~1 900 kcal/j</p>
+      <p><strong>Apport cible :</strong> <span style="color:#C97B84;font-weight:700">1 450-1 500 kcal/j</span></p>
+      <p class="small-note">⚠️ Phase 1 (running) : 1 500 kcal pour l'énergie. Phase 2 : 1 400-1 450.</p>
+    </div>
+
+    <div class="section" style="border-left-color:#7BA586">
+      <h3>✨ Pourquoi ce mix est parfait pour toi</h3>
+      <p><strong>Running :</strong> Brûle-graisse #1, améliore ta VO2max</p>
+      <p><strong>Aquabike :</strong> Cardio sans impact, drainage, anti-cellulite</p>
+      <p><strong>Renfo poids du corps :</strong> Tonification sans prise de masse</p>
+      <p><strong>Corde à sauter :</strong> HIIT naturel, ~15 kcal/min</p>
+      <p><strong>Yoga :</strong> Réduit le cortisol (ennemi #1 thyroïde), souplesse</p>
+      <p><strong>Sauna :</strong> Récupération, détox, anti-inflammation</p>
+    </div>
+
+    <div class="section" style="border-left-color:#D4A574">
+      <h3>⚕️ Spécificités Thyroïde</h3>
+      <p>✓ Lévothyrox à jeun, 30 min avant tout</p>
+      <p>✓ Pas de calcium/fer/soja 4h après</p>
+      <p>✓ Sauna APRÈS l'entraînement, jamais avant</p>
+      <p>✓ Hydratation ++ (sauna + running = perte d'eau)</p>
+      <p>✓ Sélénium + zinc + vit D = tes 3 alliés</p>
+    </div>
+
+    <div class="section" style="border-left-color:#D48A8A">
+      <h3>🔑 Pourquoi tes régimes passés ont échoué</h3>
+      <p>L'hypothyroïdie ralentit ton métabolisme de ~12%. Les déficits agressifs déclenchent le mode « survie ». Notre approche : déficit doux + activités variées qui boostent le métabolisme sans le stresser. Le yoga réduit le cortisol, le running et l'aquabike brûlent les graisses, le renfo sculpte sans volume.</p>
+    </div>
+  </div>
+
+  <!-- ========== NUTRITION ========== -->
+  <div class="tab-panel" id="panel-1">
+    <div class="section" style="border-left-color:#7BA586">
+      <h3>🎯 Tes Macros Quotidiennes</h3>
+      <div class="macros-row">
+        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#C97B84">125g</div><div class="macro-label">Protéines</div></div>
+        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#D4A574">50g</div><div class="macro-label">Lipides</div></div>
+        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#8B7CB5">130g</div><div class="macro-label">Glucides</div></div>
+      </div>
+      <p class="small-note">Glucides maintenus — essentiels pour running + thyroïde. Ne jamais descendre sous 100g/j.</p>
+    </div>
+
+    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">📋 Journée type (clique pour détails) :</p>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="meal-header">
+        <div><span class="meal-name">Petit-déjeuner</span><span class="meal-time">6h30</span></div>
+        <span class="meal-macros">~450 kcal</span>
+      </div>
+      <span class="card-arrow">▼</span>
+      <div class="card-body">
+        <div>• Porridge avoine SG (50g) + lait amande + cannelle</div>
+        <div>• 2 œufs brouillés ou durs</div>
+        <div>• 3 noix du Brésil (sélénium)</div>
+        <div>• 1 banane (potassium = anti-crampes)</div>
+        <div class="card-tip">💡 Jour de running : manger 1h30 avant de courir. Sinon : manger après l'entraînement.</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="meal-header">
+        <div><span class="meal-name">Collation post-entraînement</span><span class="meal-time">~9h30</span></div>
+        <span class="meal-macros">~180 kcal</span>
+      </div>
+      <span class="card-arrow">▼</span>
+      <div class="card-body">
+        <div>• Shaker protéine végétale (riz/pois) 30g</div>
+        <div>• 1 pomme ou compote sans sucre ajouté</div>
+        <div class="card-tip">💡 Dans les 30 min après l'effort. Essentiel jours running et renfo.</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="meal-header">
+        <div><span class="meal-name">Déjeuner</span><span class="meal-time">12h30</span></div>
+        <span class="meal-macros">~450 kcal</span>
+      </div>
+      <span class="card-arrow">▼</span>
+      <div class="card-body">
+        <div>• 150g saumon/poulet/dinde</div>
+        <div>• 150g patate douce OU 80g riz complet</div>
+        <div>• Légumes cuits à volonté (épinards, courgettes, brocoli cuit)</div>
+        <div>• 1 c.à.s huile d'olive + citron</div>
+        <div class="card-tip">💡 Poissons gras 2-3x/sem pour les oméga-3 anti-inflammatoires.</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="meal-header">
+        <div><span class="meal-name">Collation</span><span class="meal-time">16h00</span></div>
+        <span class="meal-macros">~150 kcal</span>
+      </div>
+      <span class="card-arrow">▼</span>
+      <div class="card-body">
+        <div>• Yaourt coco + graines de chia</div>
+        <div>• OU 20g amandes + 1 carré chocolat noir 85%</div>
+        <div>• OU Houmous + bâtonnets de carottes</div>
+        <div class="card-tip">💡 Magnésium du chocolat noir = récupération musculaire + sommeil.</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="meal-header">
+        <div><span class="meal-name">Dîner</span><span class="meal-time">19h30</span></div>
+        <span class="meal-macros">~380 kcal</span>
+      </div>
+      <span class="card-arrow">▼</span>
+      <div class="card-body">
+        <div>• 130g poisson blanc/tofu/œufs</div>
+        <div>• Quinoa (60g cru) OU lentilles corail</div>
+        <div>• Grande salade + ¼ avocat</div>
+        <div>• 1 c.à.c huile de colza</div>
+        <div class="card-tip">💡 Veille de long run : +30g glucides au dîner pour le plein d'énergie.</div>
+      </div>
+    </div>
+
+    <div class="section" style="border-left-color:#6B9BC3">
+      <h3>🔄 Adaptations par jour</h3>
+      <p><strong>Jour long run :</strong> +100 kcal glucides (1 600 total)</p>
+      <p><strong>Jour aquabike :</strong> standard 1 450 kcal</p>
+      <p><strong>Jour yoga/repos :</strong> -50 kcal glucides (1 400)</p>
+      <p><strong>Post-sauna :</strong> +500ml eau + pincée de sel + citron</p>
+    </div>
+
+    <div class="section" style="border-left-color:#8B7CB5">
+      <h3>🚫 Sans Lactose / Sans Gluten</h3>
+      <p><strong>Protéines :</strong> poudre riz/pois, œufs, poissons, volaille, tofu</p>
+      <p><strong>Féculents :</strong> riz, patate douce, quinoa, sarrasin, avoine SG</p>
+      <p><strong>Laitages :</strong> yaourt/lait coco ou amande</p>
+      <p><strong>Snacks :</strong> galettes riz, fruits secs, chocolat noir 85%+</p>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 1: 14KM ========== -->
+  <div class="tab-panel" id="panel-2">
+    <div class="section" style="border-left-color:#6B9BC3">
+      <h3>🏃‍♀️ Objectif : 14km le 9 mai</h3>
+      <p><strong>26 jours</strong> pour être prête. 3 runs/semaine + cross-training pour éviter les blessures.</p>
+      <p class="small-note">Le running à jeun est déconseillé avec l'hypothyroïdie — toujours manger avant.</p>
+    </div>
+
+    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">📈 Progression running :</p>
+
+    <div class="week-row" style="border-left:3px solid #7BA586">
+      <div class="week-top"><span class="week-name">Sem. 1 (14-20 avr)</span><span class="week-lr" style="color:#7BA586">Long run : 6 km</span></div>
+      <div class="week-vol">Volume total : ~14 km/sem</div>
+      <div class="week-focus">Reprise douce, trouver son rythme. Allure où tu peux parler.</div>
+    </div>
+    <div class="week-row" style="border-left:3px solid #6B9BC3">
+      <div class="week-top"><span class="week-name">Sem. 2 (21-27 avr)</span><span class="week-lr" style="color:#6B9BC3">Long run : 9 km</span></div>
+      <div class="week-vol">Volume total : ~19 km/sem</div>
+      <div class="week-focus">Construire l'endurance. Allure régulière, pas de sprint.</div>
+    </div>
+    <div class="week-row" style="border-left:3px solid #D4A574">
+      <div class="week-top"><span class="week-name">Sem. 3 (28 avr-4 mai)</span><span class="week-lr" style="color:#D4A574">Long run : 12 km</span></div>
+      <div class="week-vol">Volume total : ~23 km/sem</div>
+      <div class="week-focus">Pic de volume. Gérer son allure sur la distance.</div>
+    </div>
+    <div class="week-row" style="border-left:3px solid #C97B84">
+      <div class="week-top"><span class="week-name">Sem. 4 (5-9 mai)</span><span class="week-lr" style="color:#C97B84">COURSE : 14 km !</span></div>
+      <div class="week-vol">Volume total : ~10 km</div>
+      <div class="week-focus">Affûtage ! Réduire le volume. Repos le 8 mai.</div>
+    </div>
+
+    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:14px 0 8px">📅 Semaine type Phase 1 :</p>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#C97B8418">🏃‍♀️</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Lundi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#C97B84">Running Intervalles</div>
+          <div class="card-detail">Vitesse + endurance cardio</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• Échauffement : 10 min footing léger</div>
+        <div>• 6 à 8 × (2 min vite / 1 min marche)</div>
+        <div>• Allure « vite » = essoufflée mais contrôlée</div>
+        <div>• Augmenter à 8 intervalles en semaine 3</div>
+        <div>• Retour au calme : 5 min marche + étirements</div>
+        <div class="card-tip">💡 L'interval training booste ta VO2max rapidement</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#6B9BC318">🚴</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Mardi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#6B9BC3">Aquabike</div>
+          <div class="card-detail">Récupération active + drainage</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 5 min pédalage doux (échauffement)</div>
+        <div>• 10 min pédalage rapide résistance moyenne</div>
+        <div>• 5 min pédalage debout (cuisses + fessiers)</div>
+        <div>• 10 min intervalles : 30s sprint / 30s récup</div>
+        <div>• 10 min pédalage modéré constant</div>
+        <div>• 5 min retour au calme</div>
+        <div class="card-tip">💡 L'eau masse et draine — anti-jambes lourdes post-running</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#D4A57418">💪</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Mercredi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#D4A574">Renfo + Corde à sauter</div>
+          <div class="card-detail">Tonification sans prise de masse</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• Échauffement : 3 min corde à sauter</div>
+        <div><strong>Circuit 1 (×3 tours) :</strong></div>
+        <div>→ Squats poids du corps — 20 reps</div>
+        <div>→ Pompes (genoux si besoin) — 12 reps</div>
+        <div>→ Fentes alternées — 12/jambe</div>
+        <div>→ 1 min corde à sauter</div>
+        <div><strong>Circuit 2 (×3 tours) :</strong></div>
+        <div>→ Glute bridge — 20 reps</div>
+        <div>→ Planche — 40s</div>
+        <div>→ Mountain climbers — 20 reps</div>
+        <div>→ Dips sur banc — 12 reps</div>
+        <div>• Finisher : 3 min corde continue</div>
+        <div>• Étirements 5 min</div>
+        <div class="card-tip">💡 Poids du corps = tonification longue et fine, pas de volume</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#7BA58618">🏃‍♀️</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Jeudi</span><span class="card-dur">40-45 min</span></div>
+          <div class="card-type" style="color:#7BA586">Running Endurance</div>
+          <div class="card-detail">Tempo run, allure constante</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 5 min marche rapide</div>
+        <div>• 30-35 min running continu</div>
+        <div>→ Allure conversationnelle (tu peux parler)</div>
+        <div>→ Sem.1 : 5 km | Sem.2 : 6-7 km | Sem.3 : 8 km</div>
+        <div>• 5 min marche + étirements</div>
+        <div class="card-tip">💡 Cette séance construit ton endurance de base — la clé du 14km</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#8B7CB518">🧘</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Vendredi</span><span class="card-dur">45 + 20 min</span></div>
+          <div class="card-type" style="color:#8B7CB5">Yoga + Sauna</div>
+          <div class="card-detail">Récupération, souplesse, détox</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div><strong>Yoga Flow (45 min) :</strong></div>
+        <div>→ Salutations au soleil (10 min)</div>
+        <div>→ Guerrier I, II, III</div>
+        <div>→ Étirements hanches : pigeon, papillon</div>
+        <div>→ Torsions (digestion)</div>
+        <div>→ Jambes au mur (5 min)</div>
+        <div>→ Savasana (5 min)</div>
+        <div><strong>Sauna (20 min) :</strong></div>
+        <div>→ 2 × 10 min avec pause fraîche</div>
+        <div>→ Boire 500ml avant + 500ml après</div>
+        <div class="card-tip">💡 Le yoga réduit le cortisol — hormone qui bloque la perte de poids avec l'hypothyroïdie</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#C97B8418">🏃‍♀️</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Samedi</span><span class="card-dur">50-80 min</span></div>
+          <div class="card-type" style="color:#C97B84">Long Run Progressif</div>
+          <div class="card-detail">LA séance clé de la semaine</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• Veille : repas riche en glucides + hydratation</div>
+        <div>• Petit-dej 1h30 avant : porridge + banane</div>
+        <div>• 5 min marche</div>
+        <div>→ Sem.1 : 6 km (allure libre, même marcher)</div>
+        <div>→ Sem.2 : 9 km (régulier, pas de sprint)</div>
+        <div>→ Sem.3 : 12 km (simulation course)</div>
+        <div>→ Sem.4 : repos ou 3 km léger</div>
+        <div>• Étirements 10 min OBLIGATOIRES</div>
+        <div>• Post-run : shaker protéine + banane dans les 30 min</div>
+        <div class="card-tip">💡 Règle d'or : si tu peux parler en courant, tu es au bon rythme</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#B08A8D18">🌿</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Dimanche</span><span class="card-dur">—</span></div>
+          <div class="card-type" style="color:#B08A8D">Repos Total</div>
+          <div class="card-detail">Récupération, meal prep</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• Marche légère 20-30 min (8000 pas)</div>
+        <div>• Meal prep pour la semaine</div>
+        <div>• Sauna 15-20 min optionnel</div>
+        <div>• Auto-massage / rouleau (jambes)</div>
+        <div class="card-tip">💡 Ton corps se transforme pendant le repos, pas pendant l'effort</div>
+      </div>
+    </div>
+
+    <div class="section" style="border-left-color:#C97B84">
+      <h3>🏁 Jour J — 9 Mai : Stratégie</h3>
+      <p><strong>Veille :</strong> Repas riche en glucides. Pas d'alcool. Coucher tôt.</p>
+      <p><strong>Matin :</strong> Lévothyrox → 30 min → petit-dej → 1h30 → course</p>
+      <p><strong>Pendant :</strong> Partir DOUCEMENT les 3 premiers km. Accélérer progressivement. Boire toutes les 20 min.</p>
+      <p><strong>Après :</strong> Protéine + glucides dans les 30 min. Étirements. Sauna le lendemain.</p>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 2: FONTE ========== -->
+  <div class="tab-panel" id="panel-3">
+    <div class="section" style="border-left-color:#7BA586">
+      <h3>🔥 Phase 2 : Fonte & Sculpture</h3>
+      <p><strong>Du 10 mai au 25 juin</strong> (6,5 semaines)</p>
+      <p>Le 14km est derrière toi. On shift vers la perte de gras max en combinant TOUS tes outils. Objectif : <strong>-3 à 4 kg</strong> + affinement visible.</p>
+    </div>
+
+    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">📅 Nouveau split Phase 2 :</p>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#C97B8418">🏃‍♀️</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Lundi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#C97B84">Running Intervalles</div>
+          <div class="card-detail">Maintien cardio + brûle-graisse</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 10 min footing échauffement</div>
+        <div>• 8-10 × (90s rapide / 60s récup)</div>
+        <div>• Intensité plus élevée qu'en Phase 1</div>
+        <div>• 5 min retour au calme</div>
+        <div class="card-tip">💡 Les intervalles courts brûlent les graisses jusqu'à 24h après (effet EPOC)</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#D4A57418">💪</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Mardi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#D4A574">Renfo Full Body + Corde</div>
+          <div class="card-detail">Tonification complète, 0 poids</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 3 min corde à sauter échauffement</div>
+        <div><strong>Superset 1 (×4) :</strong></div>
+        <div>→ Squats sumo — 20 reps + Pompes diamant — 10</div>
+        <div><strong>Superset 2 (×4) :</strong></div>
+        <div>→ Fentes bulgares — 12/jambe + Planche commando — 10</div>
+        <div><strong>Superset 3 (×4) :</strong></div>
+        <div>→ Hip thrust pied surélevé — 15 + Superman — 15</div>
+        <div>• Finisher : 5 min corde (30s on/15s off)</div>
+        <div class="card-tip">💡 Les supersets gardent le cardio haut = double brûlage</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#6B9BC318">🚴</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Mercredi</span><span class="card-dur">45 min</span></div>
+          <div class="card-type" style="color:#6B9BC3">Aquabike Intensif</div>
+          <div class="card-detail">Cardio + drainage + jambes</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 5 min échauffement pédalage doux</div>
+        <div>• 15 min haute résistance</div>
+        <div>• 10 min debout sur les pédales</div>
+        <div>• 10 min sprint/récup (20s/40s)</div>
+        <div>• 5 min retour au calme</div>
+        <div>• Sauna post-aquabike : 2×10 min (optionnel)</div>
+        <div class="card-tip">💡 L'eau comprime et masse = effet anti-cellulite prouvé</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#7BA58618">🏃‍♀️</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Jeudi</span><span class="card-dur">45-50 min</span></div>
+          <div class="card-type" style="color:#7BA586">Running Endurance</div>
+          <div class="card-detail">Footing long, zone brûle-graisse</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• 40-45 min running continu</div>
+        <div>→ Allure modérée (zone 2 cardio)</div>
+        <div>→ 7-8 km visés</div>
+        <div>• 5 min marche + étirements</div>
+        <div class="card-tip">💡 Le footing en zone 2 utilise les graisses comme carburant principal</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#8B7CB518">🧘</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Vendredi</span><span class="card-dur">50 + 20 min</span></div>
+          <div class="card-type" style="color:#8B7CB5">Power Yoga + Sauna</div>
+          <div class="card-detail">Récup, core, anti-cortisol</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div><strong>Power Yoga (50 min) :</strong></div>
+        <div>→ Salutations dynamiques (15 min)</div>
+        <div>→ Chaturangas + guerriers enchaînés</div>
+        <div>→ Core : bateau, planche, side plank</div>
+        <div>→ Étirements profonds hanches + ischio-jambiers</div>
+        <div>→ Méditation guidée 5 min</div>
+        <div><strong>Sauna : 2×10 min</strong>, douche fraîche entre</div>
+        <div class="card-tip">💡 Power Yoga = plus de gainage, plus de calories brûlées qu'en Phase 1</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-icon" style="background:#B08A8D18">🌿</div>
+        <div class="card-info">
+          <div class="card-title-row"><span class="card-day">Sam-Dim</span><span class="card-dur">20-30 min</span></div>
+          <div class="card-type" style="color:#B08A8D">Repos Actif</div>
+          <div class="card-detail">Récupération + mouvement doux</div>
+        </div>
+        <span class="card-arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <div>• Samedi : marche 45 min + sauna optionnel</div>
+        <div>• Dimanche : yoga doux 20 min + meal prep</div>
+        <div>• Objectif : 8 000-10 000 pas/jour</div>
+        <div class="card-tip">💡 Le NEAT (hors sport) = 15-30% de ta dépense — crucial en télétravail !</div>
+      </div>
+    </div>
+
+    <div class="section" style="border-left-color:#C97B84">
+      <h3>✨ Dernière Semaine (19-25 juin)</h3>
+      <p>→ Réduire l'intensité (deload)</p>
+      <p>→ Hydratation maximale (+2,5L/jour)</p>
+      <p>→ Réduire le sel 3 jours avant</p>
+      <p>→ Sauna 2-3x dans la semaine</p>
+      <p>→ Sommeil ++ : 8h minimum</p>
+    </div>
+
+    <div class="section" style="border-left-color:#7BA586">
+      <h3>🏆 Et Après ? Athlète Complète</h3>
+      <p>Après le 25 juin : <strong>reverse diet</strong> + diversification sportive. Semi-marathon, natation, sports de combat, callisthénie, yoga avancé... Tu auras la base cardio + force + souplesse pour TOUT faire.</p>
+    </div>
+  </div>
+
+  <!-- ========== SEMAINE TYPE ========== -->
+  <div class="tab-panel" id="panel-4">
+    <div class="section" style="border-left-color:#D4A574">
+      <h3>⏰ Planning Matin Type</h3>
+      <p><strong>6h00</strong> — Réveil + Lévothyrox à jeun</p>
+      <p><strong>6h15</strong> — Café noir (optionnel, sans lait)</p>
+      <p><strong>6h30</strong> — Petit-dej (jours running : 1h30 avant)</p>
+      <p><strong>7h00</strong> — Entraînement (45 min)</p>
+      <p><strong>7h50</strong> — Douche (+ sauna le vendredi)</p>
+      <p><strong>8h15</strong> — Collation post-entraînement</p>
+      <p><strong>9h00</strong> — Début télétravail</p>
+    </div>
+
+    <div class="section" style="border-left-color:#6B9BC3">
+      <h3>💧 Hydratation & Compléments</h3>
+      <p><strong>Eau :</strong> 2-2,5L/jour (+500ml jours running/sauna)</p>
+      <p><strong>Sélénium :</strong> 3 noix du Brésil/jour</p>
+      <p><strong>Magnésium bisglycinate :</strong> 300mg le soir</p>
+      <p><strong>Vitamine D :</strong> à doser (viser 60-80 ng/ml)</p>
+      <p><strong>Oméga-3 :</strong> si < 2 poissons gras/semaine</p>
+      <p><strong>Zinc :</strong> 15mg/jour (soutien thyroïdien)</p>
+    </div>
+
+    <div class="section" style="border-left-color:#C97B84">
+      <h3>🧖 Règles du Sauna</h3>
+      <p>✓ Toujours APRÈS l'entraînement, jamais avant</p>
+      <p>✓ 2 passages de 10-15 min max</p>
+      <p>✓ Douche fraîche entre les passages</p>
+      <p>✓ 500ml eau avant + 500ml après minimum</p>
+      <p>✓ Idéal : 2-3x/semaine (vendredi + weekend)</p>
+      <p>✗ Éviter si fatigue, déshydratation ou malaise</p>
+    </div>
+
+    <div class="section" style="border-left-color:#8B7CB5">
+      <h3>📊 Suivi Hebdo (chaque dimanche)</h3>
+      <p>→ Poids à jeun (même balance, même heure)</p>
+      <p>→ Tour de taille + tour de hanches</p>
+      <p>→ Photo face + profil</p>
+      <p>→ Énergie (1-10) + sommeil (1-10)</p>
+      <p>→ Km courus dans la semaine</p>
+      <p>→ Respect nutrition (1-10)</p>
+      <p class="small-note">Le poids fluctue avec la thyroïde et les cycles. Regarde la tendance sur 3 semaines.</p>
+    </div>
+
+    <div class="section" style="border-left-color:#7BA586">
+      <h3>🖥️ Gestion Télétravail & NEAT</h3>
+      <p>→ Bureau debout si possible (2h/jour min)</p>
+      <p>→ Pause active toutes les 90 min</p>
+      <p>→ Marche pendant les appels</p>
+      <p>→ Marche digestive 15 min après déjeuner</p>
+      <p>→ Objectif : 8 000-10 000 pas/jour</p>
+    </div>
+
+    <div class="cta-banner">
+      <div class="cta-title">Tu as tout pour réussir.</div>
+      <div class="cta-sub">Ancienne sportive + discipline + cuisine maison + bon sommeil = le cocktail gagnant. La thyroïde ralentit le chemin, mais ne bloque pas la destination. 💪</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(index) {
+  document.querySelectorAll('.tab-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === index);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCard(el) {
+  el.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

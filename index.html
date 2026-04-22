@@ -11,22 +11,22 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FDF6F0 0%,#F8EADE 40%,#F5E6E0 100%);min-height:100vh;min-height:100dvh;color:#3D2C2E;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FDF6F0 0%,#F8EADE 40%,#F5E6E0 100%);min-height:100vh;min-height:100dvh;color:#3D2C2E;padding-top:env(safe-area-inset-top);padding-bottom:calc(env(safe-area-inset-bottom) + 20px);overflow-x:hidden}
   .header{padding:28px 20px 16px;text-align:center}
   .header .label{font-size:11px;letter-spacing:3px;color:#C97B84;text-transform:uppercase;font-weight:700;margin-bottom:6px}
   .header h1{font-family:'DM Serif Display',Georgia,serif;font-size:24px;color:#3D2C2E;line-height:1.2}
   .header .sub{font-size:12px;color:#B08A8D;margin-top:6px}
   .tabs{display:flex;overflow-x:auto;gap:6px;padding:0 16px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
-  .tab-btn{padding:8px 12px;border-radius:20px;border:none;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;transition:all 0.25s ease;flex-shrink:0}
-  .tab-btn.active{background:#C97B84;color:#FFF;box-shadow:0 4px 12px rgba(201,123,132,0.3)}
-  .tab-btn:not(.active){background:#FFF;color:#8A7073;box-shadow:0 2px 6px rgba(61,44,46,0.06)}
+  .tab-btn{padding:8px 12px;border-radius:20px;border:none;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;transition:all .25s;flex-shrink:0}
+  .tab-btn.active{background:#C97B84;color:#FFF;box-shadow:0 4px 12px rgba(201,123,132,.3)}
+  .tab-btn:not(.active){background:#FFF;color:#8A7073;box-shadow:0 2px 6px rgba(61,44,46,.06)}
   .content{padding:0 16px 30px}
-  .tab-panel{display:none;animation:fadeIn 0.3s ease}
+  .tab-panel{display:none;animation:fadeIn .3s ease}
   .tab-panel.active{display:block}
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   .stats-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-  .stat{background:#FFF;border-radius:12px;padding:14px 10px;text-align:center;flex:1;min-width:65px;box-shadow:0 2px 8px rgba(61,44,46,0.06)}
+  .stat{background:#FFF;border-radius:12px;padding:14px 10px;text-align:center;flex:1;min-width:65px;box-shadow:0 2px 8px rgba(61,44,46,.06)}
   .stat-val{font-size:20px;font-weight:800;font-family:'DM Serif Display',Georgia,serif}
   .stat-unit{font-size:11px;font-weight:400}
   .stat-label{font-size:10px;color:#8A7073;margin-top:4px}
@@ -34,8 +34,8 @@
   .section h3{font-family:'DM Serif Display',Georgia,serif;font-size:17px;color:#3D2C2E;margin-bottom:10px}
   .section p{font-size:14px;color:#5A4245;line-height:1.65;margin-bottom:6px}
   .section p:last-child{margin-bottom:0}
-  .card{background:#FFF;border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,0.05);cursor:pointer;transition:transform 0.15s ease}
-  .card:active{transform:scale(0.985)}
+  .card{background:#FFF;border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,.05);cursor:pointer;transition:transform .15s}
+  .card:active{transform:scale(.985)}
   .card-header{display:flex;align-items:center;gap:10px}
   .card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
   .card-info{flex:1}
@@ -44,7 +44,7 @@
   .card-dur{font-size:11px;color:#B08A8D}
   .card-type{font-size:13px;font-weight:600;margin-top:2px}
   .card-detail{font-size:11px;color:#8A7073;margin-top:2px;font-style:italic}
-  .card-arrow{color:#C5B0B3;font-size:14px;transition:transform 0.2s;flex-shrink:0}
+  .card-arrow{color:#C5B0B3;font-size:14px;transition:transform .2s;flex-shrink:0}
   .card.open .card-arrow{transform:rotate(180deg)}
   .card-body{margin-top:12px;padding-top:10px;border-top:1px dashed #F0D5D8;font-size:13px;color:#5A4245;line-height:1.8;display:none}
   .card.open .card-body{display:block}
@@ -53,7 +53,7 @@
   .meal-name{font-weight:700;color:#3D2C2E;font-size:15px}
   .meal-time{color:#B08A8D;font-size:12px;margin-left:8px}
   .meal-macros{color:#C97B84;font-size:12px;font-weight:600}
-  .week-row{background:#FFF;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,0.05)}
+  .week-row{background:#FFF;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,.05)}
   .week-top{display:flex;justify-content:space-between;align-items:center}
   .week-name{font-weight:800;font-size:13px;color:#3D2C2E}
   .week-lr{font-size:12px;font-weight:700}
@@ -66,658 +66,458 @@
   .small-note{font-size:12px;color:#B08A8D;font-style:italic;margin-top:8px}
   .cta-banner{background:linear-gradient(135deg,#C97B84 0%,#D4A574 100%);border-radius:14px;padding:18px 16px;margin-top:6px;text-align:center}
   .cta-title{font-size:15px;font-weight:800;color:#FFF;font-family:'DM Serif Display',Georgia,serif}
-  .cta-sub{font-size:12px;color:rgba(255,255,255,0.85);margin-top:6px}
+  .cta-sub{font-size:12px;color:rgba(255,255,255,.85);margin-top:6px}
   .alert-box{background:#FFF0F0;border:1px solid #E8A0A0;border-radius:12px;padding:14px 16px;margin-bottom:14px}
   .alert-box h4{color:#C45050;font-size:14px;margin-bottom:6px}
   .alert-box p{font-size:13px;color:#7A3030;line-height:1.6}
+
+  /* === TRACKING === */
+  .month-card{background:#FFF;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 8px rgba(61,44,46,.06)}
+  .month-header{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .month-header h3{font-family:'DM Serif Display',Georgia,serif;font-size:16px;margin:0}
+  .month-progress{font-size:11px;font-weight:700;color:#C97B84}
+  .month-body{display:none;padding:0 16px 14px}
+  .month-card.open .month-body{display:block}
+  .month-arrow{color:#C5B0B3;font-size:14px;transition:transform .2s}
+  .month-card.open .month-arrow{transform:rotate(180deg)}
+
+  .week-card{background:#FFFAF8;border-radius:10px;margin-bottom:8px;overflow:hidden;border-left:3px solid #E8B4B8}
+  .week-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .week-header span{font-weight:700;font-size:13px;color:#3D2C2E}
+  .week-progress{font-size:11px;color:#7BA586;font-weight:700}
+  .week-body{display:none;padding:0 14px 10px}
+  .week-card.open .week-body{display:block}
+
+  .session-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F5E6E0}
+  .session-item:last-child{border-bottom:none}
+  .session-cb{width:22px;height:22px;border-radius:6px;border:2px solid #D4C0C3;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .2s}
+  .session-cb:checked{background:#7BA586;border-color:#7BA586}
+  .session-cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:14px;font-weight:800}
+  .session-label{font-size:13px;color:#5A4245;flex:1}
+  .session-label.done{text-decoration:line-through;color:#B08A8D}
+  .session-icon{font-size:16px;flex-shrink:0}
+
+  /* === LIVE TRACKER === */
+  .live-banner{background:linear-gradient(135deg,#C97B84,#D4A574);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;cursor:pointer}
+  .live-banner h3{color:#FFF;font-size:16px;font-family:'DM Serif Display',Georgia,serif}
+  .live-banner p{color:rgba(255,255,255,.8);font-size:12px;margin-top:4px}
+
+  .live-panel{display:none;margin-bottom:14px}
+  .live-panel.active{display:block}
+
+  .live-block-title{font-family:'DM Serif Display',Georgia,serif;font-size:15px;color:#3D2C2E;margin:14px 0 8px;padding:8px 12px;background:#FFF;border-radius:10px;border-left:4px solid #C97B84}
+
+  .live-exercise{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:4px;background:#FFF;border-radius:10px;cursor:pointer;transition:all .2s}
+  .live-exercise.completed{background:#F0F7F2}
+  .live-num{width:28px;height:28px;border-radius:50%;background:#F5E6E0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#C97B84;flex-shrink:0;transition:all .2s}
+  .live-exercise.completed .live-num{background:#7BA586;color:#FFF}
+  .live-exercise-info{flex:1}
+  .live-exercise-name{font-size:13px;font-weight:700;color:#3D2C2E}
+  .live-exercise.completed .live-exercise-name{color:#7BA586}
+  .live-exercise-detail{font-size:11px;color:#8A7073}
+  .live-round{font-size:11px;color:#B08A8D;margin-top:2px;font-style:italic}
+
+  .progress-bar-container{background:#F0E4DF;border-radius:20px;height:8px;margin:10px 0 6px;overflow:hidden}
+  .progress-bar{height:100%;background:linear-gradient(90deg,#7BA586,#6B9BC3);border-radius:20px;transition:width .4s ease}
+  .progress-text{font-size:11px;color:#7BA586;font-weight:700;text-align:center}
+
+  .live-close-btn{display:block;width:100%;padding:12px;border:none;border-radius:12px;background:#F5E6E0;color:#C97B84;font-weight:700;font-size:13px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:10px}
+  .live-reset-btn{display:block;width:100%;padding:10px;border:none;border-radius:10px;background:transparent;color:#B08A8D;font-weight:600;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:4px}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="label">Programme Personnalisé V3</div>
+  <div class="label">Programme V4</div>
   <h1>Ta Transformation Athlète</h1>
   <div class="sub">🏃‍♀️ 14km le 9 mai · 🎂 Objectif le 25 juin</div>
 </div>
 
 <div class="tabs" id="tabs">
-  <button class="tab-btn active" onclick="showTab(0)">Bilan Sang</button>
+  <button class="tab-btn active" onclick="showTab(0)">Bilan</button>
   <button class="tab-btn" onclick="showTab(1)">Nutrition</button>
-  <button class="tab-btn" onclick="showTab(2)">Renfo A & B</button>
+  <button class="tab-btn" onclick="showTab(2)">Renfo Live</button>
   <button class="tab-btn" onclick="showTab(3)">Running</button>
   <button class="tab-btn" onclick="showTab(4)">Suppléments</button>
   <button class="tab-btn" onclick="showTab(5)">Semaine</button>
+  <button class="tab-btn" onclick="showTab(6)">📊 Suivi</button>
 </div>
 
 <div class="content">
 
-  <!-- ===== BILAN SANG ===== -->
+  <!-- ===== BILAN ===== -->
   <div class="tab-panel active" id="panel-0">
     <div class="stats-row">
       <div class="stat"><div class="stat-val" style="color:#C97B84">71<span class="stat-unit">kg</span></div><div class="stat-label">Poids actuel</div></div>
       <div class="stat"><div class="stat-val" style="color:#7BA586">~64<span class="stat-unit">kg</span></div><div class="stat-label">Objectif</div></div>
       <div class="stat"><div class="stat-val" style="color:#D4A574">89<span class="stat-unit">cm</span></div><div class="stat-label">Tour taille</div></div>
     </div>
-
     <div class="alert-box">
-      <h4>🚨 Points critiques prise de sang (15/04/2026)</h4>
-      <p>TSH : 2.0 → 3.1 (augmente, dosage ajusté)<br>
-      Cortisol : 22.40 µg/dl (limite haute)<br>
-      Triglycérides : 251 mg/dl (norme &lt;150)<br>
-      HDL : 30 mg/dl (trop bas, norme &gt;40)<br>
-      LDL : 151 mg/dl (trop haut)<br>
-      HOMA %B : 183.5% (pancréas en surrégime)<br>
-      HOMA %S : 58.3% (sensibilité insuline basse)<br>
-      Vitamine D : 32 ng/ml (insuffisante)</p>
+      <h4>🚨 Points critiques (15/04/2026)</h4>
+      <p>TSH : 2.0 → 3.1 (dosage ajusté)<br>Cortisol : 22.40 (limite haute)<br>Triglycérides : 251 (norme &lt;150)<br>HDL : 30 (trop bas)<br>LDL : 151 (trop haut)<br>HOMA %B : 183.5% (pancréas surrégime)<br>Vit D : 32 ng/ml (insuffisante)</p>
     </div>
-
-    <div class="section" style="border-left-color:#C97B84">
-      <h3>🔬 Métabolisme Ajusté</h3>
-      <p><strong>MB thyroïde :</strong> ~1 210 kcal/j</p>
-      <p><strong>TDEE :</strong> ~1 900 kcal/j</p>
-      <p><strong>Apport cible :</strong> <span style="color:#C97B84;font-weight:700">1 450-1 500 kcal/j</span></p>
-      <p class="small-note">Phase running : 1 500 kcal · Phase fonte : 1 400-1 450</p>
-    </div>
-
-    <div class="section" style="border-left-color:#D4A574">
-      <h3>⚕️ Lévothyrox — Nouveau Dosage</h3>
-      <p><strong>4 jours à 75 mcg</strong> (lun, mer, ven, dim)</p>
-      <p><strong>3 jours à 50 mcg</strong> (mar, jeu, sam)</p>
-      <p>= moyenne 64 mcg/jour</p>
-      <p>✓ Toujours à jeun, 30 min avant manger</p>
-      <p>✓ 3h avant tout complément alimentaire</p>
-      <p>✓ Recontrôle TSH dans 2-3 mois</p>
-    </div>
-
-    <div class="section" style="border-left-color:#7BA586">
-      <h3>🔑 Comprendre ton profil</h3>
-      <p><strong>TSH qui monte :</strong> statines ont perturbé la thyroïde → cholestérol monte aussi car les 2 sont liés</p>
-      <p><strong>Cortisol haut :</strong> pas lié au stress psycho mais à l'hypothyroïdie + inflammation → explique la difficulté d'endormissement + facilité à se lever</p>
-      <p><strong>Pré-résistance insuline :</strong> ton pancréas produit 83% d'insuline en trop pour maintenir une glycémie normale → réversible avec sport + alimentation</p>
-      <p><strong>Reflux chroniques :</strong> probablement hypochlorhydrie liée à la thyroïde → tester vinaigre de cidre avant les repas</p>
-    </div>
-
-    <div class="section" style="border-left-color:#6B9BC3">
-      <h3>📋 RDV Médicaux à suivre</h3>
-      <p>✓ Diététicienne : alimentation adaptée</p>
-      <p>✓ Endocrinologue : suivi thyroïde</p>
-      <p>✓ Prise de sang dans 2-3 mois : TSH, T3, T4</p>
-      <p>✓ Demander : cortisol salivaire 4 points, zonuline, ferritine, test hypochlorhydrie</p>
-    </div>
+    <div class="section" style="border-left-color:#C97B84"><h3>🔬 Métabolisme</h3><p><strong>MB :</strong> ~1 210 kcal/j · <strong>TDEE :</strong> ~1 900 · <strong>Cible :</strong> 1 450-1 500 kcal/j</p></div>
+    <div class="section" style="border-left-color:#D4A574"><h3>⚕️ Lévothyrox</h3><p><strong>75 mcg :</strong> lun/mer/ven/dim · <strong>50 mcg :</strong> mar/jeu/sam<br>= 64 mcg/j · Recontrôle dans 2-3 mois</p></div>
+    <div class="section" style="border-left-color:#7BA586"><h3>🔑 Résumé</h3><p>Statines → perturbation thyroïde → TSH ↑ → cholestérol ↑<br>Cortisol haut = hypothyroïdie + inflammation<br>Pré-résistance insuline = réversible<br>Reflux = probablement hypochlorhydrie</p></div>
   </div>
 
   <!-- ===== NUTRITION ===== -->
   <div class="tab-panel" id="panel-1">
     <div class="section" style="border-left-color:#7BA586">
-      <h3>🎯 Macros Quotidiennes</h3>
+      <h3>🎯 Macros</h3>
       <div class="macros-row">
         <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#C97B84">125g</div><div class="macro-label">Protéines</div></div>
         <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#D4A574">50g</div><div class="macro-label">Lipides</div></div>
         <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#8B7CB5">130g</div><div class="macro-label">Glucides</div></div>
       </div>
-      <p class="small-note">Glucides maintenus pour running + thyroïde. Jamais sous 100g/j. Priorité IG bas.</p>
     </div>
-
-    <div class="alert-box">
-      <h4>⚠️ Règles absolues pour ton profil</h4>
-      <p>• Zéro lactose (yaourt coco, lait amande — PAS lait d'avoine ni skyr vanille)<br>
-      • Zéro gluten<br>
-      • Éviter sucres rapides (triglycérides à 251)<br>
-      • Fruits rouges > banane (sauf jour running)<br>
-      • Légumes à CHAQUE repas (fibres = triglycérides ↓)<br>
-      • Poissons gras 3-4x/sem (oméga-3 = HDL ↑ trigly ↓)<br>
-      • 3 noix du Brésil/jour (sélénium thyroïde)</p>
-    </div>
-
-    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">🍳 7 Petits-dej (clique pour détails) :</p>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Lundi — Jour Running</span></div><span class="meal-macros">~450 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Porridge avoine SG (50g) + lait amande + cannelle</div>
-        <div>• 2 œufs durs</div>
-        <div>• 3 noix du Brésil + amandes</div>
-        <div>• 1 banane (exception jour running)</div>
-        <div class="card-tip">💡 Manger 1h30 avant de courir. La banane = potassium anti-crampes.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Mardi — Jour Aquabike</span></div><span class="meal-macros">~400 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• 2 œufs brouillés huile de coco</div>
-        <div>• ½ avocat sur pain sarrasin</div>
-        <div>• Myrtilles</div>
-        <div>• 3 noix du Brésil</div>
-        <div class="card-tip">💡 Graisses saines = HDL ↑ et triglycérides ↓</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Mercredi — Jour Renfo</span></div><span class="meal-macros">~380 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Smoothie bowl : lait coco + 30g protéine végétale + beurre d'amande + framboises + chia + cacao</div>
-        <div>• 3 noix du Brésil</div>
-        <div class="card-tip">💡 Protéines hautes pour la récupération musculaire</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Jeudi — Jour Running</span></div><span class="meal-macros">~420 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Galettes sarrasin (2) + 1 œuf + saumon fumé (30g)</div>
-        <div>• Tomates cerises</div>
-        <div>• 3 noix du Brésil + ½ banane</div>
-        <div class="card-tip">💡 Oméga-3 du saumon avant le run = anti-inflammatoire</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Vendredi — Jour Yoga</span></div><span class="meal-macros">~350 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Pudding chia (3 c.à.s + lait coco + cannelle, préparer la veille)</div>
-        <div>• Noix concassées + framboises + coco râpée</div>
-        <div>• 2 œufs mollets</div>
-        <div>• 3 noix du Brésil</div>
-        <div class="card-tip">💡 Plus léger, riche en oméga-3, parfait avant yoga</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Samedi — Repos actif</span></div><span class="meal-macros">~400 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Tartines patate douce grillée + purée avocat + œuf poché + graines sésame</div>
-        <div>• Myrtilles ou mûres</div>
-        <div>• 3 noix du Brésil</div>
-        <div class="card-tip">💡 Glucides complexes patate douce = énergie longue</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="meal-header"><div><span class="meal-name">Dimanche — Meal Prep</span></div><span class="meal-macros">~420 kcal</span></div>
-      <span class="card-arrow">▼</span>
-      <div class="card-body">
-        <div>• Omelette 3 œufs + épinards + champignons + herbes</div>
-        <div>• 1 tranche pain SG + huile olive</div>
-        <div>• Noix du Brésil + amandes + cerneaux</div>
-        <div>• Compote maison sans sucre</div>
-        <div class="card-tip">💡 Épinards = folate pour ta B9 basse (1-2x/sem max vu fer élevé)</div>
-      </div>
-    </div>
-
-    <div class="section" style="border-left-color:#C97B84">
-      <h3>🔥 Reflux — Protocole digestif</h3>
-      <p>✓ Vinaigre de cidre (1 c.à.s) dilué dans eau tiède AVANT chaque repas</p>
-      <p>✓ Mâcher 30 fois par bouchée</p>
-      <p>✓ Petites gorgées d'eau pendant le repas</p>
-      <p>✓ Marche digestive 10-15 min après manger</p>
-      <p>✓ Ne pas s'allonger 1h après le repas</p>
-      <p>✓ Tisane gingembre frais après le dîner</p>
-      <p>✗ Éviter tomates/agrumes en excès</p>
-      <p>✗ Pas de café à jeun</p>
-    </div>
+    <div class="alert-box"><h4>⚠️ Règles</h4><p>• Zéro lactose (pas de skyr vanille, pas lait avoine)<br>• Zéro gluten · Éviter sucres rapides<br>• Légumes à CHAQUE repas · Poissons gras 3-4x/sem<br>• 3 noix du Brésil/jour · Fruits rouges > banane</p></div>
+    <div class="section" style="border-left-color:#C97B84"><h3>🔥 Reflux</h3><p>✓ Vinaigre de cidre avant chaque repas<br>✓ Mâcher 30x · Petites gorgées pendant repas<br>✓ Marche 15 min après · Tisane gingembre le soir<br>✗ Pas de café à jeun · Éviter tomates/agrumes en excès</p></div>
   </div>
 
-  <!-- ===== RENFO A & B ===== -->
+  <!-- ===== RENFO LIVE ===== -->
   <div class="tab-panel" id="panel-2">
     <div class="section" style="border-left-color:#C97B84">
       <h3>💪 Renfo 2x/semaine · 45 min</h3>
-      <p>Focus cardio intégré + abdos/taille. Zéro poids, 100% poids du corps. Tous exercices périnée-safe. Machines cardio uniquement en échauffement et finisher.</p>
+      <p>Clique sur une séance pour lancer le mode Live. Coche chaque exercice au fur et à mesure.</p>
     </div>
 
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#C97B8418">🔥</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">SÉANCE A — Burn & Sculpt</span><span class="card-dur">45 min</span></div>
-          <div class="card-type" style="color:#C97B84">Cardio-Core + Abdos Intensif</div>
-          <div class="card-detail">Clique pour le détail complet</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div><strong>Bloc 1 — Échauffement (5 min)</strong></div>
-        <div>• 5 min rameur intensité progressive</div>
-        <br>
-        <div><strong>Bloc 2 — Cardio-Core circuit (15 min)</strong></div>
-        <div>4 tours, 30s repos entre les tours :</div>
-        <div>→ Mountain climbers modérés — 40s</div>
-        <div>→ Planche commando — 30s</div>
-        <div>→ Burpees modifiés (sans saut) — 8 reps</div>
-        <div>→ Russian twists — 20 reps</div>
-        <div>→ Inchworms — 6 reps</div>
-        <br>
-        <div><strong>Bloc 3 — Abdos / Taille périnée-safe (15 min)</strong></div>
-        <div>3 tours, enchaîne sans pause, 45s repos entre tours :</div>
-        <div>→ Dead bug — 12 par côté</div>
-        <div>→ Bicycle crunch lent — 20 reps</div>
-        <div>→ Planche latérale + rotation — 10 par côté</div>
-        <div>→ Hip dips planche latérale — 12 par côté</div>
-        <div>→ Heel taps (toucher talons) — 20 reps</div>
-        <div>→ Bird dog — 10 par côté</div>
-        <br>
-        <div><strong>Bloc 4 — Finisher machine (5 min)</strong></div>
-        <div>→ 2 min rameur max effort</div>
-        <div>→ 1 min repos</div>
-        <div>→ 2 min tapis sprint/marche (30s/30s)</div>
-        <br>
-        <div><strong>Retour au calme (5 min)</strong></div>
-        <div>→ Étirements + respiration abdominale</div>
-        <div class="card-tip">💡 Sur tous les abdos : expire en rentrant le nombril. Ne jamais bloquer la respiration en poussant vers le bas.</div>
-      </div>
+    <!-- Séance A Banner -->
+    <div class="live-banner" onclick="toggleLive('A')" id="bannerA">
+      <h3>🔥 Séance A — Burn & Sculpt</h3>
+      <p>Clique pour démarrer le suivi live</p>
+    </div>
+    <div class="live-panel" id="liveA">
+      <div class="progress-bar-container"><div class="progress-bar" id="progressBarA" style="width:0%"></div></div>
+      <div class="progress-text" id="progressTextA">0 / 19 exercices</div>
+
+      <div class="live-block-title" style="border-left-color:#6B9BC3">Bloc 1 — Échauffement (5 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">1</div><div class="live-exercise-info"><div class="live-exercise-name">Rameur</div><div class="live-exercise-detail">5 min intensité progressive</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#D4A574">Bloc 2 — Cardio-Core (15 min) × 4 tours</div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">2</div><div class="live-exercise-info"><div class="live-exercise-name">Mountain climbers</div><div class="live-exercise-detail">40 secondes — rythme modéré</div><div class="live-round">× 4 tours · 30s repos entre tours</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">3</div><div class="live-exercise-info"><div class="live-exercise-name">Planche commando</div><div class="live-exercise-detail">30 secondes</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">4</div><div class="live-exercise-info"><div class="live-exercise-name">Burpees modifiés</div><div class="live-exercise-detail">8 reps — sans saut</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">5</div><div class="live-exercise-info"><div class="live-exercise-name">Russian twists</div><div class="live-exercise-detail">20 reps</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">6</div><div class="live-exercise-info"><div class="live-exercise-name">Inchworms</div><div class="live-exercise-detail">6 reps</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#8B7CB5">Bloc 3 — Abdos / Taille (15 min) × 3 tours</div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">7</div><div class="live-exercise-info"><div class="live-exercise-name">Dead bug</div><div class="live-exercise-detail">12 par côté</div><div class="live-round">× 3 tours · 45s repos entre tours</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">8</div><div class="live-exercise-info"><div class="live-exercise-name">Bicycle crunch lent</div><div class="live-exercise-detail">20 reps</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">9</div><div class="live-exercise-info"><div class="live-exercise-name">Planche latérale + rotation</div><div class="live-exercise-detail">10 par côté</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">10</div><div class="live-exercise-info"><div class="live-exercise-name">Hip dips planche latérale</div><div class="live-exercise-detail">12 par côté</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">11</div><div class="live-exercise-info"><div class="live-exercise-name">Heel taps</div><div class="live-exercise-detail">20 reps — toucher talons</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">12</div><div class="live-exercise-info"><div class="live-exercise-name">Bird dog</div><div class="live-exercise-detail">10 par côté</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#C97B84">Bloc 4 — Finisher (5 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">13</div><div class="live-exercise-info"><div class="live-exercise-name">Rameur max effort</div><div class="live-exercise-detail">2 minutes</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">14</div><div class="live-exercise-info"><div class="live-exercise-name">Repos</div><div class="live-exercise-detail">1 minute</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">15</div><div class="live-exercise-info"><div class="live-exercise-name">Tapis sprint/marche</div><div class="live-exercise-detail">2 min (30s/30s)</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#7BA586">Retour au calme (5 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">16</div><div class="live-exercise-info"><div class="live-exercise-name">Étirements</div><div class="live-exercise-detail">3 minutes</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">17</div><div class="live-exercise-info"><div class="live-exercise-name">Respiration abdominale</div><div class="live-exercise-detail">2 minutes</div></div></div>
+
+      <button class="live-close-btn" onclick="toggleLive('A')">Fermer le suivi</button>
+      <button class="live-reset-btn" onclick="resetLive('A')">Réinitialiser la séance</button>
     </div>
 
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#6B9BC318">🔵</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">SÉANCE B — Core Killer</span><span class="card-dur">45 min</span></div>
-          <div class="card-type" style="color:#6B9BC3">EMOM + Taille & Sablier</div>
-          <div class="card-detail">Clique pour le détail complet</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div><strong>Bloc 1 — Échauffement (5 min)</strong></div>
-        <div>• 5 min vélo spinning résistance progressive</div>
-        <br>
-        <div><strong>Bloc 2 — EMOM au sol (16 min)</strong></div>
-        <div>Chaque minute, fais l'exercice puis repose le reste :</div>
-        <div>→ Min 1 : 15 mountain climbers lents + 5 pompes</div>
-        <div>→ Min 2 : 6 inchworms</div>
-        <div>→ Min 3 : 12 dead bugs (6/côté)</div>
-        <div>→ Min 4 : 10 burpees modifiés</div>
-        <div>→ Recommence 4 fois = 16 min</div>
-        <br>
-        <div><strong>Bloc 3 — Taille & Sablier périnée-safe (14 min)</strong></div>
-        <div>3 tours, 30s repos entre tours :</div>
-        <div>→ Planche araignée — 10 par côté</div>
-        <div>→ Crunch oblique pied croisé — 15 par côté</div>
-        <div>→ Planche coudes + hip dips — 20 total</div>
-        <div>→ Toe taps contrôlés allongée — 12 par côté</div>
-        <div>→ Side crunch allongée — 12 par côté</div>
-        <div>→ Planche classique — 45s (dernier tour : 1 min)</div>
-        <br>
-        <div><strong>Bloc 4 — Finisher Tabata machine (4 min)</strong></div>
-        <div>→ Tapis : 8 rounds de 20s sprint / 10s repos</div>
-        <br>
-        <div><strong>Retour au calme (5 min)</strong></div>
-        <div>→ Étirements + posture enfant + torsion allongée</div>
-        <div class="card-tip">💡 EMOM = Each Minute On the Minute. Fais l'exercice, repose le reste de la minute. Plus tu es rapide, plus tu te reposes.</div>
-      </div>
+    <!-- Séance B Banner -->
+    <div class="live-banner" onclick="toggleLive('B')" id="bannerB" style="background:linear-gradient(135deg,#6B9BC3,#8B7CB5)">
+      <h3>🔵 Séance B — Core Killer</h3>
+      <p>Clique pour démarrer le suivi live</p>
+    </div>
+    <div class="live-panel" id="liveB">
+      <div class="progress-bar-container"><div class="progress-bar" id="progressBarB" style="width:0%"></div></div>
+      <div class="progress-text" id="progressTextB">0 / 17 exercices</div>
+
+      <div class="live-block-title" style="border-left-color:#6B9BC3">Bloc 1 — Échauffement (5 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">1</div><div class="live-exercise-info"><div class="live-exercise-name">Vélo spinning</div><div class="live-exercise-detail">5 min résistance progressive</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#D4A574">Bloc 2 — EMOM au sol (16 min) × 4 tours</div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">2</div><div class="live-exercise-info"><div class="live-exercise-name">Mountain climbers + Pompes</div><div class="live-exercise-detail">15 MC lents + 5 pompes</div><div class="live-round">Min 1 · × 4 tours</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">3</div><div class="live-exercise-info"><div class="live-exercise-name">Inchworms</div><div class="live-exercise-detail">6 reps</div><div class="live-round">Min 2</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">4</div><div class="live-exercise-info"><div class="live-exercise-name">Dead bugs</div><div class="live-exercise-detail">12 reps (6/côté)</div><div class="live-round">Min 3</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">5</div><div class="live-exercise-info"><div class="live-exercise-name">Burpees modifiés</div><div class="live-exercise-detail">10 reps</div><div class="live-round">Min 4</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#8B7CB5">Bloc 3 — Taille & Sablier (14 min) × 3 tours</div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">6</div><div class="live-exercise-info"><div class="live-exercise-name">Planche araignée</div><div class="live-exercise-detail">10 par côté</div><div class="live-round">× 3 tours · 30s repos entre tours</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">7</div><div class="live-exercise-info"><div class="live-exercise-name">Crunch oblique pied croisé</div><div class="live-exercise-detail">15 par côté</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">8</div><div class="live-exercise-info"><div class="live-exercise-name">Planche coudes + hip dips</div><div class="live-exercise-detail">20 total</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">9</div><div class="live-exercise-info"><div class="live-exercise-name">Toe taps contrôlés</div><div class="live-exercise-detail">12 par côté — pieds descendent lentement</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">10</div><div class="live-exercise-info"><div class="live-exercise-name">Side crunch</div><div class="live-exercise-detail">12 par côté</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">11</div><div class="live-exercise-info"><div class="live-exercise-name">Planche classique</div><div class="live-exercise-detail">45s (dernier tour : 1 min)</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#C97B84">Bloc 4 — Finisher Tabata (4 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">12</div><div class="live-exercise-info"><div class="live-exercise-name">Tapis sprint/repos</div><div class="live-exercise-detail">8 × (20s sprint / 10s repos)</div></div></div>
+
+      <div class="live-block-title" style="border-left-color:#7BA586">Retour au calme (5 min)</div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">13</div><div class="live-exercise-info"><div class="live-exercise-name">Étirements</div><div class="live-exercise-detail">2 minutes</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">14</div><div class="live-exercise-info"><div class="live-exercise-name">Posture enfant</div><div class="live-exercise-detail">1 minute</div></div></div>
+      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">15</div><div class="live-exercise-info"><div class="live-exercise-name">Torsion allongée</div><div class="live-exercise-detail">1 min par côté</div></div></div>
+
+      <button class="live-close-btn" onclick="toggleLive('B')">Fermer le suivi</button>
+      <button class="live-reset-btn" onclick="resetLive('B')">Réinitialiser la séance</button>
     </div>
 
     <div class="section" style="border-left-color:#8B7CB5">
-      <h3>📝 Règles périnée-safe</h3>
-      <p>✓ Toujours expirer sur l'effort</p>
-      <p>✓ Rentrer le nombril vers la colonne</p>
-      <p>✓ Jamais de pression vers le bas</p>
-      <p>✗ Pas de V-ups, flutter kicks, hollow body</p>
-      <p>✗ Pas de sauts répétés (high knees, jumping jacks)</p>
+      <h3>📝 Rappels périnée-safe</h3>
+      <p>✓ Expirer sur l'effort, nombril vers colonne<br>✗ Jamais de pression vers le bas<br>✗ Pas de V-ups, flutter kicks, hollow body<br>✗ Pas de sauts répétés</p>
     </div>
   </div>
 
   <!-- ===== RUNNING ===== -->
   <div class="tab-panel" id="panel-3">
-    <div class="section" style="border-left-color:#6B9BC3">
-      <h3>🏃‍♀️ Objectif 14km — 9 mai</h3>
-      <p>3 runs/semaine. Toujours manger avant (banane minimum). Jamais de running à jeun avec l'hypothyroïdie.</p>
-    </div>
+    <div class="section" style="border-left-color:#6B9BC3"><h3>🏃‍♀️ Objectif 14km — 9 mai</h3><p>3 runs/semaine. Toujours manger avant. Jamais à jeun.</p></div>
+    <div class="week-row" style="border-left:3px solid #7BA586"><div class="week-top"><span class="week-name">Sem. 1 ✅</span><span class="week-lr" style="color:#7BA586">6 km</span></div><div class="week-focus">Reprise douce</div></div>
+    <div class="week-row" style="border-left:3px solid #6B9BC3"><div class="week-top"><span class="week-name">Sem. 2 ← Ici</span><span class="week-lr" style="color:#6B9BC3">9 km</span></div><div class="week-focus">Construire l'endurance</div></div>
+    <div class="week-row" style="border-left:3px solid #D4A574"><div class="week-top"><span class="week-name">Sem. 3</span><span class="week-lr" style="color:#D4A574">12 km</span></div><div class="week-focus">Pic de volume</div></div>
+    <div class="week-row" style="border-left:3px solid #C97B84"><div class="week-top"><span class="week-name">Sem. 4</span><span class="week-lr" style="color:#C97B84">14 km !</span></div><div class="week-focus">Affûtage + Course</div></div>
 
-    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">📈 Progression :</p>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">⚡</div><div class="card-info"><div class="card-day">Intervalles</div><div class="card-type" style="color:#C97B84">2min course / 1min marche × 8</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 5 min échauffement marche rapide</div><div>• 8 × (2 min course / 1 min marche)</div><div>• 5 min retour au calme</div><div class="card-tip">💡 Manger 1h30 avant</div></div></div>
 
-    <div class="week-row" style="border-left:3px solid #7BA586">
-      <div class="week-top"><span class="week-name">Sem. 1 (14-20 avr) ✅</span><span class="week-lr" style="color:#7BA586">Long run : 6 km</span></div>
-      <div class="week-vol">~14 km/sem</div>
-      <div class="week-focus">Reprise douce ✓</div>
-    </div>
-    <div class="week-row" style="border-left:3px solid #6B9BC3">
-      <div class="week-top"><span class="week-name">Sem. 2 (21-27 avr) ← Tu es ici</span><span class="week-lr" style="color:#6B9BC3">Long run : 9 km</span></div>
-      <div class="week-vol">~19 km/sem</div>
-      <div class="week-focus">Construire l'endurance</div>
-    </div>
-    <div class="week-row" style="border-left:3px solid #D4A574">
-      <div class="week-top"><span class="week-name">Sem. 3 (28 avr-4 mai)</span><span class="week-lr" style="color:#D4A574">Long run : 12 km</span></div>
-      <div class="week-vol">~23 km/sem</div>
-      <div class="week-focus">Pic de volume</div>
-    </div>
-    <div class="week-row" style="border-left:3px solid #C97B84">
-      <div class="week-top"><span class="week-name">Sem. 4 (5-9 mai)</span><span class="week-lr" style="color:#C97B84">COURSE : 14 km !</span></div>
-      <div class="week-vol">~10 km (affûtage)</div>
-      <div class="week-focus">Repos le 8 mai</div>
-    </div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">🫁</div><div class="card-info"><div class="card-day">Endurance</div><div class="card-type" style="color:#7BA586">30-35 min continu</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 5 min marche rapide</div><div>• 30-35 min running allure conversationnelle</div><div>• 5 min marche + étirements</div><div class="card-tip">💡 Si tu peux parler, c'est le bon rythme</div></div></div>
 
-    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:14px 0 8px">📋 Les 3 types de run :</p>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#C97B8418">⚡</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">Running Intervalles</span><span class="card-dur">35-40 min</span></div>
-          <div class="card-type" style="color:#C97B84">Fractionné vitesse</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• 5 min marche rapide échauffement</div>
-        <div>• 8 × (2 min course / 1 min marche)</div>
-        <div>→ Les 2 premiers : doucement</div>
-        <div>→ 3 à 6 : monte l'intensité</div>
-        <div>→ 7 et 8 : donne tout</div>
-        <div>• 5 min marche retour au calme</div>
-        <div class="card-tip">💡 Booste ta VO2max rapidement. Manger 1h30 avant.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#7BA58618">🫁</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">Running Endurance</span><span class="card-dur">40-45 min</span></div>
-          <div class="card-type" style="color:#7BA586">Footing allure constante</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• 5 min marche rapide</div>
-        <div>• 30-35 min running continu</div>
-        <div>→ Allure conversationnelle</div>
-        <div>→ Sem.2 : 6-7 km | Sem.3 : 8 km</div>
-        <div>• 5 min marche + étirements</div>
-        <div class="card-tip">💡 La base de ton endurance. Si tu peux parler, c'est le bon rythme.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#D4A57418">🏔️</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">Long Run (samedi)</span><span class="card-dur">50-80 min</span></div>
-          <div class="card-type" style="color:#D4A574">Séance clé de la semaine</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Veille : repas riche en glucides</div>
-        <div>• Petit-dej 1h30 avant : porridge + banane</div>
-        <div>→ Sem.2 : 9 km</div>
-        <div>→ Sem.3 : 12 km</div>
-        <div>→ Sem.4 : repos ou 3 km léger</div>
-        <div>• Étirements 10 min OBLIGATOIRES</div>
-        <div>• Post-run : protéine + banane dans 30 min</div>
-        <div class="card-tip">💡 Règle d'or : partir doucement les 3 premiers km.</div>
-      </div>
-    </div>
-
-    <div class="section" style="border-left-color:#C97B84">
-      <h3>🏁 Jour J — 9 Mai</h3>
-      <p><strong>Veille :</strong> Glucides ↑, pas d'alcool, coucher tôt</p>
-      <p><strong>Matin :</strong> Lévothyrox → 30 min → petit-dej → 1h30 → course</p>
-      <p><strong>Pendant :</strong> Doucement les 3 premiers km. Boire toutes les 20 min.</p>
-      <p><strong>Après :</strong> Protéine + glucides dans 30 min. Sauna le lendemain.</p>
-    </div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">🏔️</div><div class="card-info"><div class="card-day">Long Run (samedi)</div><div class="card-type" style="color:#D4A574">Séance clé</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Petit-dej 1h30 avant : porridge + banane</div><div>• Sem.2: 9km · Sem.3: 12km</div><div>• Étirements 10 min obligatoires</div><div class="card-tip">💡 Partir doucement les 3 premiers km</div></div></div>
   </div>
 
   <!-- ===== SUPPLÉMENTS ===== -->
   <div class="tab-panel" id="panel-4">
-    <div class="section" style="border-left-color:#C97B84">
-      <h3>💊 Ta Stack Complète</h3>
-      <p>Validée par ta médecin fonctionnelle le 23/04/2026</p>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#C97B8418">⏰</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">6h00-6h30 — À jeun</span></div>
-          <div class="card-type" style="color:#C97B84">Lévothyrox SEUL</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Lévothyrox + verre d'eau uniquement</div>
-        <div>• 75 mcg les lun/mer/ven/dim</div>
-        <div>• 50 mcg les mar/jeu/sam</div>
-        <div>• RIEN d'autre pendant 30 min (nourriture) et 3h (compléments)</div>
-        <div class="card-tip">💡 Même le café bloque l'absorption. Eau uniquement.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#D4A57418">🍳</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">6h30-7h00 — Petit-dej</span></div>
-          <div class="card-type" style="color:#D4A574">Nourriture seulement</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Petit-déjeuner normal</div>
-        <div>• 3 noix du Brésil (sélénium ALIMENTAIRE = OK)</div>
-        <div>• PAS de compléments en gélule/comprimé</div>
-        <div class="card-tip">💡 Le sélénium des noix du Brésil est un aliment, pas un complément → pas d'interférence avec le Lévothyrox.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#7BA58618">💊</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">9h30-10h00 — Post-entraînement</span></div>
-          <div class="card-type" style="color:#7BA586">Compléments du matin</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• <strong>Gluco-3</strong> (berbérine + cannelle + chrome) — 1 comprimé PENDANT la collation</div>
-        <div>• <strong>Vitamine D3</strong> 2000 UI — avec un peu de gras pour l'absorption</div>
-        <div>→ Minimum 3h après le Lévothyrox ✓</div>
-        <div class="card-tip">💡 Surveille ta réaction au Gluco-3 (tension, appétit). Si malaise → arrête et contacte ta médecin.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#6B9BC318">🐟</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">12h30 — Déjeuner</span></div>
-          <div class="card-type" style="color:#6B9BC3">Oméga-3</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• <strong>Oméga-3</strong> pendant le repas</div>
-        <div>→ Les graisses du repas aident l'absorption</div>
-        <div>→ Objectif : HDL ↑ et triglycérides ↓</div>
-        <div class="card-tip">💡 Combiné avec poisson gras 3-4x/sem = double effet sur tes lipides.</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#8B7CB518">🌙</div>
-        <div class="card-info">
-          <div class="card-title-row"><span class="card-day">Soir — Dîner/Coucher</span></div>
-          <div class="card-type" style="color:#8B7CB5">Relaxation & Sommeil</div>
-        </div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• <strong>Ashwagandha</strong> — 30 min avant le coucher</div>
-        <div>→ Réduit le cortisol (le tien est à 22.40)</div>
-        <div>→ Aide à l'endormissement</div>
-        <div>• <strong>Magnésium bisglycinate</strong> (optionnel) — 300mg au dîner</div>
-        <div>→ Aide sommeil + récupération + thyroïde</div>
-        <div class="card-tip">💡 Ne PAS prendre la vitamine D le soir — elle est stimulante et perturbe le sommeil.</div>
-      </div>
-    </div>
-
-    <div class="section" style="border-left-color:#D48A8A">
-      <h3>⛔ Interactions à éviter</h3>
-      <p>• Jamais de complément dans les 3h après le Lévothyrox</p>
-      <p>• Pas de café avec le Lévothyrox</p>
-      <p>• Pas de calcium/fer/soja 4h après Lévothyrox</p>
-      <p>• Matcha : minimum 2h après Lévothyrox</p>
-      <p>• Pas de matcha après 14h (caféine → sommeil)</p>
-    </div>
+    <div class="section" style="border-left-color:#C97B84"><h3>💊 Stack Complète</h3><p>Validée par ta médecin le 23/04/2026</p></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">⏰</div><div class="card-info"><div class="card-day">6h00 — À jeun</div><div class="card-type" style="color:#C97B84">Lévothyrox SEUL + eau</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 75mcg lun/mer/ven/dim · 50mcg mar/jeu/sam</div><div>• RIEN d'autre pendant 30 min (nourriture) et 3h (compléments)</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">🍳</div><div class="card-info"><div class="card-day">6h30 — Petit-dej</div><div class="card-type" style="color:#D4A574">3 noix du Brésil (sélénium alimentaire OK)</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Petit-dej normal · PAS de compléments en gélule</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">💊</div><div class="card-info"><div class="card-day">9h30 — Post-entraînement</div><div class="card-type" style="color:#7BA586">Gluco-3 + Vitamine D3</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Gluco-3 : 1cp PENDANT la collation</div><div>• Vit D3 : 2000 UI avec un peu de gras</div><div class="card-tip">💡 Min 3h après Lévothyrox ✓</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#6B9BC318">🐟</div><div class="card-info"><div class="card-day">12h30 — Déjeuner</div><div class="card-type" style="color:#6B9BC3">Oméga-3</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Pendant le repas avec les graisses</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#8B7CB518">🌙</div><div class="card-info"><div class="card-day">Soir — Coucher</div><div class="card-type" style="color:#8B7CB5">Ashwagandha + Magnésium</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Ashwagandha 30 min avant coucher</div><div>• Magnésium bisglycinate 300mg (optionnel)</div><div class="card-tip">💡 Pas de vit D le soir (stimulante)</div></div></div>
   </div>
 
-  <!-- ===== SEMAINE TYPE ===== -->
+  <!-- ===== SEMAINE ===== -->
   <div class="tab-panel" id="panel-5">
-    <div class="section" style="border-left-color:#D4A574">
-      <h3>⏰ Planning Matin Type</h3>
-      <p><strong>6h00-6h30</strong> — Lévothyrox + eau</p>
-      <p><strong>6h30-7h00</strong> — Petit-dej + 3 noix du Brésil</p>
-      <p><strong>7h00-7h45</strong> — Entraînement (ou 8h si running 1h30 après petit-dej)</p>
-      <p><strong>8h00</strong> — Douche</p>
-      <p><strong>9h00</strong> — Collation + compléments (Gluco-3 + D3)</p>
-      <p><strong>9h30</strong> — Télétravail (ou bureau)</p>
-    </div>
+    <div class="section" style="border-left-color:#D4A574"><h3>⏰ Matin Type</h3><p>6h00 Lévothyrox · 6h30 Petit-dej · 7h00 Sport · 8h00 Douche · 9h30 Compléments + Télétravail</p></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">🏃‍♀️</div><div class="card-info"><div class="card-day">Lun 75mcg</div><div class="card-type" style="color:#C97B84">Running Intervalles</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Fractionné 2min/1min × 8 · Sauna 10min possible après</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#6B9BC318">🚴</div><div class="card-info"><div class="card-day">Mar 50mcg</div><div class="card-type" style="color:#6B9BC3">Aquabike</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>45 min · Cardio sans impact + drainage</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">💪</div><div class="card-info"><div class="card-day">Mer 75mcg</div><div class="card-type" style="color:#D4A574">Renfo Séance A</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Burn & Sculpt · Rameur + circuits + abdos + finisher</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">🏃‍♀️</div><div class="card-info"><div class="card-day">Jeu 50mcg</div><div class="card-type" style="color:#7BA586">Running Endurance</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>40-45 min footing continu · Allure conversationnelle</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#8B7CB518">🧘</div><div class="card-info"><div class="card-day">Ven 75mcg</div><div class="card-type" style="color:#8B7CB5">Yoga + Sauna</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>45 min yoga · 20 min sauna (2×10) · 500ml eau avant + après</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">💪</div><div class="card-info"><div class="card-day">Sam 50mcg</div><div class="card-type" style="color:#D4A574">Renfo B ou Long Run</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Core Killer ou Long Run selon programme · Sauna optionnel</div></div></div>
+    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#B08A8D18">🌿</div><div class="card-info"><div class="card-day">Dim 75mcg</div><div class="card-type" style="color:#B08A8D">Repos + Meal Prep</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Marche 30-45 min · Meal prep · Yoga doux optionnel</div></div></div>
+    <div class="section" style="border-left-color:#8B7CB5"><h3>😴 Routine Sommeil</h3><p>21h30 mode nuit · 22h00 Ashwagandha + tisane · 22h15 lit · Respiration 4-7-8 × 4-6 cycles</p></div>
+    <div class="cta-banner"><div class="cta-title">La thyroïde ralentit le chemin, pas la destination. 💪</div></div>
+  </div>
 
-    <p style="font-size:13px;font-weight:700;color:#3D2C2E;margin:4px 0 8px">📅 Semaine type :</p>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#C97B8418">🏃‍♀️</div>
-        <div class="card-info"><div class="card-day">Lundi — 75mcg</div><div class="card-type" style="color:#C97B84">Running Intervalles</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Fractionné 2min/1min × 8</div>
-        <div>• Manger 1h30 avant le run</div>
-        <div>• Sauna 10 min possible après</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#6B9BC318">🚴</div>
-        <div class="card-info"><div class="card-day">Mardi — 50mcg</div><div class="card-type" style="color:#6B9BC3">Aquabike</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• 45 min en centre aquatique</div>
-        <div>• Cardio sans impact + drainage</div>
-        <div>• Parfait après le run de la veille</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#D4A57418">💪</div>
-        <div class="card-info"><div class="card-day">Mercredi — 75mcg</div><div class="card-type" style="color:#D4A574">Renfo Séance A</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Burn & Sculpt (voir onglet Renfo)</div>
-        <div>• Rameur + circuits au sol + abdos + finisher</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#7BA58618">🏃‍♀️</div>
-        <div class="card-info"><div class="card-day">Jeudi — 50mcg</div><div class="card-type" style="color:#7BA586">Running Endurance</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• 40-45 min footing continu</div>
-        <div>• Allure conversationnelle</div>
-        <div>• Construit la base du 14km</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#8B7CB518">🧘</div>
-        <div class="card-info"><div class="card-day">Vendredi — 75mcg</div><div class="card-type" style="color:#8B7CB5">Yoga + Sauna</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• 45 min yoga flow</div>
-        <div>• 20 min sauna (2×10 min)</div>
-        <div>• Anti-cortisol + récupération</div>
-        <div>• Boire 500ml avant + 500ml après sauna</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#D4A57418">💪</div>
-        <div class="card-info"><div class="card-day">Samedi — 50mcg</div><div class="card-type" style="color:#D4A574">Renfo Séance B + Long Run optionnel</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Core Killer (voir onglet Renfo)</div>
-        <div>• OU Long Run si préparation 14km</div>
-        <div>• Sauna optionnel après</div>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-header">
-        <div class="card-icon" style="background:#B08A8D18">🌿</div>
-        <div class="card-info"><div class="card-day">Dimanche — 75mcg</div><div class="card-type" style="color:#B08A8D">Repos + Meal Prep</div></div>
-        <span class="card-arrow">▼</span>
-      </div>
-      <div class="card-body">
-        <div>• Marche 30-45 min (8000 pas)</div>
-        <div>• Meal prep pour la semaine</div>
-        <div>• Yoga doux optionnel</div>
-        <div>• Coucher tôt !</div>
-      </div>
-    </div>
-
-    <div class="section" style="border-left-color:#6B9BC3">
-      <h3>💧 Hydratation</h3>
-      <p><strong>Base :</strong> 2-2,5L/jour</p>
-      <p><strong>Running :</strong> +500ml</p>
-      <p><strong>Sauna :</strong> +500ml avant + 500ml après</p>
-      <p><strong>Matcha collagène :</strong> lait amande, après 8h, avant 14h</p>
-    </div>
-
-    <div class="section" style="border-left-color:#8B7CB5">
-      <h3>😴 Routine Sommeil</h3>
-      <p><strong>21h30</strong> — Téléphone mode nuit</p>
-      <p><strong>22h00</strong> — Ashwagandha + tisane gingembre</p>
-      <p><strong>22h15</strong> — Au lit, lumières éteintes</p>
-      <p><strong>Phase 1 :</strong> Relaxation musculaire progressive (5 min)</p>
-      <p><strong>Phase 2 :</strong> Respiration 4-7-8 × 4-6 cycles</p>
-      <p><strong>Phase 3 :</strong> Respiration abdominale libre</p>
-      <p class="small-note">Cycles de sommeil = 90 min. Calcule ton heure de coucher en fonction de ton réveil.</p>
-    </div>
-
+  <!-- ===== SUIVI SPORT ===== -->
+  <div class="tab-panel" id="panel-6">
     <div class="section" style="border-left-color:#7BA586">
-      <h3>🖥️ NEAT Télétravail</h3>
-      <p>→ Bureau debout 2h/jour min</p>
-      <p>→ Pause active toutes les 90 min</p>
-      <p>→ Marche pendant les appels</p>
-      <p>→ Marche digestive 15 min après déjeuner</p>
-      <p>→ Objectif : 8 000-10 000 pas/jour</p>
+      <h3>📊 Suivi Sport</h3>
+      <p>Coche chaque séance terminée. Ton avancement est sauvegardé automatiquement.</p>
     </div>
-
-    <div class="cta-banner">
-      <div class="cta-title">La thyroïde ralentit le chemin, mais ne bloque pas la destination. 💪</div>
-      <div class="cta-sub">Ancienne sportive + discipline + cuisine maison + bon suivi médical = le cocktail gagnant.</div>
-    </div>
+    <div id="trackingContainer"></div>
   </div>
 
 </div>
 
 <script>
+// === TABS ===
 function showTab(i){
   document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
   document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function toggleCard(el){el.classList.toggle('open')}
+
+// === LIVE TRACKER ===
+function toggleLive(s){
+  const panel=document.getElementById('live'+s);
+  const banner=document.getElementById('banner'+s);
+  panel.classList.toggle('active');
+  banner.style.display=panel.classList.contains('active')?'none':'block';
+}
+function toggleEx(el,s){
+  el.classList.toggle('completed');
+  updateLiveProgress(s);
+  saveLiveState(s);
+}
+function updateLiveProgress(s){
+  const panel=document.getElementById('live'+s);
+  const all=panel.querySelectorAll('.live-exercise');
+  const done=panel.querySelectorAll('.live-exercise.completed');
+  const pct=Math.round((done.length/all.length)*100);
+  document.getElementById('progressBar'+s).style.width=pct+'%';
+  document.getElementById('progressText'+s).textContent=done.length+' / '+all.length+' exercices'+(pct===100?' ✅ Bravo !':'');
+}
+function resetLive(s){
+  const panel=document.getElementById('live'+s);
+  panel.querySelectorAll('.live-exercise.completed').forEach(e=>e.classList.remove('completed'));
+  updateLiveProgress(s);
+  saveLiveState(s);
+}
+function saveLiveState(s){
+  try{
+    const panel=document.getElementById('live'+s);
+    const states=[...panel.querySelectorAll('.live-exercise')].map(e=>e.classList.contains('completed'));
+    localStorage.setItem('live_'+s,JSON.stringify(states));
+  }catch(e){}
+}
+function loadLiveState(s){
+  try{
+    const data=JSON.parse(localStorage.getItem('live_'+s));
+    if(!data)return;
+    const panel=document.getElementById('live'+s);
+    const exs=panel.querySelectorAll('.live-exercise');
+    data.forEach((v,i)=>{if(v&&exs[i])exs[i].classList.add('completed')});
+    updateLiveProgress(s);
+  }catch(e){}
+}
+
+// === TRACKING SYSTEM ===
+const MONTHS=[
+  {name:'Avril 2026',key:'apr26',weeks:[
+    {name:'Sem. 1 (14-20 avr)',sessions:['🏃‍♀️ Running Intervalles','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','🏃‍♀️ Long Run']},
+    {name:'Sem. 2 (21-27 avr)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B / Long Run']},
+  ]},
+  {name:'Mai 2026',key:'mai26',weeks:[
+    {name:'Sem. 1 (28 avr-4 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','🏃‍♀️ Long Run 12km']},
+    {name:'Sem. 2 (5-9 mai) Affûtage',sessions:['🏃‍♀️ Running léger','🚴 Aquabike','🧘 Yoga','🏁 COURSE 14KM !']},
+    {name:'Sem. 3 (12-18 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 4 (19-25 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
+  ]},
+  {name:'Juin 2026',key:'jun26',weeks:[
+    {name:'Sem. 1 (26 mai-1 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 2 (2-8 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 3 (9-15 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 4 (16-22 juin) Deload',sessions:['🏃‍♀️ Running léger','🚴 Aquabike','💪 Renfo léger','🧘 Yoga + Sauna','🧖 Sauna']},
+    {name:'Sem. 5 (23-25 juin) 🎂',sessions:['🧘 Yoga doux','🧖 Sauna','🎂 ANNIVERSAIRE !']},
+  ]},
+  {name:'Juillet 2026',key:'jul26',weeks:[
+    {name:'Sem. 1 (30 juin-6 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 2 (7-13 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 3 (14-20 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 4 (21-27 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+  ]},
+  {name:'Août 2026',key:'aug26',weeks:[
+    {name:'Sem. 1 (28 juil-3 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 2 (4-10 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 3 (11-17 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+    {name:'Sem. 4 (18-24 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
+  ]},
+];
+
+function buildTracking(){
+  const container=document.getElementById('trackingContainer');
+  let html='';
+  MONTHS.forEach((month,mi)=>{
+    const mKey=month.key;
+    let totalSessions=0,totalChecked=0;
+    month.weeks.forEach(w=>totalSessions+=w.sessions.length);
+
+    html+=`<div class="month-card" id="month-${mi}">`;
+    html+=`<div class="month-header" onclick="toggleMonth(${mi})"><div><h3>${month.name}</h3></div><div style="display:flex;align-items:center;gap:8px"><span class="month-progress" id="mprog-${mi}">0/${totalSessions}</span><span class="month-arrow">▼</span></div></div>`;
+    html+=`<div class="month-body">`;
+
+    month.weeks.forEach((week,wi)=>{
+      html+=`<div class="week-card" id="week-${mi}-${wi}">`;
+      html+=`<div class="week-header" onclick="toggleWeek(${mi},${wi})"><span>${week.name}</span><div style="display:flex;align-items:center;gap:8px"><span class="week-progress" id="wprog-${mi}-${wi}">0/${week.sessions.length}</span><span class="month-arrow">▼</span></div></div>`;
+      html+=`<div class="week-body">`;
+
+      week.sessions.forEach((sess,si)=>{
+        const cbId=`cb-${mKey}-${wi}-${si}`;
+        html+=`<div class="session-item">`;
+        html+=`<input type="checkbox" class="session-cb" id="${cbId}" onchange="onCheck('${mKey}',${mi},${wi})">`;
+        html+=`<label class="session-label" for="${cbId}" id="lbl-${cbId}">${sess}</label>`;
+        html+=`</div>`;
+      });
+
+      html+=`</div></div>`;
+    });
+
+    html+=`</div></div>`;
+  });
+  container.innerHTML=html;
+  loadTracking();
+}
+
+function toggleMonth(mi){document.getElementById('month-'+mi).classList.toggle('open')}
+function toggleWeek(mi,wi){document.getElementById('week-'+mi+'-'+wi).classList.toggle('open')}
+
+function onCheck(mKey,mi,wi){
+  // Update label styling
+  const month=MONTHS[mi];
+  month.weeks.forEach((week,wIdx)=>{
+    week.sessions.forEach((s,si)=>{
+      const cbId=`cb-${mKey}-${wIdx}-${si}`;
+      const cb=document.getElementById(cbId);
+      const lbl=document.getElementById('lbl-'+cbId);
+      if(cb&&lbl){lbl.classList.toggle('done',cb.checked)}
+    });
+  });
+  updateTrackingProgress(mi);
+  saveTracking();
+}
+
+function updateTrackingProgress(mi){
+  const month=MONTHS[mi];
+  let mTotal=0,mDone=0;
+  month.weeks.forEach((week,wi)=>{
+    let wDone=0;
+    week.sessions.forEach((s,si)=>{
+      const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
+      if(cb&&cb.checked)wDone++;
+    });
+    mTotal+=week.sessions.length;
+    mDone+=wDone;
+    const wpEl=document.getElementById(`wprog-${mi}-${wi}`);
+    if(wpEl){
+      wpEl.textContent=wDone+'/'+week.sessions.length;
+      wpEl.style.color=wDone===week.sessions.length?'#7BA586':'#C97B84';
+    }
+  });
+  const mpEl=document.getElementById(`mprog-${mi}`);
+  if(mpEl){
+    mpEl.textContent=mDone+'/'+mTotal;
+    mpEl.style.color=mDone===mTotal?'#7BA586':'#C97B84';
+  }
+}
+
+function saveTracking(){
+  try{
+    const data={};
+    MONTHS.forEach((month,mi)=>{
+      month.weeks.forEach((week,wi)=>{
+        week.sessions.forEach((s,si)=>{
+          const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
+          if(cb&&cb.checked)data[`${month.key}-${wi}-${si}`]=true;
+        });
+      });
+    });
+    localStorage.setItem('tracking',JSON.stringify(data));
+  }catch(e){}
+}
+
+function loadTracking(){
+  try{
+    const data=JSON.parse(localStorage.getItem('tracking'));
+    if(!data)return;
+    MONTHS.forEach((month,mi)=>{
+      month.weeks.forEach((week,wi)=>{
+        week.sessions.forEach((s,si)=>{
+          const key=`${month.key}-${wi}-${si}`;
+          const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
+          if(cb&&data[key]){
+            cb.checked=true;
+            const lbl=document.getElementById('lbl-cb-'+month.key+'-'+wi+'-'+si);
+            if(lbl)lbl.classList.add('done');
+          }
+        });
+      });
+      updateTrackingProgress(mi);
+    });
+  }catch(e){}
+}
+
+// Init
+buildTracking();
+loadLiveState('A');
+loadLiveState('B');
 </script>
 </body>
 </html>

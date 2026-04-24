@@ -6,518 +6,587 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ma Transfo">
-<meta name="theme-color" content="#C97B84">
-<title>Ma Transformation Athlète</title>
+<meta name="theme-color" content="#B8687B">
+<title>Ma Transformation</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#FDF6F0 0%,#F8EADE 40%,#F5E6E0 100%);min-height:100vh;min-height:100dvh;color:#3D2C2E;padding-top:env(safe-area-inset-top);padding-bottom:calc(env(safe-area-inset-bottom) + 20px);overflow-x:hidden}
-  .header{padding:28px 20px 16px;text-align:center}
-  .header .label{font-size:11px;letter-spacing:3px;color:#C97B84;text-transform:uppercase;font-weight:700;margin-bottom:6px}
-  .header h1{font-family:'DM Serif Display',Georgia,serif;font-size:24px;color:#3D2C2E;line-height:1.2}
-  .header .sub{font-size:12px;color:#B08A8D;margin-top:6px}
-  .tabs{display:flex;overflow-x:auto;gap:6px;padding:0 16px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab-btn{padding:8px 12px;border-radius:20px;border:none;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;transition:all .25s;flex-shrink:0}
-  .tab-btn.active{background:#C97B84;color:#FFF;box-shadow:0 4px 12px rgba(201,123,132,.3)}
-  .tab-btn:not(.active){background:#FFF;color:#8A7073;box-shadow:0 2px 6px rgba(61,44,46,.06)}
-  .content{padding:0 16px 30px}
-  .tab-panel{display:none;animation:fadeIn .3s ease}
-  .tab-panel.active{display:block}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-  .stats-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-  .stat{background:#FFF;border-radius:12px;padding:14px 10px;text-align:center;flex:1;min-width:65px;box-shadow:0 2px 8px rgba(61,44,46,.06)}
-  .stat-val{font-size:20px;font-weight:800;font-family:'DM Serif Display',Georgia,serif}
-  .stat-unit{font-size:11px;font-weight:400}
-  .stat-label{font-size:10px;color:#8A7073;margin-top:4px}
-  .section{background:#FFFAF8;border-radius:14px;padding:18px 16px;margin-bottom:14px;border-left:4px solid #E8B4B8}
-  .section h3{font-family:'DM Serif Display',Georgia,serif;font-size:17px;color:#3D2C2E;margin-bottom:10px}
-  .section p{font-size:14px;color:#5A4245;line-height:1.65;margin-bottom:6px}
-  .section p:last-child{margin-bottom:0}
-  .card{background:#FFF;border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,.05);cursor:pointer;transition:transform .15s}
-  .card:active{transform:scale(.985)}
-  .card-header{display:flex;align-items:center;gap:10px}
-  .card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-  .card-info{flex:1}
-  .card-title-row{display:flex;justify-content:space-between;align-items:center}
-  .card-day{font-weight:700;font-size:14px;color:#3D2C2E}
-  .card-dur{font-size:11px;color:#B08A8D}
-  .card-type{font-size:13px;font-weight:600;margin-top:2px}
-  .card-detail{font-size:11px;color:#8A7073;margin-top:2px;font-style:italic}
-  .card-arrow{color:#C5B0B3;font-size:14px;transition:transform .2s;flex-shrink:0}
-  .card.open .card-arrow{transform:rotate(180deg)}
-  .card-body{margin-top:12px;padding-top:10px;border-top:1px dashed #F0D5D8;font-size:13px;color:#5A4245;line-height:1.8;display:none}
-  .card.open .card-body{display:block}
-  .card-tip{margin-top:8px;padding:8px 10px;background:#FFF5F0;border-radius:8px;font-size:12px;color:#C97B84;font-style:italic}
-  .meal-header{display:flex;justify-content:space-between;align-items:center}
-  .meal-name{font-weight:700;color:#3D2C2E;font-size:15px}
-  .meal-time{color:#B08A8D;font-size:12px;margin-left:8px}
-  .meal-macros{color:#C97B84;font-size:12px;font-weight:600}
-  .week-row{background:#FFF;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(61,44,46,.05)}
-  .week-top{display:flex;justify-content:space-between;align-items:center}
-  .week-name{font-weight:800;font-size:13px;color:#3D2C2E}
-  .week-lr{font-size:12px;font-weight:700}
-  .week-vol{font-size:12px;color:#5A4245;margin-top:4px}
-  .week-focus{font-size:11px;color:#B08A8D;font-style:italic;margin-top:2px}
-  .macros-row{display:flex;gap:6px;margin:8px 0}
-  .macro-box{flex:1;text-align:center;padding:10px;border-radius:10px}
-  .macro-val{font-size:20px;font-weight:800}
-  .macro-label{font-size:11px;color:#8A7073}
-  .small-note{font-size:12px;color:#B08A8D;font-style:italic;margin-top:8px}
-  .cta-banner{background:linear-gradient(135deg,#C97B84 0%,#D4A574 100%);border-radius:14px;padding:18px 16px;margin-top:6px;text-align:center}
-  .cta-title{font-size:15px;font-weight:800;color:#FFF;font-family:'DM Serif Display',Georgia,serif}
-  .cta-sub{font-size:12px;color:rgba(255,255,255,.85);margin-top:6px}
-  .alert-box{background:#FFF0F0;border:1px solid #E8A0A0;border-radius:12px;padding:14px 16px;margin-bottom:14px}
-  .alert-box h4{color:#C45050;font-size:14px;margin-bottom:6px}
-  .alert-box p{font-size:13px;color:#7A3030;line-height:1.6}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#F9F5F2;--bg2:#FFF9F7;--card:#FFF;--accent:#B8687B;--accent2:#D4956B;--green:#6A9B7E;--blue:#5E8BB5;--purple:#8B7CB5;--text:#2E2226;--text2:#6B5558;--text3:#A08589;--border:#F0E4E0;--shadow:0 2px 12px rgba(46,34,38,.06)}
+body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;min-height:100dvh;color:var(--text);padding-bottom:76px;overflow-x:hidden}
+.header{padding:18px 16px 8px;text-align:center}
+.header .label{font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;font-weight:700}
+.header h1{font-family:'DM Serif Display',Georgia,serif;font-size:21px;line-height:1.2;margin-top:3px}
 
-  /* === TRACKING === */
-  .month-card{background:#FFF;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 8px rgba(61,44,46,.06)}
-  .month-header{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-  .month-header h3{font-family:'DM Serif Display',Georgia,serif;font-size:16px;margin:0}
-  .month-progress{font-size:11px;font-weight:700;color:#C97B84}
-  .month-body{display:none;padding:0 16px 14px}
-  .month-card.open .month-body{display:block}
-  .month-arrow{color:#C5B0B3;font-size:14px;transition:transform .2s}
-  .month-card.open .month-arrow{transform:rotate(180deg)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;justify-content:space-around;padding:6px 0 calc(6px + env(safe-area-inset-bottom));box-shadow:0 -1px 20px rgba(46,34,38,.08);z-index:100;border-top:1px solid var(--border)}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:6px 14px;border:none;background:none;font-family:'Nunito',sans-serif;transition:all .2s;border-radius:12px}
+.nav-item:active{transform:scale(.92)}
+.nav-item .ni{font-size:20px;transition:transform .2s}
+.nav-item .nl{font-size:9px;font-weight:700;color:var(--text3);transition:color .2s}
+.nav-item.active{background:rgba(184,104,123,.12)}
+.nav-item.active .nl{color:var(--accent);font-weight:800}
+.nav-item.active .ni{transform:scale(1.15)}
 
-  .week-card{background:#FFFAF8;border-radius:10px;margin-bottom:8px;overflow:hidden;border-left:3px solid #E8B4B8}
-  .week-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-  .week-header span{font-weight:700;font-size:13px;color:#3D2C2E}
-  .week-progress{font-size:11px;color:#7BA586;font-weight:700}
-  .week-body{display:none;padding:0 14px 10px}
-  .week-card.open .week-body{display:block}
+.sub-tabs{display:flex;gap:5px;padding:8px 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sub-tabs::-webkit-scrollbar{display:none}
+.st{padding:6px 13px;border-radius:14px;border:none;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;transition:all .2s;flex-shrink:0}
+.st.active{background:var(--accent);color:#FFF;box-shadow:0 3px 12px rgba(184,104,123,.25)}
+.st:not(.active){background:var(--card);color:var(--text3);box-shadow:var(--shadow)}
 
-  .session-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F5E6E0}
-  .session-item:last-child{border-bottom:none}
-  .session-cb{width:22px;height:22px;border-radius:6px;border:2px solid #D4C0C3;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .2s}
-  .session-cb:checked{background:#7BA586;border-color:#7BA586}
-  .session-cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:14px;font-weight:800}
-  .session-label{font-size:13px;color:#5A4245;flex:1}
-  .session-label.done{text-decoration:line-through;color:#B08A8D}
-  .session-icon{font-size:16px;flex-shrink:0}
+.mp,.sp{display:none}.mp.active,.sp.active{display:block}
+.content{padding:0 16px 16px}
+.sp.active{animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-  /* === LIVE TRACKER === */
-  .live-banner{background:linear-gradient(135deg,#C97B84,#D4A574);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;cursor:pointer}
-  .live-banner h3{color:#FFF;font-size:16px;font-family:'DM Serif Display',Georgia,serif}
-  .live-banner p{color:rgba(255,255,255,.8);font-size:12px;margin-top:4px}
+/* Section */
+.s{background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:10px;border-left:4px solid var(--border)}
+.s h3{font-family:'DM Serif Display',Georgia,serif;font-size:15px;margin-bottom:6px}
+.s p{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:4px}
+.s p:last-child{margin-bottom:0}
 
-  .live-panel{display:none;margin-bottom:14px}
-  .live-panel.active{display:block}
+/* Card */
+.c{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:6px;box-shadow:var(--shadow);cursor:pointer;transition:transform .1s}
+.c:active{transform:scale(.985)}
+.c-h{display:flex;align-items:center;gap:8px}
+.c-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.c-i{flex:1}
+.c-d{font-weight:700;font-size:12.5px}.c-t{font-size:11.5px;font-weight:600;margin-top:1px}.c-dt{font-size:10px;color:var(--text3);font-style:italic}
+.c-a{color:#CCC;font-size:12px;transition:transform .2s;flex-shrink:0}
+.c.open .c-a{transform:rotate(180deg)}
+.c-b{margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;color:var(--text2);line-height:1.7;display:none}
+.c.open .c-b{display:block}
+.c-tip{margin-top:6px;padding:5px 8px;background:#FFF5F0;border-radius:6px;font-size:10.5px;color:var(--accent);font-style:italic}
+.alert{background:#FFF0F0;border:1px solid #EAABAB;border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.alert h4{color:#C45050;font-size:12px;margin-bottom:3px}.alert p{font-size:11.5px;color:#7A3030;line-height:1.5}
+.sn{font-size:10.5px;color:var(--text3);font-style:italic}
 
-  .live-block-title{font-family:'DM Serif Display',Georgia,serif;font-size:15px;color:#3D2C2E;margin:14px 0 8px;padding:8px 12px;background:#FFF;border-radius:10px;border-left:4px solid #C97B84}
+/* Checklist */
+.cl{background:var(--card);border-radius:14px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+.ci{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border)}
+.ci:last-child{border-bottom:none}
+.cb{width:22px;height:22px;border-radius:6px;border:2.5px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.cb:checked{background:var(--green);border-color:var(--green)}
+.cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:13px;font-weight:800}
+.cl-l{font-size:12.5px;flex:1}.cl-s{display:block;font-size:10px;color:var(--text3)}.cl-e{font-size:16px;flex-shrink:0}
+.rbtn{display:block;width:100%;padding:9px;border:none;border-radius:10px;background:var(--border);color:var(--accent);font-weight:700;font-size:11.5px;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:10px}
 
-  .live-exercise{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:4px;background:#FFF;border-radius:10px;cursor:pointer;transition:all .2s}
-  .live-exercise.completed{background:#F0F7F2}
-  .live-num{width:28px;height:28px;border-radius:50%;background:#F5E6E0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#C97B84;flex-shrink:0;transition:all .2s}
-  .live-exercise.completed .live-num{background:#7BA586;color:#FFF}
-  .live-exercise-info{flex:1}
-  .live-exercise-name{font-size:13px;font-weight:700;color:#3D2C2E}
-  .live-exercise.completed .live-exercise-name{color:#7BA586}
-  .live-exercise-detail{font-size:11px;color:#8A7073}
-  .live-round{font-size:11px;color:#B08A8D;margin-top:2px;font-style:italic}
+/* Live */
+.lb{border-radius:14px;padding:14px;margin-bottom:10px;text-align:center;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.lb:active{transform:scale(.97)}
+.lb h3{color:#FFF;font-size:14px;font-family:'DM Serif Display',Georgia,serif}
+.lb p{color:rgba(255,255,255,.75);font-size:10.5px;margin-top:2px}
+.lb .toggle-hint{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.6);font-size:18px}
+.lp{display:none;margin-bottom:10px}.lp.active{display:block}
+.lbt{font-family:'DM Serif Display',Georgia,serif;font-size:13px;margin:10px 0 5px;padding:6px 10px;background:var(--card);border-radius:8px;border-left:3px solid var(--accent)}
+.le{display:flex;align-items:center;gap:7px;padding:8px 10px;margin-bottom:2px;background:var(--card);border-radius:8px;transition:all .15s}
+.le.done{background:#EFF7F1}
+.le-n{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--accent);flex-shrink:0;transition:all .15s}
+.le.done .le-n{background:var(--green);color:#FFF}
+.le-i{flex:1}.le-nm{font-size:11.5px;font-weight:700}.le.done .le-nm{color:var(--green)}.le-dt{font-size:10px;color:var(--text3)}.le-r{font-size:9px;color:var(--text3);font-style:italic}
+.pb-bg{background:var(--border);border-radius:20px;height:7px;margin:6px 0 3px;overflow:hidden}
+.pb-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:20px;transition:width .3s}
+.pb-txt{font-size:10px;color:var(--green);font-weight:700;text-align:center}
+.tb{padding:3px 10px;border-radius:6px;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;flex-shrink:0}
+.tb-s{background:var(--accent);color:#FFF}.tb-r{background:var(--accent2);color:#FFF}.tb-d{background:var(--green);color:#FFF}
+.td{font-size:16px;font-weight:800;color:var(--accent);font-family:'DM Serif Display',Georgia,serif;margin-top:1px}
 
-  .progress-bar-container{background:#F0E4DF;border-radius:20px;height:8px;margin:10px 0 6px;overflow:hidden}
-  .progress-bar{height:100%;background:linear-gradient(90deg,#7BA586,#6B9BC3);border-radius:20px;transition:width .4s ease}
-  .progress-text{font-size:11px;color:#7BA586;font-weight:700;text-align:center}
+/* Events */
+.ev{background:var(--card);border-radius:14px;padding:14px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px}
+.ev-e{font-size:28px;flex-shrink:0}
+.ev-i{flex:1}
+.ev-nm{font-weight:800;font-size:13px}
+.ev-dt{font-size:11px;color:var(--text3);margin-top:1px}
+.ev-tg{font-size:10.5px;color:var(--accent);font-weight:600;margin-top:1px}
+.ev-cd{text-align:center;flex-shrink:0}
+.ev-dy{font-size:26px;font-weight:800;font-family:'DM Serif Display',Georgia,serif;line-height:1}
+.ev-dl{font-size:9px;color:var(--text3);font-weight:600}
+.ev-pb{background:var(--border);border-radius:8px;height:5px;margin-top:5px;overflow:hidden}
+.ev-pf{height:100%;border-radius:8px}
+.wt-bar{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.wt-bar h4{font-size:13px;font-weight:800;margin-bottom:8px}
+.wt-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px}
+.wt-bg{background:var(--border);border-radius:10px;height:10px;overflow:hidden;margin-bottom:4px}
+.wt-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.wt-val{font-size:18px;font-weight:800;color:var(--accent);text-align:center;font-family:'DM Serif Display',Georgia,serif}
 
-  .live-close-btn{display:block;width:100%;padding:12px;border:none;border-radius:12px;background:#F5E6E0;color:#C97B84;font-weight:700;font-size:13px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:10px}
-  .live-reset-btn{display:block;width:100%;padding:10px;border:none;border-radius:10px;background:transparent;color:#B08A8D;font-weight:600;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:4px}
+/* Forms */
+.mf{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.mf h3{font-family:'DM Serif Display',Georgia,serif;font-size:14px;margin-bottom:8px}
+.fr{display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.ff{flex:1;min-width:45%}
+.ff label{font-size:9.5px;color:var(--text3);font-weight:700;display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px}
+.ff input,.ff select{width:100%;padding:7px 8px;border:2px solid var(--border);border-radius:8px;font-size:12px;font-family:'Nunito',sans-serif;color:var(--text);outline:none;transition:border .2s;background:var(--card)}
+.ff input:focus{border-color:var(--accent)}
+.sv-btn{width:100%;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#FFF;font-weight:700;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:4px}
+.me{background:var(--card);border-radius:10px;padding:10px 12px;margin-bottom:6px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
+.me-d{font-size:11px;font-weight:800;color:var(--accent);margin-bottom:4px}
+.me-g{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px}
+.me-i{font-size:11px;color:var(--text2)}.me-i span{font-weight:700;color:var(--text)}
+.me-del{float:right;background:none;border:none;color:#D48A8A;font-size:10px;cursor:pointer;font-family:'Nunito',sans-serif}
+
+/* Yes/No */
+.yn{margin-bottom:10px}
+.yn-t{font-size:12px;font-weight:800;padding:6px 0 3px}
+.yn-g{display:flex;flex-wrap:wrap;gap:4px}
+.yn-y{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:600;background:#EFF7F1;color:#4A7A56}
+.yn-n{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:600;background:#FFF0F0;color:#C45050}
+.yn-w{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:600;background:#FFF8EE;color:#B8860B}
+
+/* Week tracking */
+.wr{background:var(--card);border-radius:10px;padding:8px 10px;margin-bottom:5px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
+.wt{display:flex;justify-content:space-between;align-items:center}
+.wn{font-weight:800;font-size:11px}.wl{font-size:10.5px;font-weight:700}
+.wf{font-size:9.5px;color:var(--text3);font-style:italic;margin-top:1px}
+.mc{background:var(--card);border-radius:14px;margin-bottom:7px;overflow:hidden;box-shadow:var(--shadow)}
+.mh{padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.mh h3{font-family:'DM Serif Display',Georgia,serif;font-size:14px}
+.mp2{font-size:10px;font-weight:700;color:var(--accent)}
+.mb{display:none;padding:0 12px 10px}.mc.open .mb{display:block}
+.ma{color:#CCC;font-size:12px;transition:transform .2s}.mc.open .ma{transform:rotate(180deg)}
+.twc{background:var(--bg2);border-radius:8px;margin-bottom:5px;overflow:hidden;border-left:3px solid var(--border)}
+.twh{padding:7px 10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.twh span{font-weight:700;font-size:11px}
+.twb{display:none;padding:0 10px 6px}.twc.open .twb{display:block}
+.si{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)}
+.si:last-child{border-bottom:none}
+.scb{width:18px;height:18px;border-radius:4px;border:2px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.scb:checked{background:var(--green);border-color:var(--green)}
+.scb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:11px;font-weight:800}
+.sl{font-size:11px;color:var(--text2)}.sl.done{text-decoration:line-through;color:var(--text3)}
+
+/* Run Log */
+.rl-form{background:var(--card);border-radius:12px;padding:12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.rl-row{display:flex;gap:6px;align-items:flex-end}
+.rl-form .ff{min-width:auto}
+.rl-add{padding:7px 14px;border:none;border-radius:8px;background:var(--accent);color:#FFF;font-weight:700;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.rl-entry{background:var(--card);border-radius:8px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.rl-info{font-size:11px;color:var(--text2)}.rl-info span{font-weight:700;color:var(--text)}
+.rl-del{background:none;border:none;color:#D48A8A;font-size:10px;cursor:pointer}
+.rl-total{font-size:12px;font-weight:700;color:var(--green);text-align:center;padding:6px;background:var(--bg2);border-radius:8px;margin-bottom:10px}
+
+.macros-r{display:flex;gap:5px;margin:6px 0}
+.mac-b{flex:1;text-align:center;padding:8px;border-radius:8px;background:var(--card)}
+.mac-v{font-size:17px;font-weight:800}.mac-l{font-size:9px;color:var(--text3)}
+
+.exp-btn{display:block;width:100%;padding:8px;border:1px dashed var(--accent);border-radius:10px;background:transparent;color:var(--accent);font-weight:600;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:8px}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="label">Programme V4</div>
-  <h1>Ta Transformation Athlète</h1>
-  <div class="sub">🏃‍♀️ 14km le 9 mai · 🎂 Objectif le 25 juin</div>
+  <div class="label">Mon Programme</div>
+  <h1>Ma Transformation</h1>
 </div>
 
-<div class="tabs" id="tabs">
-  <button class="tab-btn active" onclick="showTab(0)">Bilan</button>
-  <button class="tab-btn" onclick="showTab(1)">Nutrition</button>
-  <button class="tab-btn" onclick="showTab(2)">Renfo Live</button>
-  <button class="tab-btn" onclick="showTab(3)">Running</button>
-  <button class="tab-btn" onclick="showTab(4)">Suppléments</button>
-  <button class="tab-btn" onclick="showTab(5)">Semaine</button>
-  <button class="tab-btn" onclick="showTab(6)">📊 Suivi</button>
-</div>
-
-<div class="content">
-
-  <!-- ===== BILAN ===== -->
-  <div class="tab-panel active" id="panel-0">
-    <div class="stats-row">
-      <div class="stat"><div class="stat-val" style="color:#C97B84">71<span class="stat-unit">kg</span></div><div class="stat-label">Poids actuel</div></div>
-      <div class="stat"><div class="stat-val" style="color:#7BA586">~64<span class="stat-unit">kg</span></div><div class="stat-label">Objectif</div></div>
-      <div class="stat"><div class="stat-val" style="color:#D4A574">89<span class="stat-unit">cm</span></div><div class="stat-label">Tour taille</div></div>
-    </div>
-    <div class="alert-box">
-      <h4>🚨 Points critiques (15/04/2026)</h4>
-      <p>TSH : 2.0 → 3.1 (dosage ajusté)<br>Cortisol : 22.40 (limite haute)<br>Triglycérides : 251 (norme &lt;150)<br>HDL : 30 (trop bas)<br>LDL : 151 (trop haut)<br>HOMA %B : 183.5% (pancréas surrégime)<br>Vit D : 32 ng/ml (insuffisante)</p>
-    </div>
-    <div class="section" style="border-left-color:#C97B84"><h3>🔬 Métabolisme</h3><p><strong>MB :</strong> ~1 210 kcal/j · <strong>TDEE :</strong> ~1 900 · <strong>Cible :</strong> 1 450-1 500 kcal/j</p></div>
-    <div class="section" style="border-left-color:#D4A574"><h3>⚕️ Lévothyrox</h3><p><strong>75 mcg :</strong> lun/mer/ven/dim · <strong>50 mcg :</strong> mar/jeu/sam<br>= 64 mcg/j · Recontrôle dans 2-3 mois</p></div>
-    <div class="section" style="border-left-color:#7BA586"><h3>🔑 Résumé</h3><p>Statines → perturbation thyroïde → TSH ↑ → cholestérol ↑<br>Cortisol haut = hypothyroïdie + inflammation<br>Pré-résistance insuline = réversible<br>Reflux = probablement hypochlorhydrie</p></div>
+<!-- ===== SPORT ===== -->
+<div class="mp active" id="m-0">
+  <div class="sub-tabs">
+    <button class="st active" onclick="ssub(0,0)">Renfo Live</button>
+    <button class="st" onclick="ssub(0,1)">Running</button>
+    <button class="st" onclick="ssub(0,2)">Suivi</button>
   </div>
+  <div class="content">
+    <div class="sp active" id="s-0-0">
+      <!-- Séance A -->
+      <div class="lb" style="background:linear-gradient(135deg,var(--accent),var(--accent2))" onclick="tglLive('A')" id="bA">
+        <h3>🔥 Séance A — Burn & Sculpt</h3>
+        <p>Clique pour ouvrir / fermer</p>
+        <span class="toggle-hint" id="hintA">▼</span>
+      </div>
+      <div class="lp" id="lA">
+        <div class="pb-bg"><div class="pb-fill" id="pbA" style="width:0%"></div></div>
+        <div class="pb-txt" id="ptA">0/17</div>
+        <div class="lbt" style="border-left-color:var(--blue)">Échauffement</div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">1</div><div class="le-i"><div class="le-nm">Rameur</div><div class="le-dt">5 min progressif</div></div></div>
+        <div class="lbt" style="border-left-color:var(--accent2)">Cardio-Core × 4 tours</div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">2</div><div class="le-i"><div class="le-nm">Mountain climbers</div><div class="le-dt">40 secondes</div><div id="t-A-2"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,40,'A-2')">40s▶</button></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">3</div><div class="le-i"><div class="le-nm">Planche commando</div><div class="le-dt">30 secondes</div><div id="t-A-3"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,30,'A-3')">30s▶</button></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">4</div><div class="le-i"><div class="le-nm">Burpees modifiés</div><div class="le-dt">8 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">5</div><div class="le-i"><div class="le-nm">Russian twists</div><div class="le-dt">20 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">6</div><div class="le-i"><div class="le-nm">Inchworms</div><div class="le-dt">6 reps</div></div></div>
+        <div class="lbt" style="border-left-color:var(--purple)">Abdos / Taille × 3 tours</div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">7</div><div class="le-i"><div class="le-nm">Dead bug</div><div class="le-dt">12/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">8</div><div class="le-i"><div class="le-nm">Bicycle crunch</div><div class="le-dt">20 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">9</div><div class="le-i"><div class="le-nm">Planche lat. + rotation</div><div class="le-dt">10/côté</div><div id="t-A-9"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,30,'A-9')">30s▶</button></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">10</div><div class="le-i"><div class="le-nm">Hip dips</div><div class="le-dt">12/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">11</div><div class="le-i"><div class="le-nm">Heel taps</div><div class="le-dt">20 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">12</div><div class="le-i"><div class="le-nm">Bird dog</div><div class="le-dt">10/côté</div></div></div>
+        <div class="lbt" style="border-left-color:var(--accent)">Finisher</div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">13</div><div class="le-i"><div class="le-nm">Rameur max</div><div class="le-dt">2 min</div><div id="t-A-13"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,120,'A-13')">2:00▶</button></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">14</div><div class="le-i"><div class="le-nm">Repos</div><div class="le-dt">1 min</div><div id="t-A-14"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,60,'A-14')">1:00▶</button></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">15</div><div class="le-i"><div class="le-nm">Tapis sprint/marche</div><div class="le-dt">2 min (30s/30s)</div><div id="t-A-15"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,120,'A-15')">2:00▶</button></div>
+        <div class="lbt" style="border-left-color:var(--green)">Retour au calme</div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">16</div><div class="le-i"><div class="le-nm">Étirements</div><div class="le-dt">3 min</div></div></div>
+        <div class="le" onclick="tglEx(this,'A')"><div class="le-n">17</div><div class="le-i"><div class="le-nm">Respiration abdo</div><div class="le-dt">2 min</div></div></div>
+        <button class="rbtn" onclick="rstLive('A')">🔄 Réinitialiser</button>
+      </div>
 
-  <!-- ===== NUTRITION ===== -->
-  <div class="tab-panel" id="panel-1">
-    <div class="section" style="border-left-color:#7BA586">
-      <h3>🎯 Macros</h3>
-      <div class="macros-row">
-        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#C97B84">125g</div><div class="macro-label">Protéines</div></div>
-        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#D4A574">50g</div><div class="macro-label">Lipides</div></div>
-        <div class="macro-box" style="background:#FFF"><div class="macro-val" style="color:#8B7CB5">130g</div><div class="macro-label">Glucides</div></div>
+      <!-- Séance B -->
+      <div class="lb" style="background:linear-gradient(135deg,var(--blue),var(--purple))" onclick="tglLive('B')" id="bB">
+        <h3>🔵 Séance B — Core Killer</h3>
+        <p>Clique pour ouvrir / fermer</p>
+        <span class="toggle-hint" id="hintB">▼</span>
+      </div>
+      <div class="lp" id="lB">
+        <div class="pb-bg"><div class="pb-fill" id="pbB" style="width:0%"></div></div>
+        <div class="pb-txt" id="ptB">0/15</div>
+        <div class="lbt" style="border-left-color:var(--blue)">Échauffement</div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">1</div><div class="le-i"><div class="le-nm">Vélo spinning</div><div class="le-dt">5 min progressif</div></div></div>
+        <div class="lbt" style="border-left-color:var(--accent2)">EMOM × 4 tours</div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">2</div><div class="le-i"><div class="le-nm">MC + Pompes</div><div class="le-dt">15 MC + 5 pompes</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">3</div><div class="le-i"><div class="le-nm">Inchworms</div><div class="le-dt">6 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">4</div><div class="le-i"><div class="le-nm">Dead bugs</div><div class="le-dt">12 reps</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">5</div><div class="le-i"><div class="le-nm">Burpees modifiés</div><div class="le-dt">10 reps</div></div></div>
+        <div class="lbt" style="border-left-color:var(--purple)">Taille & Sablier × 3 tours</div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">6</div><div class="le-i"><div class="le-nm">Planche araignée</div><div class="le-dt">10/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">7</div><div class="le-i"><div class="le-nm">Crunch oblique</div><div class="le-dt">15/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">8</div><div class="le-i"><div class="le-nm">Planche + hip dips</div><div class="le-dt">20 total</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">9</div><div class="le-i"><div class="le-nm">Toe taps</div><div class="le-dt">12/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">10</div><div class="le-i"><div class="le-nm">Side crunch</div><div class="le-dt">12/côté</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">11</div><div class="le-i"><div class="le-nm">Planche</div><div class="le-dt">45s (dernier: 1min)</div><div id="t-B-11"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,45,'B-11')">45s▶</button></div>
+        <div class="lbt" style="border-left-color:var(--accent)">Finisher Tabata</div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">12</div><div class="le-i"><div class="le-nm">Tapis sprint/repos</div><div class="le-dt">8×(20s/10s)</div><div id="t-B-12"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,240,'B-12')">4:00▶</button></div>
+        <div class="lbt" style="border-left-color:var(--green)">Retour au calme</div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">13</div><div class="le-i"><div class="le-nm">Étirements</div><div class="le-dt">2 min</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">14</div><div class="le-i"><div class="le-nm">Posture enfant</div><div class="le-dt">1 min</div></div></div>
+        <div class="le" onclick="tglEx(this,'B')"><div class="le-n">15</div><div class="le-i"><div class="le-nm">Torsion allongée</div><div class="le-dt">1 min/côté</div></div></div>
+        <button class="rbtn" onclick="rstLive('B')">🔄 Réinitialiser</button>
+      </div>
+      <div class="s" style="border-left-color:var(--purple)"><h3>📝 Périnée-safe</h3><p>✓ Expirer sur l'effort · ✗ Pas de V-ups, flutter kicks, sauts répétés</p></div>
+    </div>
+
+    <!-- Running -->
+    <div class="sp" id="s-0-1">
+      <div class="s" style="border-left-color:var(--blue)"><h3>🏃‍♀️ 14km — 9 mai</h3><p>Jamais à jeun. Banane minimum avant.</p></div>
+      <div class="wr" style="border-left:3px solid var(--green)"><div class="wt"><span class="wn">Sem. 1 ✅</span><span class="wl" style="color:var(--green)">6 km</span></div></div>
+      <div class="wr" style="border-left:3px solid var(--blue)"><div class="wt"><span class="wn">Sem. 2 ← Ici</span><span class="wl" style="color:var(--blue)">9 km</span></div></div>
+      <div class="wr" style="border-left:3px solid var(--accent2)"><div class="wt"><span class="wn">Sem. 3</span><span class="wl" style="color:var(--accent2)">12 km</span></div></div>
+      <div class="wr" style="border-left:3px solid var(--accent)"><div class="wt"><span class="wn">Sem. 4 COURSE</span><span class="wl" style="color:var(--accent)">14 km !</span></div></div>
+
+      <div class="s" style="border-left-color:var(--accent2);margin-top:10px"><h3>📝 Log tes runs</h3><p>Note chaque run pour voir ta progression.</p></div>
+      <div class="rl-form">
+        <div class="rl-row">
+          <div class="ff"><label>Date</label><input type="date" id="rl-date"></div>
+          <div class="ff"><label>Distance (km)</label><input type="number" step="0.1" id="rl-dist" placeholder="5.0"></div>
+          <div class="ff"><label>Durée (min)</label><input type="number" id="rl-dur" placeholder="30"></div>
+          <button class="rl-add" onclick="addRun()">+ Ajouter</button>
+        </div>
+      </div>
+      <div class="rl-total" id="rl-total">Total cette semaine : 0 km</div>
+      <div id="rl-hist"></div>
+    </div>
+
+    <!-- Suivi Sport -->
+    <div class="sp" id="s-0-2">
+      <div class="s" style="border-left-color:var(--green)"><h3>📊 Suivi Sport</h3><p>Coche chaque séance terminée.</p></div>
+      <div id="trkC"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NUTRITION ===== -->
+<div class="mp" id="m-1">
+  <div class="sub-tabs">
+    <button class="st active" onclick="ssub(1,0)">Macros</button>
+    <button class="st" onclick="ssub(1,1)">Petits-dej</button>
+    <button class="st" onclick="ssub(1,2)">Oui / Non</button>
+    <button class="st" onclick="ssub(1,3)">Reflux</button>
+  </div>
+  <div class="content">
+    <div class="sp active" id="s-1-0">
+      <div class="s" style="border-left-color:var(--green)">
+        <h3>🎯 ~1 450-1 500 kcal/j</h3>
+        <div class="macros-r"><div class="mac-b"><div class="mac-v" style="color:var(--accent)">125g</div><div class="mac-l">Protéines</div></div><div class="mac-b"><div class="mac-v" style="color:var(--accent2)">50g</div><div class="mac-l">Lipides</div></div><div class="mac-b"><div class="mac-v" style="color:var(--purple)">130g</div><div class="mac-l">Glucides</div></div></div>
+        <p class="sn">Jamais sous 100g glucides/jour. Running: +100kcal · Yoga: -50kcal</p>
       </div>
     </div>
-    <div class="alert-box"><h4>⚠️ Règles</h4><p>• Zéro lactose (pas de skyr vanille, pas lait avoine)<br>• Zéro gluten · Éviter sucres rapides<br>• Légumes à CHAQUE repas · Poissons gras 3-4x/sem<br>• 3 noix du Brésil/jour · Fruits rouges > banane</p></div>
-    <div class="section" style="border-left-color:#C97B84"><h3>🔥 Reflux</h3><p>✓ Vinaigre de cidre avant chaque repas<br>✓ Mâcher 30x · Petites gorgées pendant repas<br>✓ Marche 15 min après · Tisane gingembre le soir<br>✗ Pas de café à jeun · Éviter tomates/agrumes en excès</p></div>
-  </div>
-
-  <!-- ===== RENFO LIVE ===== -->
-  <div class="tab-panel" id="panel-2">
-    <div class="section" style="border-left-color:#C97B84">
-      <h3>💪 Renfo 2x/semaine · 45 min</h3>
-      <p>Clique sur une séance pour lancer le mode Live. Coche chaque exercice au fur et à mesure.</p>
+    <div class="sp" id="s-1-1">
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">🏃‍♀️ Jour Running · ~450 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">Porridge avoine SG + lait amande + cannelle · 2 œufs · Noix du Brésil · Banane<div class="c-tip">💡 1h30 avant le run</div></div></div>
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">🚴 Jour Aquabike · ~400 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">2 œufs brouillés huile coco · ½ avocat sur pain sarrasin · Myrtilles</div></div>
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">💪 Jour Renfo · ~380 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">Smoothie bowl : lait coco + protéine végétale + beurre amande + framboises + chia + cacao</div></div>
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">🧘 Jour Yoga · ~350 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">Pudding chia (veille) + noix + framboises · 2 œufs mollets</div></div>
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">🐟 Jour Saumon · ~420 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">Galettes sarrasin + œuf + saumon fumé + tomates cerises</div></div>
+      <div class="c" onclick="toggleCard(this)"><div class="c-h"><div class="c-i"><div class="c-d">🥑 Weekend · ~400 kcal</div></div><span class="c-a">▼</span></div><div class="c-b">Tartines patate douce grillée + avocat + œuf poché + sésame</div></div>
     </div>
-
-    <!-- Séance A Banner -->
-    <div class="live-banner" onclick="toggleLive('A')" id="bannerA">
-      <h3>🔥 Séance A — Burn & Sculpt</h3>
-      <p>Clique pour démarrer le suivi live</p>
+    <div class="sp" id="s-1-2">
+      <div class="yn"><div class="yn-t">🥩 Protéines</div><div class="yn-g"><span class="yn-y">Poulet ✓</span><span class="yn-y">Dinde ✓</span><span class="yn-y">Saumon ✓</span><span class="yn-y">Thon ✓</span><span class="yn-y">Cabillaud ✓</span><span class="yn-y">Sardines ✓</span><span class="yn-y">Crevettes ✓</span><span class="yn-y">Œufs ✓</span><span class="yn-y">Tofu ✓</span><span class="yn-y">Tempeh ✓</span><span class="yn-w">Bœuf ⚠ 1x/sem</span><span class="yn-w">Porc ⚠ rare</span><span class="yn-n">Charcuterie ✗</span><span class="yn-n">Panure/friture ✗</span></div></div>
+      <div class="yn"><div class="yn-t">🌾 Féculents / Céréales</div><div class="yn-g"><span class="yn-y">Riz complet ✓</span><span class="yn-y">Riz basmati ✓</span><span class="yn-y">Patate douce ✓</span><span class="yn-y">Quinoa ✓</span><span class="yn-y">Sarrasin ✓</span><span class="yn-y">Lentilles ✓</span><span class="yn-y">Pois chiches ✓</span><span class="yn-y">Haricots ✓</span><span class="yn-y">Avoine SG ✓</span><span class="yn-y">Pâtes SG ✓</span><span class="yn-y">Pain SG ✓</span><span class="yn-y">Galettes sarrasin ✓</span><span class="yn-w">Pomme de terre ⚠ IG haut</span><span class="yn-w">Maïs ⚠ IG 65</span><span class="yn-w">Riz blanc ⚠ IG haut</span><span class="yn-n">Pain blanc ✗</span><span class="yn-n">Pâtes blé ✗</span><span class="yn-n">Couscous ✗</span><span class="yn-n">Cracottes ✗</span><span class="yn-n">Pizza pâte classique ✗</span></div></div>
+      <div class="yn"><div class="yn-t">🥗 Légumes</div><div class="yn-g"><span class="yn-y">Tous les légumes ✓</span><span class="yn-y">Épinards ✓ (2x/sem)</span><span class="yn-y">Brocoli cuit ✓</span><span class="yn-y">Avocat ✓</span><span class="yn-y">Patate douce ✓</span><span class="yn-w">Tomates ⚠ reflux</span><span class="yn-w">Oignons crus ⚠ reflux</span></div></div>
+      <div class="yn"><div class="yn-t">🍎 Fruits</div><div class="yn-g"><span class="yn-y">Myrtilles ✓</span><span class="yn-y">Framboises ✓</span><span class="yn-y">Fraises ✓</span><span class="yn-y">Mûres ✓</span><span class="yn-y">Pomme ✓</span><span class="yn-y">Poire ✓</span><span class="yn-y">Kiwi ✓</span><span class="yn-y">Grenade ✓</span><span class="yn-w">Banane ⚠ jour run</span><span class="yn-w">Mangue ⚠ sucré</span><span class="yn-w">Raisin ⚠ IG haut</span><span class="yn-n">Fruits en sirop ✗</span><span class="yn-n">Jus de fruit ✗</span><span class="yn-w">Agrumes ⚠ reflux</span></div></div>
+      <div class="yn"><div class="yn-t">🥛 Boissons</div><div class="yn-g"><span class="yn-y">Eau plate/gazeuse ✓</span><span class="yn-y">Tisane ✓</span><span class="yn-y">Thé vert ✓</span><span class="yn-y">Matcha ✓ (avant 14h)</span><span class="yn-y">Café noir ✓</span><span class="yn-y">Lait amande ✓</span><span class="yn-y">Lait coco ✓</span><span class="yn-w">Vin rouge ⚠ 1 verre</span><span class="yn-n">Lait avoine ✗ IG 60</span><span class="yn-n">Lait animal ✗</span><span class="yn-n">Soda ✗</span><span class="yn-n">Ginger beer ✗</span><span class="yn-n">Bière ✗ gluten</span><span class="yn-n">Cocktails sucrés ✗</span><span class="yn-n">Jus fruits ✗</span></div></div>
+      <div class="yn"><div class="yn-t">🥜 Snacks / Graisses</div><div class="yn-g"><span class="yn-y">Amandes ✓</span><span class="yn-y">Noix Brésil ✓</span><span class="yn-y">Noix cajou ✓</span><span class="yn-y">Houmous ✓</span><span class="yn-y">Guacamole ✓</span><span class="yn-y">Olives ✓</span><span class="yn-y">Chocolat noir 85% ✓</span><span class="yn-y">Beurre amande ✓</span><span class="yn-y">Huile olive ✓</span><span class="yn-y">Huile coco ✓</span><span class="yn-y">Edamame ✓</span><span class="yn-n">Chips ✗</span><span class="yn-n">Frites ✗</span><span class="yn-n">Barres céréales ✗</span><span class="yn-n">Viennoiseries ✗</span><span class="yn-n">Gâteaux ✗</span><span class="yn-n">Glace classique ✗</span><span class="yn-w">Confiture ⚠ très peu</span></div></div>
+      <div class="yn"><div class="yn-t">🍽️ Sauces / Condiments</div><div class="yn-g"><span class="yn-y">Tahini ✓</span><span class="yn-y">Huile olive citron ✓</span><span class="yn-y">Tamari (soja SG) ✓</span><span class="yn-y">Moutarde ✓</span><span class="yn-y">Pesto SG ✓</span><span class="yn-y">Lait coco curry ✓</span><span class="yn-y">Vinaigre balsamique ✓</span><span class="yn-y">Herbes fraîches ✓</span><span class="yn-w">Mayo ⚠ peu</span><span class="yn-n">Ketchup ✗</span><span class="yn-n">Sauce soja classique ✗</span><span class="yn-n">Crème fraîche ✗</span><span class="yn-n">Sauce teriyaki ✗</span><span class="yn-n">Béarnaise ✗</span></div></div>
+      <div class="yn"><div class="yn-t">🍱 Au restaurant</div><div class="yn-g"><span class="yn-y">Sushi sashimi ✓</span><span class="yn-y">Maki saumon/avocat ✓</span><span class="yn-y">Poke bowl ✓</span><span class="yn-y">Salade composée ✓</span><span class="yn-y">Grillades + légumes ✓</span><span class="yn-y">Tartare poisson ✓</span><span class="yn-y">Curry + riz ✓</span><span class="yn-y">Pad thaï SG ✓</span><span class="yn-y">Soupe miso ✓</span><span class="yn-y">Pizza pâte SG ✓</span><span class="yn-w">Burger SG ⚠ sans frites</span><span class="yn-w">Wrap SG ⚠</span><span class="yn-w">Risotto ⚠ IG haut</span><span class="yn-n">Pasta classique ✗</span><span class="yn-n">Pizza classique ✗</span><span class="yn-n">Fish & chips ✗</span><span class="yn-n">Croque-monsieur ✗</span><span class="yn-n">Quiche ✗</span><span class="yn-n">Desserts classiques ✗</span></div></div>
+      <div class="yn"><div class="yn-t">🍰 Desserts</div><div class="yn-g"><span class="yn-y">Fruits frais ✓</span><span class="yn-y">Chocolat noir 85% ✓</span><span class="yn-y">Nice cream banane ✓</span><span class="yn-y">Compote sans sucre ✓</span><span class="yn-y">Pudding chia ✓</span><span class="yn-w">Sorbet fruit ⚠ sucré</span><span class="yn-n">Crème brûlée ✗</span><span class="yn-n">Tiramisu ✗</span><span class="yn-n">Gâteau ✗</span><span class="yn-n">Glace classique ✗</span><span class="yn-n">Mousse chocolat ✗</span><span class="yn-n">Crêpes ✗</span></div></div>
     </div>
-    <div class="live-panel" id="liveA">
-      <div class="progress-bar-container"><div class="progress-bar" id="progressBarA" style="width:0%"></div></div>
-      <div class="progress-text" id="progressTextA">0 / 19 exercices</div>
-
-      <div class="live-block-title" style="border-left-color:#6B9BC3">Bloc 1 — Échauffement (5 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">1</div><div class="live-exercise-info"><div class="live-exercise-name">Rameur</div><div class="live-exercise-detail">5 min intensité progressive</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#D4A574">Bloc 2 — Cardio-Core (15 min) × 4 tours</div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">2</div><div class="live-exercise-info"><div class="live-exercise-name">Mountain climbers</div><div class="live-exercise-detail">40 secondes — rythme modéré</div><div class="live-round">× 4 tours · 30s repos entre tours</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">3</div><div class="live-exercise-info"><div class="live-exercise-name">Planche commando</div><div class="live-exercise-detail">30 secondes</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">4</div><div class="live-exercise-info"><div class="live-exercise-name">Burpees modifiés</div><div class="live-exercise-detail">8 reps — sans saut</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">5</div><div class="live-exercise-info"><div class="live-exercise-name">Russian twists</div><div class="live-exercise-detail">20 reps</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">6</div><div class="live-exercise-info"><div class="live-exercise-name">Inchworms</div><div class="live-exercise-detail">6 reps</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#8B7CB5">Bloc 3 — Abdos / Taille (15 min) × 3 tours</div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">7</div><div class="live-exercise-info"><div class="live-exercise-name">Dead bug</div><div class="live-exercise-detail">12 par côté</div><div class="live-round">× 3 tours · 45s repos entre tours</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">8</div><div class="live-exercise-info"><div class="live-exercise-name">Bicycle crunch lent</div><div class="live-exercise-detail">20 reps</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">9</div><div class="live-exercise-info"><div class="live-exercise-name">Planche latérale + rotation</div><div class="live-exercise-detail">10 par côté</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">10</div><div class="live-exercise-info"><div class="live-exercise-name">Hip dips planche latérale</div><div class="live-exercise-detail">12 par côté</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">11</div><div class="live-exercise-info"><div class="live-exercise-name">Heel taps</div><div class="live-exercise-detail">20 reps — toucher talons</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">12</div><div class="live-exercise-info"><div class="live-exercise-name">Bird dog</div><div class="live-exercise-detail">10 par côté</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#C97B84">Bloc 4 — Finisher (5 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">13</div><div class="live-exercise-info"><div class="live-exercise-name">Rameur max effort</div><div class="live-exercise-detail">2 minutes</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">14</div><div class="live-exercise-info"><div class="live-exercise-name">Repos</div><div class="live-exercise-detail">1 minute</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">15</div><div class="live-exercise-info"><div class="live-exercise-name">Tapis sprint/marche</div><div class="live-exercise-detail">2 min (30s/30s)</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#7BA586">Retour au calme (5 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">16</div><div class="live-exercise-info"><div class="live-exercise-name">Étirements</div><div class="live-exercise-detail">3 minutes</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'A')"><div class="live-num">17</div><div class="live-exercise-info"><div class="live-exercise-name">Respiration abdominale</div><div class="live-exercise-detail">2 minutes</div></div></div>
-
-      <button class="live-close-btn" onclick="toggleLive('A')">Fermer le suivi</button>
-      <button class="live-reset-btn" onclick="resetLive('A')">Réinitialiser la séance</button>
-    </div>
-
-    <!-- Séance B Banner -->
-    <div class="live-banner" onclick="toggleLive('B')" id="bannerB" style="background:linear-gradient(135deg,#6B9BC3,#8B7CB5)">
-      <h3>🔵 Séance B — Core Killer</h3>
-      <p>Clique pour démarrer le suivi live</p>
-    </div>
-    <div class="live-panel" id="liveB">
-      <div class="progress-bar-container"><div class="progress-bar" id="progressBarB" style="width:0%"></div></div>
-      <div class="progress-text" id="progressTextB">0 / 17 exercices</div>
-
-      <div class="live-block-title" style="border-left-color:#6B9BC3">Bloc 1 — Échauffement (5 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">1</div><div class="live-exercise-info"><div class="live-exercise-name">Vélo spinning</div><div class="live-exercise-detail">5 min résistance progressive</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#D4A574">Bloc 2 — EMOM au sol (16 min) × 4 tours</div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">2</div><div class="live-exercise-info"><div class="live-exercise-name">Mountain climbers + Pompes</div><div class="live-exercise-detail">15 MC lents + 5 pompes</div><div class="live-round">Min 1 · × 4 tours</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">3</div><div class="live-exercise-info"><div class="live-exercise-name">Inchworms</div><div class="live-exercise-detail">6 reps</div><div class="live-round">Min 2</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">4</div><div class="live-exercise-info"><div class="live-exercise-name">Dead bugs</div><div class="live-exercise-detail">12 reps (6/côté)</div><div class="live-round">Min 3</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">5</div><div class="live-exercise-info"><div class="live-exercise-name">Burpees modifiés</div><div class="live-exercise-detail">10 reps</div><div class="live-round">Min 4</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#8B7CB5">Bloc 3 — Taille & Sablier (14 min) × 3 tours</div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">6</div><div class="live-exercise-info"><div class="live-exercise-name">Planche araignée</div><div class="live-exercise-detail">10 par côté</div><div class="live-round">× 3 tours · 30s repos entre tours</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">7</div><div class="live-exercise-info"><div class="live-exercise-name">Crunch oblique pied croisé</div><div class="live-exercise-detail">15 par côté</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">8</div><div class="live-exercise-info"><div class="live-exercise-name">Planche coudes + hip dips</div><div class="live-exercise-detail">20 total</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">9</div><div class="live-exercise-info"><div class="live-exercise-name">Toe taps contrôlés</div><div class="live-exercise-detail">12 par côté — pieds descendent lentement</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">10</div><div class="live-exercise-info"><div class="live-exercise-name">Side crunch</div><div class="live-exercise-detail">12 par côté</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">11</div><div class="live-exercise-info"><div class="live-exercise-name">Planche classique</div><div class="live-exercise-detail">45s (dernier tour : 1 min)</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#C97B84">Bloc 4 — Finisher Tabata (4 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">12</div><div class="live-exercise-info"><div class="live-exercise-name">Tapis sprint/repos</div><div class="live-exercise-detail">8 × (20s sprint / 10s repos)</div></div></div>
-
-      <div class="live-block-title" style="border-left-color:#7BA586">Retour au calme (5 min)</div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">13</div><div class="live-exercise-info"><div class="live-exercise-name">Étirements</div><div class="live-exercise-detail">2 minutes</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">14</div><div class="live-exercise-info"><div class="live-exercise-name">Posture enfant</div><div class="live-exercise-detail">1 minute</div></div></div>
-      <div class="live-exercise" onclick="toggleEx(this,'B')"><div class="live-num">15</div><div class="live-exercise-info"><div class="live-exercise-name">Torsion allongée</div><div class="live-exercise-detail">1 min par côté</div></div></div>
-
-      <button class="live-close-btn" onclick="toggleLive('B')">Fermer le suivi</button>
-      <button class="live-reset-btn" onclick="resetLive('B')">Réinitialiser la séance</button>
-    </div>
-
-    <div class="section" style="border-left-color:#8B7CB5">
-      <h3>📝 Rappels périnée-safe</h3>
-      <p>✓ Expirer sur l'effort, nombril vers colonne<br>✗ Jamais de pression vers le bas<br>✗ Pas de V-ups, flutter kicks, hollow body<br>✗ Pas de sauts répétés</p>
+    <div class="sp" id="s-1-3">
+      <div class="s" style="border-left-color:var(--accent)"><h3>🔥 Protocole Reflux</h3><p>✓ Mâcher 30x · ✓ Petites gorgées · ✓ Marche 15 min après<br>✓ Pas allongée 1h après · ✓ Tisane gingembre soir<br>✗ Pas de café à jeun · ✗ Tomates/agrumes modérés</p></div>
     </div>
   </div>
+</div>
 
-  <!-- ===== RUNNING ===== -->
-  <div class="tab-panel" id="panel-3">
-    <div class="section" style="border-left-color:#6B9BC3"><h3>🏃‍♀️ Objectif 14km — 9 mai</h3><p>3 runs/semaine. Toujours manger avant. Jamais à jeun.</p></div>
-    <div class="week-row" style="border-left:3px solid #7BA586"><div class="week-top"><span class="week-name">Sem. 1 ✅</span><span class="week-lr" style="color:#7BA586">6 km</span></div><div class="week-focus">Reprise douce</div></div>
-    <div class="week-row" style="border-left:3px solid #6B9BC3"><div class="week-top"><span class="week-name">Sem. 2 ← Ici</span><span class="week-lr" style="color:#6B9BC3">9 km</span></div><div class="week-focus">Construire l'endurance</div></div>
-    <div class="week-row" style="border-left:3px solid #D4A574"><div class="week-top"><span class="week-name">Sem. 3</span><span class="week-lr" style="color:#D4A574">12 km</span></div><div class="week-focus">Pic de volume</div></div>
-    <div class="week-row" style="border-left:3px solid #C97B84"><div class="week-top"><span class="week-name">Sem. 4</span><span class="week-lr" style="color:#C97B84">14 km !</span></div><div class="week-focus">Affûtage + Course</div></div>
-
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">⚡</div><div class="card-info"><div class="card-day">Intervalles</div><div class="card-type" style="color:#C97B84">2min course / 1min marche × 8</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 5 min échauffement marche rapide</div><div>• 8 × (2 min course / 1 min marche)</div><div>• 5 min retour au calme</div><div class="card-tip">💡 Manger 1h30 avant</div></div></div>
-
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">🫁</div><div class="card-info"><div class="card-day">Endurance</div><div class="card-type" style="color:#7BA586">30-35 min continu</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 5 min marche rapide</div><div>• 30-35 min running allure conversationnelle</div><div>• 5 min marche + étirements</div><div class="card-tip">💡 Si tu peux parler, c'est le bon rythme</div></div></div>
-
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">🏔️</div><div class="card-info"><div class="card-day">Long Run (samedi)</div><div class="card-type" style="color:#D4A574">Séance clé</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Petit-dej 1h30 avant : porridge + banane</div><div>• Sem.2: 9km · Sem.3: 12km</div><div>• Étirements 10 min obligatoires</div><div class="card-tip">💡 Partir doucement les 3 premiers km</div></div></div>
+<!-- ===== SANTÉ ===== -->
+<div class="mp" id="m-2">
+  <div class="sub-tabs">
+    <button class="st active" onclick="ssub(2,0)">Compléments</button>
+    <button class="st" onclick="ssub(2,1)">Suivi Jour</button>
+    <button class="st" onclick="ssub(2,2)">Mesures</button>
+    <button class="st" onclick="ssub(2,3)">Bilan Sang</button>
   </div>
-
-  <!-- ===== SUPPLÉMENTS ===== -->
-  <div class="tab-panel" id="panel-4">
-    <div class="section" style="border-left-color:#C97B84"><h3>💊 Stack Complète</h3><p>Validée par ta médecin le 23/04/2026</p></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">⏰</div><div class="card-info"><div class="card-day">6h00 — À jeun</div><div class="card-type" style="color:#C97B84">Lévothyrox SEUL + eau</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• 75mcg lun/mer/ven/dim · 50mcg mar/jeu/sam</div><div>• RIEN d'autre pendant 30 min (nourriture) et 3h (compléments)</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">🍳</div><div class="card-info"><div class="card-day">6h30 — Petit-dej</div><div class="card-type" style="color:#D4A574">3 noix du Brésil (sélénium alimentaire OK)</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Petit-dej normal · PAS de compléments en gélule</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">💊</div><div class="card-info"><div class="card-day">9h30 — Post-entraînement</div><div class="card-type" style="color:#7BA586">Gluco-3 + Vitamine D3</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Gluco-3 : 1cp PENDANT la collation</div><div>• Vit D3 : 2000 UI avec un peu de gras</div><div class="card-tip">💡 Min 3h après Lévothyrox ✓</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#6B9BC318">🐟</div><div class="card-info"><div class="card-day">12h30 — Déjeuner</div><div class="card-type" style="color:#6B9BC3">Oméga-3</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Pendant le repas avec les graisses</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#8B7CB518">🌙</div><div class="card-info"><div class="card-day">Soir — Coucher</div><div class="card-type" style="color:#8B7CB5">Ashwagandha + Magnésium</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>• Ashwagandha 30 min avant coucher</div><div>• Magnésium bisglycinate 300mg (optionnel)</div><div class="card-tip">💡 Pas de vit D le soir (stimulante)</div></div></div>
-  </div>
-
-  <!-- ===== SEMAINE ===== -->
-  <div class="tab-panel" id="panel-5">
-    <div class="section" style="border-left-color:#D4A574"><h3>⏰ Matin Type</h3><p>6h00 Lévothyrox · 6h30 Petit-dej · 7h00 Sport · 8h00 Douche · 9h30 Compléments + Télétravail</p></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#C97B8418">🏃‍♀️</div><div class="card-info"><div class="card-day">Lun 75mcg</div><div class="card-type" style="color:#C97B84">Running Intervalles</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Fractionné 2min/1min × 8 · Sauna 10min possible après</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#6B9BC318">🚴</div><div class="card-info"><div class="card-day">Mar 50mcg</div><div class="card-type" style="color:#6B9BC3">Aquabike</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>45 min · Cardio sans impact + drainage</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">💪</div><div class="card-info"><div class="card-day">Mer 75mcg</div><div class="card-type" style="color:#D4A574">Renfo Séance A</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Burn & Sculpt · Rameur + circuits + abdos + finisher</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#7BA58618">🏃‍♀️</div><div class="card-info"><div class="card-day">Jeu 50mcg</div><div class="card-type" style="color:#7BA586">Running Endurance</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>40-45 min footing continu · Allure conversationnelle</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#8B7CB518">🧘</div><div class="card-info"><div class="card-day">Ven 75mcg</div><div class="card-type" style="color:#8B7CB5">Yoga + Sauna</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>45 min yoga · 20 min sauna (2×10) · 500ml eau avant + après</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#D4A57418">💪</div><div class="card-info"><div class="card-day">Sam 50mcg</div><div class="card-type" style="color:#D4A574">Renfo B ou Long Run</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Core Killer ou Long Run selon programme · Sauna optionnel</div></div></div>
-    <div class="card" onclick="toggleCard(this)"><div class="card-header"><div class="card-icon" style="background:#B08A8D18">🌿</div><div class="card-info"><div class="card-day">Dim 75mcg</div><div class="card-type" style="color:#B08A8D">Repos + Meal Prep</div></div><span class="card-arrow">▼</span></div><div class="card-body"><div>Marche 30-45 min · Meal prep · Yoga doux optionnel</div></div></div>
-    <div class="section" style="border-left-color:#8B7CB5"><h3>😴 Routine Sommeil</h3><p>21h30 mode nuit · 22h00 Ashwagandha + tisane · 22h15 lit · Respiration 4-7-8 × 4-6 cycles</p></div>
-    <div class="cta-banner"><div class="cta-title">La thyroïde ralentit le chemin, pas la destination. 💪</div></div>
-  </div>
-
-  <!-- ===== SUIVI SPORT ===== -->
-  <div class="tab-panel" id="panel-6">
-    <div class="section" style="border-left-color:#7BA586">
-      <h3>📊 Suivi Sport</h3>
-      <p>Coche chaque séance terminée. Ton avancement est sauvegardé automatiquement.</p>
+  <div class="content">
+    <div class="sp active" id="s-2-0">
+      <div class="s" style="border-left-color:var(--accent2)"><h3>💊 Compléments du jour</h3><p id="thyro-info" style="font-weight:700;color:var(--accent)"></p></div>
+      <div class="cl" id="ccl">
+        <div class="ci"><span class="cl-e">💊</span><input type="checkbox" class="cb" id="cc0" onchange="svC()"><label class="cl-l" for="cc0">Lévothyrox matin à jeun<span class="cl-s" id="tdose"></span></label></div>
+        <div class="ci"><span class="cl-e">🐟</span><input type="checkbox" class="cb" id="cc1" onchange="svC()"><label class="cl-l" for="cc1">Oméga-3<span class="cl-s">Soir avec repas</span></label></div>
+        <div class="ci"><span class="cl-e">🌿</span><input type="checkbox" class="cb" id="cc2" onchange="svC()"><label class="cl-l" for="cc2">Ashwagandha<span class="cl-s">Soir avec repas</span></label></div>
+        <div class="ci"><span class="cl-e">🔶</span><input type="checkbox" class="cb" id="cc3" onchange="svC()"><label class="cl-l" for="cc3">Sélénium<span class="cl-s">Soir avec repas</span></label></div>
+        <div class="ci"><span class="cl-e">☀️</span><input type="checkbox" class="cb" id="cc4" onchange="svC()"><label class="cl-l" for="cc4">Vitamine D3<span class="cl-s">Soir avec repas</span></label></div>
+        <div class="ci"><span class="cl-e">💚</span><input type="checkbox" class="cb" id="cc5" onchange="svC()"><label class="cl-l" for="cc5">Gluco-3<span class="cl-s">Soir avec repas</span></label></div>
+      </div>
+      <button class="rbtn" onclick="rstC()">🔄 Nouveau jour</button>
     </div>
-    <div id="trackingContainer"></div>
-  </div>
 
+    <div class="sp" id="s-2-1">
+      <div class="s" style="border-left-color:var(--green)"><h3>❤️ Suivi quotidien</h3></div>
+      <div class="cl">
+        <div class="ci"><span class="cl-e">💧</span><input type="checkbox" class="cb" id="hc0" onchange="svH()"><label class="cl-l" for="hc0">2L d'eau minimum</label></div>
+        <div class="ci"><span class="cl-e">🚶</span><input type="checkbox" class="cb" id="hc1" onchange="svH()"><label class="cl-l" for="hc1">7 000 pas</label></div>
+        <div class="ci"><span class="cl-e">😴</span><input type="checkbox" class="cb" id="hc2" onchange="svH()"><label class="cl-l" for="hc2">7h30 de sommeil</label></div>
+        <div class="ci"><span class="cl-e">🥗</span><input type="checkbox" class="cb" id="hc3" onchange="svH()"><label class="cl-l" for="hc3">Légumes à chaque repas</label></div>
+        <div class="ci"><span class="cl-e">🚫</span><input type="checkbox" class="cb" id="hc4" onchange="svH()"><label class="cl-l" for="hc4">Zéro lactose</label></div>
+        <div class="ci"><span class="cl-e">🚫</span><input type="checkbox" class="cb" id="hc5" onchange="svH()"><label class="cl-l" for="hc5">Zéro gluten</label></div>
+        <div class="ci"><span class="cl-e">🧘</span><input type="checkbox" class="cb" id="hc6" onchange="svH()"><label class="cl-l" for="hc6">Méditation</label></div>
+        <div class="ci"><span class="cl-e">🤸</span><input type="checkbox" class="cb" id="hc7" onchange="svH()"><label class="cl-l" for="hc7">Étirements</label></div>
+        <div class="ci"><span class="cl-e">🏋️</span><input type="checkbox" class="cb" id="hc8" onchange="svH()"><label class="cl-l" for="hc8">Sport fait</label></div>
+      </div>
+      <button class="rbtn" onclick="rstH()">🔄 Nouveau jour</button>
+    </div>
+
+    <div class="sp" id="s-2-2">
+      <div class="mf">
+        <h3>📐 Nouvelle mesure</h3>
+        <div class="fr"><div class="ff"><label>Date</label><input type="date" id="md"></div><div class="ff"><label>Poids (kg)</label><input type="number" step="0.1" id="mp2"></div></div>
+        <div class="fr"><div class="ff"><label>Tour taille (cm)</label><input type="number" step="0.5" id="mta"></div><div class="ff"><label>Tour hanches (cm)</label><input type="number" step="0.5" id="mha"></div></div>
+        <div class="fr"><div class="ff"><label>Tour poitrine (cm)</label><input type="number" step="0.5" id="mpo"></div><div class="ff"><label>IMC</label><input type="number" step="0.1" id="mim"></div></div>
+        <div class="fr"><div class="ff"><label>Graisse corp. %</label><input type="number" step="0.1" id="mgr"></div><div class="ff"><label>Graisse sous-cut. %</label><input type="number" step="0.1" id="msc"></div></div>
+        <div class="fr"><div class="ff"><label>Masse musc. (kg)</label><input type="number" step="0.1" id="mmu"></div><div class="ff"><label>Métab. basal</label><input type="number" id="mmb"></div></div>
+        <div class="fr"><div class="ff"><label>Âge corporel</label><input type="number" id="mac"></div></div>
+        <button class="sv-btn" onclick="svM()">💾 Enregistrer</button>
+      </div>
+      <div id="mhist"></div>
+      <button class="exp-btn" onclick="expData()">📤 Exporter toutes mes données</button>
+    </div>
+
+    <div class="sp" id="s-2-3">
+      <div class="mf">
+        <h3>🩸 Nouveau bilan sanguin</h3>
+        <div class="fr"><div class="ff"><label>Date du bilan</label><input type="date" id="bd"></div></div>
+        <div id="bFields">
+          <div class="fr bf-row"><div class="ff" style="min-width:55%"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>
+        </div>
+        <button class="rbtn" style="margin-top:6px;margin-bottom:6px;background:var(--bg2);color:var(--accent2)" onclick="addBField()">+ Ajouter une valeur</button>
+        <button class="sv-btn" onclick="svB()">💾 Enregistrer bilan</button>
+      </div>
+      <div id="bhist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OBJECTIFS ===== -->
+<div class="mp" id="m-3">
+  <div class="content" style="padding-top:12px">
+    <div id="wtBar"></div>
+    <div id="evC"></div>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="sm(0)"><span class="ni">💪</span><span class="nl">Sport</span></button>
+  <button class="nav-item" onclick="sm(1)"><span class="ni">🍽️</span><span class="nl">Nutrition</span></button>
+  <button class="nav-item" onclick="sm(2)"><span class="ni">❤️</span><span class="nl">Santé</span></button>
+  <button class="nav-item" onclick="sm(3)"><span class="ni">🎯</span><span class="nl">Objectifs</span></button>
 </div>
 
 <script>
-// === TABS ===
-function showTab(i){
-  document.querySelectorAll('.tab-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
-  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function toggleCard(el){el.classList.toggle('open')}
+// NAV
+function sm(i){document.querySelectorAll('.mp').forEach((p,j)=>p.classList.toggle('active',j===i));document.querySelectorAll('.nav-item').forEach((b,j)=>b.classList.toggle('active',j===i));window.scrollTo({top:0,behavior:'smooth'})}
+function ssub(m,s){const p=document.getElementById('m-'+m);p.querySelectorAll('.sp').forEach((x,j)=>x.classList.toggle('active',j===s));p.querySelectorAll('.st').forEach((b,j)=>b.classList.toggle('active',j===s))}
+function toggleCard(e){e.classList.toggle('open')}
 
-// === LIVE TRACKER ===
-function toggleLive(s){
-  const panel=document.getElementById('live'+s);
-  const banner=document.getElementById('banner'+s);
-  panel.classList.toggle('active');
-  banner.style.display=panel.classList.contains('active')?'none':'block';
+// TIMER
+let TM={};
+function tmr(btn,sec,id){
+  if(TM[id]){clearInterval(TM[id]);delete TM[id];btn.className='tb tb-s';btn.textContent=fmtT(sec)+'▶';document.getElementById('t-'+id).textContent='';return}
+  let r=sec;btn.className='tb tb-r';const d=document.getElementById('t-'+id);d.className='td';d.textContent=fmtT(r);
+  TM[id]=setInterval(()=>{r--;d.textContent=fmtT(r);if(r<=3&&r>0)d.style.color='var(--accent2)';if(r<=0){clearInterval(TM[id]);delete TM[id];btn.className='tb tb-d';btn.textContent='✓';d.textContent='DONE!';d.style.color='var(--green)';beep();const ex=btn.closest('.le');if(ex&&!ex.classList.contains('done')){ex.classList.add('done');updP(id.split('-')[0])}}},1000)
 }
-function toggleEx(el,s){
-  el.classList.toggle('completed');
-  updateLiveProgress(s);
-  saveLiveState(s);
+function fmtT(s){const m=Math.floor(s/60),sc=s%60;return m>0?m+':'+(sc<10?'0':'')+sc:sc+'s'}
+function beep(){try{const c=new(window.AudioContext||window.webkitAudioContext)();for(let i=0;i<3;i++){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.value=.3;o.start(c.currentTime+i*.2);o.stop(c.currentTime+i*.2+.12)}}catch(e){}}
+
+// LIVE
+function tglLive(s){const p=document.getElementById('l'+s);p.classList.toggle('active');const h=document.getElementById('hint'+s);h.textContent=p.classList.contains('active')?'▲':'▼'}
+function tglEx(e,s){e.classList.toggle('done');updP(s);svL(s)}
+function updP(s){const p=document.getElementById('l'+s),a=p.querySelectorAll('.le'),d=p.querySelectorAll('.le.done'),pc=Math.round(d.length/a.length*100);document.getElementById('pb'+s).style.width=pc+'%';document.getElementById('pt'+s).textContent=d.length+'/'+a.length+(pc===100?' ✅':'')}
+function rstLive(s){document.getElementById('l'+s).querySelectorAll('.le.done').forEach(e=>e.classList.remove('done'));updP(s);svL(s);Object.keys(TM).forEach(k=>{if(k.startsWith(s)){clearInterval(TM[k]);delete TM[k]}})}
+function svL(s){try{localStorage.setItem('lv_'+s,JSON.stringify([...document.getElementById('l'+s).querySelectorAll('.le')].map(e=>e.classList.contains('done'))))}catch(e){}}
+function ldL(s){try{const d=JSON.parse(localStorage.getItem('lv_'+s));if(!d)return;document.getElementById('l'+s).querySelectorAll('.le').forEach((e,i)=>{if(d[i])e.classList.add('done')});updP(s)}catch(e){}}
+
+// COMPLEMENTS
+function getD(){return[50,75,50,75,50,75,75][new Date().getDay()]}
+function updTh(){const d=getD(),days=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],n=new Date().getDay();document.getElementById('thyro-info').textContent='Aujourd\'hui ('+days[n]+') : '+d+' mcg';document.getElementById('tdose').textContent=d+' mcg — à jeun avec eau'}
+function svC(){try{const d={};for(let i=0;i<6;i++)d[i]=document.getElementById('cc'+i).checked;d.dt=new Date().toDateString();localStorage.setItem('cpl',JSON.stringify(d))}catch(e){}}
+function ldC(){try{const d=JSON.parse(localStorage.getItem('cpl'));if(!d||d.dt!==new Date().toDateString())return;for(let i=0;i<6;i++)document.getElementById('cc'+i).checked=!!d[i]}catch(e){}}
+function rstC(){for(let i=0;i<6;i++)document.getElementById('cc'+i).checked=false;svC()}
+
+// HEALTH
+function svH(){try{const d={};for(let i=0;i<9;i++)d[i]=document.getElementById('hc'+i).checked;d.dt=new Date().toDateString();localStorage.setItem('hlt',JSON.stringify(d))}catch(e){}}
+function ldH(){try{const d=JSON.parse(localStorage.getItem('hlt'));if(!d||d.dt!==new Date().toDateString())return;for(let i=0;i<9;i++)document.getElementById('hc'+i).checked=!!d[i]}catch(e){}}
+function rstH(){for(let i=0;i<9;i++)document.getElementById('hc'+i).checked=false;svH()}
+
+// MEASURES
+const MF=['mp2','mta','mha','mpo','mim','mgr','msc','mmu','mmb','mac'];
+const ML={mp2:'Poids',mta:'Tour taille',mha:'Hanches',mpo:'Poitrine',mim:'IMC',mgr:'Graisse %',msc:'Sous-cut. %',mmu:'Masse musc.',mmb:'Métab. basal',mac:'Âge corp.'};
+const MU={mp2:'kg',mta:'cm',mha:'cm',mpo:'cm',mim:'',mgr:'%',msc:'%',mmu:'kg',mmb:'kcal',mac:'ans'};
+function svM(){
+  const e={date:document.getElementById('md').value||new Date().toISOString().split('T')[0]};let h=false;
+  MF.forEach(f=>{const v=document.getElementById(f).value;if(v){e[f]=parseFloat(v);h=true}});
+  if(!h)return;
+  try{let a=JSON.parse(localStorage.getItem('msr')||'[]');a.unshift(e);localStorage.setItem('msr',JSON.stringify(a))}catch(x){}
+  MF.forEach(f=>document.getElementById(f).value='');rndM();rndEv()
 }
-function updateLiveProgress(s){
-  const panel=document.getElementById('live'+s);
-  const all=panel.querySelectorAll('.live-exercise');
-  const done=panel.querySelectorAll('.live-exercise.completed');
-  const pct=Math.round((done.length/all.length)*100);
-  document.getElementById('progressBar'+s).style.width=pct+'%';
-  document.getElementById('progressText'+s).textContent=done.length+' / '+all.length+' exercices'+(pct===100?' ✅ Bravo !':'');
+function rndM(){
+  try{const a=JSON.parse(localStorage.getItem('msr')||'[]'),c=document.getElementById('mhist');
+  if(!a.length){c.innerHTML='<p class="sn" style="text-align:center;padding:16px">Aucune mesure</p>';return}
+  c.innerHTML=a.map((e,i)=>{let g='';MF.forEach(f=>{if(e[f]!==undefined)g+=`<div class="me-i">${ML[f]}: <span>${e[f]}${MU[f]?' '+MU[f]:''}</span></div>`});return`<div class="me"><div class="me-d">${fmtD(e.date)}<button class="me-del" onclick="delM(${i})">supprimer</button></div><div class="me-g">${g}</div></div>`}).join('')}catch(e){}
 }
-function resetLive(s){
-  const panel=document.getElementById('live'+s);
-  panel.querySelectorAll('.live-exercise.completed').forEach(e=>e.classList.remove('completed'));
-  updateLiveProgress(s);
-  saveLiveState(s);
+function delM(i){try{let a=JSON.parse(localStorage.getItem('msr')||'[]');a.splice(i,1);localStorage.setItem('msr',JSON.stringify(a));rndM();rndEv()}catch(e){}}
+function fmtD(d){const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+
+// BLOOD WORK - Flexible
+function addBField(){
+  const c=document.getElementById('bFields');
+  const row=document.createElement('div');row.className='fr bf-row';
+  row.innerHTML='<div class="ff" style="min-width:55%"><label>Nom</label><input type="text" placeholder="Ex: CRP, Ferritine..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mg/l"></div>';
+  c.appendChild(row)
 }
-function saveLiveState(s){
-  try{
-    const panel=document.getElementById('live'+s);
-    const states=[...panel.querySelectorAll('.live-exercise')].map(e=>e.classList.contains('completed'));
-    localStorage.setItem('live_'+s,JSON.stringify(states));
-  }catch(e){}
+function svB(){
+  const date=document.getElementById('bd').value||new Date().toISOString().split('T')[0];
+  const rows=document.querySelectorAll('.bf-row');
+  const values=[];
+  rows.forEach(r=>{
+    const name=r.querySelector('.bf-name').value.trim();
+    const val=r.querySelector('.bf-val').value;
+    const unit=r.querySelector('.bf-unit').value.trim();
+    if(name&&val)values.push({name,val:parseFloat(val),unit})
+  });
+  if(!values.length)return;
+  const entry={date,values};
+  try{let a=JSON.parse(localStorage.getItem('bld')||'[]');a.unshift(entry);localStorage.setItem('bld',JSON.stringify(a))}catch(x){}
+  // Reset form
+  const c=document.getElementById('bFields');
+  c.innerHTML='<div class="fr bf-row"><div class="ff" style="min-width:55%"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>';
+  rndB()
 }
-function loadLiveState(s){
-  try{
-    const data=JSON.parse(localStorage.getItem('live_'+s));
-    if(!data)return;
-    const panel=document.getElementById('live'+s);
-    const exs=panel.querySelectorAll('.live-exercise');
-    data.forEach((v,i)=>{if(v&&exs[i])exs[i].classList.add('completed')});
-    updateLiveProgress(s);
-  }catch(e){}
+function rndB(){
+  try{const a=JSON.parse(localStorage.getItem('bld')||'[]'),c=document.getElementById('bhist');
+  if(!a.length){c.innerHTML='<div class="alert"><h4>🚨 Dernier bilan connu : 15/04/2026</h4><p>TSH:3.1 · Cortisol:22.40 · Trigly:251 · HDL:30 · LDL:151 · HOMA IR:1.72 · VitD:32</p></div>';return}
+  c.innerHTML=a.map((e,i)=>{
+    let g='';
+    if(e.values){e.values.forEach(v=>{g+=`<div class="me-i">${v.name}: <span>${v.val}${v.unit?' '+v.unit:''}</span></div>`})}
+    else{const BL2={btsh:'TSH',bt4:'T4',bt3:'T3',bcort:'Cortisol',bchol:'Cholestérol',bhdl:'HDL',bldl:'LDL',btrig:'Trigly',bhoma:'HOMA',bvitd:'VitD',bgly:'Glycémie',bfer:'Fer'};Object.keys(BL2).forEach(f=>{if(e[f]!==undefined)g+=`<div class="me-i">${BL2[f]}: <span>${e[f]}</span></div>`})}
+    return`<div class="me"><div class="me-d">🩸 ${fmtD(e.date)}<button class="me-del" onclick="delB(${i})">supprimer</button></div><div class="me-g">${g}</div></div>`
+  }).join('')}catch(e){}
+}
+function delB(i){try{let a=JSON.parse(localStorage.getItem('bld')||'[]');a.splice(i,1);localStorage.setItem('bld',JSON.stringify(a));rndB()}catch(e){}}
+
+// EVENTS
+function getLastWeight(){try{const a=JSON.parse(localStorage.getItem('msr')||'[]');for(let e of a){if(e.mp2)return e.mp2}return 71}catch(e){return 71}}
+function rndEv(){
+  const cw=getLastWeight(),sw=71;
+  const evs=[
+    {e:'🏖️',n:'EVJF Barcelone',d:'2026-05-21',tw:68,c:'var(--accent2)'},
+    {e:'💍',n:'Mariage civil',d:'2026-06-20',tw:66,c:'var(--purple)'},
+    {e:'🎂',n:'Mon anniversaire',d:'2026-06-25',tw:66,c:'var(--accent)'},
+    {e:'👗',n:'Mariage — Demoiselle d\'honneur',d:'2026-08-22',tw:63,c:'var(--blue)'}
+  ];
+  const today=new Date();today.setHours(0,0,0,0);
+  const totalLoss=sw-63,currentLoss=sw-cw,wtPct=Math.min(100,Math.max(0,Math.round(currentLoss/totalLoss*100)));
+  let wh=`<div class="wt-bar"><h4>⚖️ Progression poids</h4><div class="wt-row"><span>Départ: ${sw} kg</span><span>Objectif: 63 kg</span></div><div class="wt-bg"><div class="wt-fill" style="width:${wtPct}%"></div></div><div class="wt-val">${cw} kg</div><p class="sn" style="text-align:center;margin-top:4px">${currentLoss>0?'-'+currentLoss.toFixed(1)+' kg perdus':'Pas encore de perte'} · ${wtPct}% de l'objectif</p></div>`;
+  document.getElementById('wtBar').innerHTML=wh;
+  document.getElementById('evC').innerHTML=evs.map(ev=>{
+    const tgt=new Date(ev.d),dl=Math.max(0,Math.ceil((tgt-today)/864e5));
+    const start=new Date('2026-04-14'),tot=Math.ceil((tgt-start)/864e5),el=tot-dl,pct=Math.min(100,Math.round(el/tot*100));
+    return`<div class="ev"><div class="ev-e">${ev.e}</div><div class="ev-i"><div class="ev-nm">${ev.n}</div><div class="ev-dt">${fmtD(ev.d)}</div><div class="ev-tg">Objectif: ${ev.tw} kg</div><div class="ev-pb"><div class="ev-pf" style="width:${pct}%;background:${ev.c}"></div></div></div><div class="ev-cd"><div class="ev-dy" style="color:${ev.c}">${dl}</div><div class="ev-dl">jours</div></div></div>`
+  }).join('');
 }
 
-// === TRACKING SYSTEM ===
-const MONTHS=[
-  {name:'Avril 2026',key:'apr26',weeks:[
-    {name:'Sem. 1 (14-20 avr)',sessions:['🏃‍♀️ Running Intervalles','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','🏃‍♀️ Long Run']},
-    {name:'Sem. 2 (21-27 avr)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B / Long Run']},
-  ]},
-  {name:'Mai 2026',key:'mai26',weeks:[
-    {name:'Sem. 1 (28 avr-4 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','🏃‍♀️ Long Run 12km']},
-    {name:'Sem. 2 (5-9 mai) Affûtage',sessions:['🏃‍♀️ Running léger','🚴 Aquabike','🧘 Yoga','🏁 COURSE 14KM !']},
-    {name:'Sem. 3 (12-18 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 4 (19-25 mai)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
-  ]},
-  {name:'Juin 2026',key:'jun26',weeks:[
-    {name:'Sem. 1 (26 mai-1 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 2 (2-8 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 3 (9-15 juin)',sessions:['🏃‍♀️ Running Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running Endurance','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 4 (16-22 juin) Deload',sessions:['🏃‍♀️ Running léger','🚴 Aquabike','💪 Renfo léger','🧘 Yoga + Sauna','🧖 Sauna']},
-    {name:'Sem. 5 (23-25 juin) 🎂',sessions:['🧘 Yoga doux','🧖 Sauna','🎂 ANNIVERSAIRE !']},
-  ]},
-  {name:'Juillet 2026',key:'jul26',weeks:[
-    {name:'Sem. 1 (30 juin-6 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 2 (7-13 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 3 (14-20 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 4 (21-27 juil)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-  ]},
-  {name:'Août 2026',key:'aug26',weeks:[
-    {name:'Sem. 1 (28 juil-3 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 2 (4-10 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 3 (11-17 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-    {name:'Sem. 4 (18-24 août)',sessions:['🏃‍♀️ Running','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Running','🧘 Yoga + Sauna','💪 Renfo B']},
-  ]},
+// RUN LOG
+function addRun(){
+  const d=document.getElementById('rl-date').value||new Date().toISOString().split('T')[0];
+  const dist=parseFloat(document.getElementById('rl-dist').value);
+  const dur=parseInt(document.getElementById('rl-dur').value)||0;
+  if(!dist)return;
+  try{let a=JSON.parse(localStorage.getItem('runs')||'[]');a.unshift({date:d,dist,dur});localStorage.setItem('runs',JSON.stringify(a))}catch(e){}
+  document.getElementById('rl-dist').value='';document.getElementById('rl-dur').value='';rndRuns()
+}
+function rndRuns(){
+  try{const a=JSON.parse(localStorage.getItem('runs')||'[]');
+  // Weekly total
+  const now=new Date(),weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay()+1);weekStart.setHours(0,0,0,0);
+  let wkTotal=0;a.forEach(r=>{const rd=new Date(r.date);if(rd>=weekStart)wkTotal+=r.dist});
+  document.getElementById('rl-total').textContent='Total cette semaine : '+wkTotal.toFixed(1)+' km';
+  const c=document.getElementById('rl-hist');
+  c.innerHTML=a.map((r,i)=>`<div class="rl-entry"><div class="rl-info">${fmtD(r.date)} · <span>${r.dist} km</span>${r.dur?' · '+r.dur+' min':''}</div><button class="rl-del" onclick="delRun(${i})">✗</button></div>`).join('')}catch(e){}
+}
+function delRun(i){try{let a=JSON.parse(localStorage.getItem('runs')||'[]');a.splice(i,1);localStorage.setItem('runs',JSON.stringify(a));rndRuns()}catch(e){}}
+
+// TRACKING
+const MO=[
+  {n:'Avril 2026',k:'a26',w:[{n:'Sem.1 (14-20)',s:['🏃‍♀️ Intervalles','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','🏃‍♀️ Long Run']},{n:'Sem.2 (21-27)',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']}]},
+  {n:'Mai 2026',k:'m26',w:[{n:'Sem.1 (28avr-4)',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga','🏃‍♀️ Long 12km']},{n:'Sem.2 (5-9) Affûtage',s:['🏃‍♀️ Léger','🚴 Aquabike','🧘 Yoga','🏁 14KM !']},{n:'Sem.3 (12-18)',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.4 (19-25)',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']}]},
+  {n:'Juin 2026',k:'j26',w:[{n:'Sem.1',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.2',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.3',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.4 Deload',s:['🏃‍♀️ Léger','🚴 Aquabike','💪 Renfo léger','🧘 Yoga','🧖 Sauna']},{n:'🎂 Sem.5',s:['🧘 Yoga doux','🎂 ANNIVERSAIRE !']}]},
+  {n:'Juillet 2026',k:'jl26',w:[{n:'Sem.1',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.2',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.3',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.4',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']}]},
+  {n:'Août 2026',k:'au26',w:[{n:'Sem.1',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.2',s:['🏃‍♀️ Intervalles','🚴 Aquabike','💪 Renfo A','🏃‍♀️ Endurance','🧘 Yoga+Sauna','💪 Renfo B']},{n:'Sem.3 👗',s:['🏃‍♀️ Léger','🧘 Yoga','🧖 Sauna','👗 MARIAGE !']}]}
 ];
-
-function buildTracking(){
-  const container=document.getElementById('trackingContainer');
-  let html='';
-  MONTHS.forEach((month,mi)=>{
-    const mKey=month.key;
-    let totalSessions=0,totalChecked=0;
-    month.weeks.forEach(w=>totalSessions+=w.sessions.length);
-
-    html+=`<div class="month-card" id="month-${mi}">`;
-    html+=`<div class="month-header" onclick="toggleMonth(${mi})"><div><h3>${month.name}</h3></div><div style="display:flex;align-items:center;gap:8px"><span class="month-progress" id="mprog-${mi}">0/${totalSessions}</span><span class="month-arrow">▼</span></div></div>`;
-    html+=`<div class="month-body">`;
-
-    month.weeks.forEach((week,wi)=>{
-      html+=`<div class="week-card" id="week-${mi}-${wi}">`;
-      html+=`<div class="week-header" onclick="toggleWeek(${mi},${wi})"><span>${week.name}</span><div style="display:flex;align-items:center;gap:8px"><span class="week-progress" id="wprog-${mi}-${wi}">0/${week.sessions.length}</span><span class="month-arrow">▼</span></div></div>`;
-      html+=`<div class="week-body">`;
-
-      week.sessions.forEach((sess,si)=>{
-        const cbId=`cb-${mKey}-${wi}-${si}`;
-        html+=`<div class="session-item">`;
-        html+=`<input type="checkbox" class="session-cb" id="${cbId}" onchange="onCheck('${mKey}',${mi},${wi})">`;
-        html+=`<label class="session-label" for="${cbId}" id="lbl-${cbId}">${sess}</label>`;
-        html+=`</div>`;
-      });
-
-      html+=`</div></div>`;
+function bldTrk(){
+  const c=document.getElementById('trkC');let h='';
+  MO.forEach((m,mi)=>{
+    h+=`<div class="mc" id="mo${mi}"><div class="mh" onclick="this.parentElement.classList.toggle('open')"><h3>${m.n}</h3><div style="display:flex;align-items:center;gap:6px"><span class="mp2" id="xp${mi}">0/0</span><span class="ma">▼</span></div></div><div class="mb">`;
+    m.w.forEach((w,wi)=>{
+      h+=`<div class="twc" id="tw${mi}${wi}"><div class="twh" onclick="this.parentElement.classList.toggle('open')"><span>${w.n}</span><div style="display:flex;align-items:center;gap:4px"><span class="mp2" id="xw${mi}${wi}">0/${w.s.length}</span><span class="ma" style="font-size:10px">▼</span></div></div><div class="twb">`;
+      w.s.forEach((s,si)=>{const id=`x${m.k}${wi}${si}`;h+=`<div class="si"><input type="checkbox" class="scb" id="${id}" onchange="onTc(${mi})"><label class="sl" for="${id}">${s}</label></div>`});
+      h+=`</div></div>`;
     });
-
-    html+=`</div></div>`;
+    h+=`</div></div>`;
   });
-  container.innerHTML=html;
-  loadTracking();
+  c.innerHTML=h;ldTrk()
 }
-
-function toggleMonth(mi){document.getElementById('month-'+mi).classList.toggle('open')}
-function toggleWeek(mi,wi){document.getElementById('week-'+mi+'-'+wi).classList.toggle('open')}
-
-function onCheck(mKey,mi,wi){
-  // Update label styling
-  const month=MONTHS[mi];
-  month.weeks.forEach((week,wIdx)=>{
-    week.sessions.forEach((s,si)=>{
-      const cbId=`cb-${mKey}-${wIdx}-${si}`;
-      const cb=document.getElementById(cbId);
-      const lbl=document.getElementById('lbl-'+cbId);
-      if(cb&&lbl){lbl.classList.toggle('done',cb.checked)}
-    });
-  });
-  updateTrackingProgress(mi);
-  saveTracking();
+function onTc(mi){
+  const m=MO[mi];let mt=0,md=0;
+  m.w.forEach((w,wi)=>{let wd=0;w.s.forEach((s,si)=>{const cb=document.getElementById(`x${m.k}${wi}${si}`);if(cb){const l=cb.nextElementSibling;if(cb.checked){wd++;l.classList.add('done')}else l.classList.remove('done')}});
+  mt+=w.s.length;md+=wd;
+  const wp=document.getElementById(`xw${mi}${wi}`);if(wp){wp.textContent=wd+'/'+w.s.length;wp.style.color=wd===w.s.length?'var(--green)':'var(--accent)'}});
+  const mp=document.getElementById(`xp${mi}`);if(mp){mp.textContent=md+'/'+mt;mp.style.color=md===mt?'var(--green)':'var(--accent)'}
+  svTrk()
 }
+function svTrk(){try{const d={};MO.forEach(m=>m.w.forEach((w,wi)=>w.s.forEach((s,si)=>{const cb=document.getElementById(`x${m.k}${wi}${si}`);if(cb&&cb.checked)d[`${m.k}${wi}${si}`]=1})));localStorage.setItem('trk',JSON.stringify(d))}catch(e){}}
+function ldTrk(){try{const d=JSON.parse(localStorage.getItem('trk'));if(!d)return;MO.forEach((m,mi)=>{m.w.forEach((w,wi)=>w.s.forEach((s,si)=>{const cb=document.getElementById(`x${m.k}${wi}${si}`);if(cb&&d[`${m.k}${wi}${si}`]){cb.checked=true;const l=cb.nextElementSibling;if(l)l.classList.add('done')}}));onTc(mi)})}catch(e){}}
 
-function updateTrackingProgress(mi){
-  const month=MONTHS[mi];
-  let mTotal=0,mDone=0;
-  month.weeks.forEach((week,wi)=>{
-    let wDone=0;
-    week.sessions.forEach((s,si)=>{
-      const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
-      if(cb&&cb.checked)wDone++;
-    });
-    mTotal+=week.sessions.length;
-    mDone+=wDone;
-    const wpEl=document.getElementById(`wprog-${mi}-${wi}`);
-    if(wpEl){
-      wpEl.textContent=wDone+'/'+week.sessions.length;
-      wpEl.style.color=wDone===week.sessions.length?'#7BA586':'#C97B84';
-    }
-  });
-  const mpEl=document.getElementById(`mprog-${mi}`);
-  if(mpEl){
-    mpEl.textContent=mDone+'/'+mTotal;
-    mpEl.style.color=mDone===mTotal?'#7BA586':'#C97B84';
-  }
-}
-
-function saveTracking(){
+// EXPORT
+function expData(){
   try{
-    const data={};
-    MONTHS.forEach((month,mi)=>{
-      month.weeks.forEach((week,wi)=>{
-        week.sessions.forEach((s,si)=>{
-          const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
-          if(cb&&cb.checked)data[`${month.key}-${wi}-${si}`]=true;
-        });
-      });
-    });
-    localStorage.setItem('tracking',JSON.stringify(data));
-  }catch(e){}
+    const data={measures:JSON.parse(localStorage.getItem('msr')||'[]'),bloodwork:JSON.parse(localStorage.getItem('bld')||'[]'),runs:JSON.parse(localStorage.getItem('runs')||'[]'),tracking:JSON.parse(localStorage.getItem('trk')||'{}')};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ma-transformation-data.json';a.click();URL.revokeObjectURL(url)
+  }catch(e){alert('Erreur export')}
 }
 
-function loadTracking(){
-  try{
-    const data=JSON.parse(localStorage.getItem('tracking'));
-    if(!data)return;
-    MONTHS.forEach((month,mi)=>{
-      month.weeks.forEach((week,wi)=>{
-        week.sessions.forEach((s,si)=>{
-          const key=`${month.key}-${wi}-${si}`;
-          const cb=document.getElementById(`cb-${month.key}-${wi}-${si}`);
-          if(cb&&data[key]){
-            cb.checked=true;
-            const lbl=document.getElementById('lbl-cb-'+month.key+'-'+wi+'-'+si);
-            if(lbl)lbl.classList.add('done');
-          }
-        });
-      });
-      updateTrackingProgress(mi);
-    });
-  }catch(e){}
-}
-
-// Init
-buildTracking();
-loadLiveState('A');
-loadLiveState('B');
+// INIT
+document.getElementById('md').valueAsDate=new Date();
+document.getElementById('rl-date').valueAsDate=new Date();
+document.getElementById('bd').valueAsDate=new Date();
+updTh();ldC();ldH();ldL('A');ldL('B');bldTrk();rndM();rndB();rndEv();rndRuns();
 </script>
 </body>
 </html>

@@ -112,16 +112,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;min-h
 .mf{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
 .mf h3{font-family:'DM Serif Display',Georgia,serif;font-size:16px;margin-bottom:10px}
 .fr{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.ff{flex:1;min-width:45%}
+.ff{flex:1;min-width:calc(50% - 4px)}
+.ff.full{min-width:100%;flex-basis:100%}
 .ff label{font-size:10.5px;color:var(--text3);font-weight:700;display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
-.ff input,.ff select{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);outline:none;transition:border .2s;background:var(--card)}
+.ff input,.ff select{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);outline:none;transition:border .2s;background:var(--card);-webkit-appearance:none;appearance:none}
+.ff input[type="date"]{min-height:44px}
 .ff input:focus{border-color:var(--accent)}
 .sv-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#FFF;font-weight:700;font-size:14px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:6px}
-.me{background:var(--card);border-radius:10px;padding:10px 12px;margin-bottom:6px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
-.me-d{font-size:11px;font-weight:800;color:var(--accent);margin-bottom:4px}
-.me-g{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px}
-.me-i{font-size:11px;color:var(--text2)}.me-i span{font-weight:700;color:var(--text)}
-.me-del{float:right;background:none;border:none;color:#D48A8A;font-size:10px;cursor:pointer;font-family:'Nunito',sans-serif}
+.me{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
+.me-d{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.me-g{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
+.me-i{font-size:13px;color:var(--text2)}.me-i span{font-weight:700;color:var(--text)}
+.me-del{float:right;background:none;border:none;color:#D48A8A;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif;padding:2px 6px}
 
 /* Yes/No */
 .yn{margin-bottom:12px}
@@ -132,42 +134,42 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;min-h
 .yn-w{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;background:#FFF8EE;color:#B8860B}
 
 /* Week tracking */
-.wr{background:var(--card);border-radius:10px;padding:8px 10px;margin-bottom:5px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
+.wr{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:6px;box-shadow:0 1px 4px rgba(46,34,38,.03)}
 .wt{display:flex;justify-content:space-between;align-items:center}
-.wn{font-weight:800;font-size:11px}.wl{font-size:10.5px;font-weight:700}
-.wf{font-size:9.5px;color:var(--text3);font-style:italic;margin-top:1px}
-.mc{background:var(--card);border-radius:14px;margin-bottom:7px;overflow:hidden;box-shadow:var(--shadow)}
-.mh{padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.mh h3{font-family:'DM Serif Display',Georgia,serif;font-size:14px}
-.mp2{font-size:10px;font-weight:700;color:var(--accent)}
-.mb{display:none;padding:0 12px 10px}.mc.open .mb{display:block}
-.ma{color:#CCC;font-size:12px;transition:transform .2s}.mc.open .ma{transform:rotate(180deg)}
-.twc{background:var(--bg2);border-radius:8px;margin-bottom:5px;overflow:hidden;border-left:3px solid var(--border)}
-.twh{padding:7px 10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.twh span{font-weight:700;font-size:11px}
-.twb{display:none;padding:0 10px 6px}.twc.open .twb{display:block}
-.si{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)}
+.wn{font-weight:800;font-size:14px}.wl{font-size:13px;font-weight:700}
+.wf{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px}
+.mc{background:var(--card);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow)}
+.mh{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.mh h3{font-family:'DM Serif Display',Georgia,serif;font-size:17px}
+.mp2{font-size:13px;font-weight:700;color:var(--accent)}
+.mb{display:none;padding:0 16px 14px}.mc.open .mb{display:block}
+.ma{color:#CCC;font-size:14px;transition:transform .2s}.mc.open .ma{transform:rotate(180deg)}
+.twc{background:var(--bg2);border-radius:10px;margin-bottom:6px;overflow:hidden;border-left:3px solid var(--border)}
+.twh{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.twh span{font-weight:700;font-size:14px}
+.twb{display:none;padding:0 14px 10px}.twc.open .twb{display:block}
+.si{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .si:last-child{border-bottom:none}
-.scb{width:18px;height:18px;border-radius:4px;border:2px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.scb{width:24px;height:24px;border-radius:6px;border:2.5px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
 .scb:checked{background:var(--green);border-color:var(--green)}
-.scb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:11px;font-weight:800}
-.sl{font-size:11px;color:var(--text2)}.sl.done{text-decoration:line-through;color:var(--text3)}
+.scb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:14px;font-weight:800}
+.sl{font-size:14px;color:var(--text2)}.sl.done{text-decoration:line-through;color:var(--text3)}
 
 /* Run Log */
-.rl-form{background:var(--card);border-radius:12px;padding:12px;margin-bottom:8px;box-shadow:var(--shadow)}
-.rl-row{display:flex;gap:6px;align-items:flex-end}
-.rl-form .ff{min-width:auto}
-.rl-add{padding:7px 14px;border:none;border-radius:8px;background:var(--accent);color:#FFF;font-weight:700;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
-.rl-entry{background:var(--card);border-radius:8px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.03)}
-.rl-info{font-size:11px;color:var(--text2)}.rl-info span{font-weight:700;color:var(--text)}
-.rl-del{background:none;border:none;color:#D48A8A;font-size:10px;cursor:pointer}
-.rl-total{font-size:12px;font-weight:700;color:var(--green);text-align:center;padding:6px;background:var(--bg2);border-radius:8px;margin-bottom:10px}
+.rl-form{background:var(--card);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.rl-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.rl-form .ff{min-width:calc(50% - 4px)}
+.rl-add{padding:10px 18px;border:none;border-radius:10px;background:var(--accent);color:#FFF;font-weight:700;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap;width:100%;margin-top:4px}
+.rl-entry{background:var(--card);border-radius:10px;padding:12px 14px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.rl-info{font-size:13px;color:var(--text2)}.rl-info span{font-weight:700;color:var(--text)}
+.rl-del{background:none;border:none;color:#D48A8A;font-size:12px;cursor:pointer;padding:4px 8px}
+.rl-total{font-size:14px;font-weight:700;color:var(--green);text-align:center;padding:10px;background:var(--bg2);border-radius:10px;margin-bottom:12px}
 
-.macros-r{display:flex;gap:5px;margin:6px 0}
-.mac-b{flex:1;text-align:center;padding:8px;border-radius:8px;background:var(--card)}
-.mac-v{font-size:17px;font-weight:800}.mac-l{font-size:9px;color:var(--text3)}
+.macros-r{display:flex;gap:6px;margin:8px 0}
+.mac-b{flex:1;text-align:center;padding:12px;border-radius:10px;background:var(--card)}
+.mac-v{font-size:20px;font-weight:800}.mac-l{font-size:11px;color:var(--text3)}
 
-.exp-btn{display:block;width:100%;padding:8px;border:1px dashed var(--accent);border-radius:10px;background:transparent;color:var(--accent);font-weight:600;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:8px}
+.exp-btn{display:block;width:100%;padding:12px;border:1px dashed var(--accent);border-radius:12px;background:transparent;color:var(--accent);font-weight:600;font-size:13px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:10px}
 </style>
 </head>
 <body>
@@ -365,12 +367,12 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;min-h
     <div class="sp" id="s-2-2">
       <div class="mf">
         <h3>📐 Nouvelle mesure</h3>
-        <div class="fr"><div class="ff"><label>Date</label><input type="date" id="md"></div><div class="ff"><label>Poids (kg)</label><input type="number" step="0.1" id="mp2"></div></div>
-        <div class="fr"><div class="ff"><label>Tour taille (cm)</label><input type="number" step="0.5" id="mta"></div><div class="ff"><label>Tour hanches (cm)</label><input type="number" step="0.5" id="mha"></div></div>
-        <div class="fr"><div class="ff"><label>Tour poitrine (cm)</label><input type="number" step="0.5" id="mpo"></div><div class="ff"><label>IMC</label><input type="number" step="0.1" id="mim"></div></div>
-        <div class="fr"><div class="ff"><label>Graisse corp. %</label><input type="number" step="0.1" id="mgr"></div><div class="ff"><label>Graisse sous-cut. %</label><input type="number" step="0.1" id="msc"></div></div>
-        <div class="fr"><div class="ff"><label>Masse musc. (kg)</label><input type="number" step="0.1" id="mmu"></div><div class="ff"><label>Métab. basal</label><input type="number" id="mmb"></div></div>
-        <div class="fr"><div class="ff"><label>Âge corporel</label><input type="number" id="mac"></div></div>
+        <div class="fr"><div class="ff full"><label>Date</label><input type="date" id="md"></div></div>
+        <div class="fr"><div class="ff"><label>Poids (kg)</label><input type="number" step="0.1" id="mp2"></div><div class="ff"><label>Tour taille (cm)</label><input type="number" step="0.5" id="mta"></div></div>
+        <div class="fr"><div class="ff"><label>Tour hanches (cm)</label><input type="number" step="0.5" id="mha"></div><div class="ff"><label>Tour poitrine (cm)</label><input type="number" step="0.5" id="mpo"></div></div>
+        <div class="fr"><div class="ff"><label>IMC</label><input type="number" step="0.1" id="mim"></div><div class="ff"><label>Graisse corp. %</label><input type="number" step="0.1" id="mgr"></div></div>
+        <div class="fr"><div class="ff"><label>Graisse sous-cut. %</label><input type="number" step="0.1" id="msc"></div><div class="ff"><label>Masse musc. (kg)</label><input type="number" step="0.1" id="mmu"></div></div>
+        <div class="fr"><div class="ff"><label>Métab. basal</label><input type="number" id="mmb"></div><div class="ff"><label>Âge corporel</label><input type="number" id="mac"></div></div>
         <button class="sv-btn" onclick="svM()">💾 Enregistrer</button>
       </div>
       <div id="mhist"></div>
@@ -380,9 +382,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;min-h
     <div class="sp" id="s-2-3">
       <div class="mf">
         <h3>🩸 Nouveau bilan sanguin</h3>
-        <div class="fr"><div class="ff"><label>Date du bilan</label><input type="date" id="bd"></div></div>
+        <div class="fr"><div class="ff full"><label>Date du bilan</label><input type="date" id="bd"></div></div>
         <div id="bFields">
-          <div class="fr bf-row"><div class="ff" style="min-width:55%"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>
+          <div class="fr bf-row"><div class="ff full"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div></div><div class="fr bf-row-sub" style="margin-top:-4px"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>
         </div>
         <button class="rbtn" style="margin-top:6px;margin-bottom:6px;background:var(--bg2);color:var(--accent2)" onclick="addBField()">+ Ajouter une valeur</button>
         <button class="sv-btn" onclick="svB()">💾 Enregistrer bilan</button>
@@ -466,26 +468,25 @@ function fmtD(d){const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
 // BLOOD WORK - Flexible
 function addBField(){
   const c=document.getElementById('bFields');
-  const row=document.createElement('div');row.className='fr bf-row';
-  row.innerHTML='<div class="ff" style="min-width:55%"><label>Nom</label><input type="text" placeholder="Ex: CRP, Ferritine..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mg/l"></div>';
-  c.appendChild(row)
+  const html='<div style="border-top:1px dashed var(--border);padding-top:8px;margin-top:8px"></div><div class="fr bf-row"><div class="ff full"><label>Nom</label><input type="text" placeholder="Ex: CRP, Ferritine..." class="bf-name"></div></div><div class="fr bf-row-sub"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-val"></div><div class="ff"><label>Unité</label><input type="text" class="bf-unit" placeholder="mg/l"></div></div>';
+  c.insertAdjacentHTML('beforeend',html)
 }
 function svB(){
   const date=document.getElementById('bd').value||new Date().toISOString().split('T')[0];
-  const rows=document.querySelectorAll('.bf-row');
+  const names=document.querySelectorAll('#bFields .bf-name');
+  const vals=document.querySelectorAll('#bFields .bf-val');
+  const units=document.querySelectorAll('#bFields .bf-unit');
   const values=[];
-  rows.forEach(r=>{
-    const name=r.querySelector('.bf-name').value.trim();
-    const val=r.querySelector('.bf-val').value;
-    const unit=r.querySelector('.bf-unit').value.trim();
+  names.forEach((n,i)=>{
+    const name=n.value.trim();
+    const val=vals[i]?vals[i].value:'';
+    const unit=units[i]?units[i].value.trim():'';
     if(name&&val)values.push({name,val:parseFloat(val),unit})
   });
   if(!values.length)return;
   const entry={date,values};
   try{let a=JSON.parse(localStorage.getItem('bld')||'[]');a.unshift(entry);localStorage.setItem('bld',JSON.stringify(a))}catch(x){}
-  // Reset form
-  const c=document.getElementById('bFields');
-  c.innerHTML='<div class="fr bf-row"><div class="ff" style="min-width:55%"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div><div class="ff" style="min-width:25%"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff" style="min-width:15%"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>';
+  document.getElementById('bFields').innerHTML='<div class="fr bf-row"><div class="ff full"><label>Nom de la valeur</label><input type="text" placeholder="Ex: TSH, T4 libre, HDL..." class="bf-name"></div></div><div class="fr bf-row-sub" style="margin-top:-4px"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-val" placeholder="3.1"></div><div class="ff"><label>Unité</label><input type="text" class="bf-unit" placeholder="mU/l"></div></div>';
   rndB()
 }
 function rndB(){

@@ -12,7 +12,7 @@ header { padding:20px 15px 10px 15px; text-align:center; font-weight:600; backgr
 input[type=checkbox] { transform: scale(1.3); margin-right:10px; }
 .progress { height:10px; background:#eee; border-radius:5px; overflow:hidden; }
 .progress-bar { height:10px; background:linear-gradient(to right,#d8b4a0,#c98d72); width:0%; }
-.nav { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:92%; display:flex; justify-content:space-around; background:#fffaf7; padding:15px 11px; border-radius:28px; box-shadow:0 10px 30px rgba(0,0,0,0.08); border:1px solid #f0ddd1; z-index:20; }
+.nav { position:fixed; bottom:38px; left:50%; transform:translateX(-50%); width:92%; display:flex; justify-content:space-around; background:#fffaf7; padding:14px 10px; border-radius:28px; box-shadow:0 10px 30px rgba(0,0,0,0.08); border:1px solid #f0ddd1; z-index:20; }
 button { padding:10px 14px; border:none; border-radius:14px; background:linear-gradient(to right,#d8b4a0,#c98d72); color:white; font-weight:600; }
 </style>
 </head>
@@ -56,9 +56,9 @@ button { padding:10px 14px; border:none; border-radius:14px; background:linear-g
 
 <div class="card">
 <h3>Symptômes</h3>
-<p>Ballonnements <input type="range" min="0" max="10"></p>
-<p>Reflux <input type="range" min="0" max="10"></p>
-<p>Energie <input type="range" min="0" max="10"></p>
+<p>Ballonnements <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value+'/10'"><span style="margin-left:10px;">5/10</span></p>
+<p>Reflux <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value+'/10'"><span style="margin-left:10px;">5/10</span></p>
+<p>Energie <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value+'/10'"><span style="margin-left:10px;">5/10</span></p>
 </div>
 
 <div class="card">
@@ -74,6 +74,12 @@ button { padding:10px 14px; border:none; border-radius:14px; background:linear-g
 <div class="container" id="nutrition" style="display:none">
 <div class="card">
 <h3>Nutrition 🍽</h3>
+<select id="mealType" style="width:100%;padding:10px;border-radius:12px;border:1px solid #ddd;margin-bottom:10px;">
+<option>Petit-déjeuner</option>
+<option>Déjeuner</option>
+<option>Dîner</option>
+<option>Collation</option>
+</select>
 <textarea id="mealInput" placeholder="Ex: 2 œufs + kiwi + yaourt coco" style="width:100%;height:80px;border-radius:12px;border:1px solid #ddd;padding:10px;"></textarea>
 <button onclick="analyzeMeal()">Analyser le repas</button>
 <div id="mealResult" style="margin-top:10px;font-size:14px;color:#5a4d43"></div>
@@ -119,7 +125,7 @@ button { padding:10px 14px; border:none; border-radius:14px; background:linear-g
 <label><input type="checkbox">Préparer les tenues de la semaine</label>
 </div>
 <div class="card">
-<h3>Suivi global</h3>
+<h3>Suivi global 🌿</h3>
 <p>Eau (L) <input type="number"></p>
 <p>Sommeil (h) <input type="number"></p>
 <p>Pas <input type="number"></p>
@@ -130,7 +136,23 @@ button { padding:10px 14px; border:none; border-radius:14px; background:linear-g
 
 <div class="container" id="sport" style="display:none">
 <div class="card">
-<h3>Planning Sport 🏋️</h3>
+<h3>Sport 🏋️</h3>
+<div style="display:flex;gap:8px;margin-bottom:15px;overflow-x:auto;">
+<div style="min-width:90px;padding:12px;background:#f5d7d0;border-radius:18px;text-align:center;">🩷 Pilates</div>
+<div style="min-width:90px;padding:12px;background:#f3e4c8;border-radius:18px;text-align:center;">🧡 Running</div>
+<div style="min-width:90px;padding:12px;background:#ddd5f3;border-radius:18px;text-align:center;">💜 Yoga</div>
+<div style="min-width:90px;padding:12px;background:#d7e6dc;border-radius:18px;text-align:center;">🤎 Renfo</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:20px;">
+<div style="text-align:center;font-size:12px;">L</div>
+<div style="text-align:center;font-size:12px;">M</div>
+<div style="text-align:center;font-size:12px;">M</div>
+<div style="text-align:center;font-size:12px;">J</div>
+<div style="text-align:center;font-size:12px;">V</div>
+<div style="text-align:center;font-size:12px;">S</div>
+<div style="text-align:center;font-size:12px;">D</div>
+${Array.from({length:31},(_,i)=>`<div style="padding:10px;background:#fff;border-radius:14px;border:1px solid #f0ddd1;text-align:center;">${i+1}</div>`).join('')}
 <select id="sessionType" style="width:100%;padding:10px;border-radius:12px;border:1px solid #ddd;">
 <option>Running</option>
 <option>Pilates</option>
@@ -147,7 +169,7 @@ button { padding:10px 14px; border:none; border-radius:14px; background:linear-g
 <div class="nav">
 <button onclick="showPage('dashboard')">Accueil</button>
 <button onclick="showPage('nutrition')">Nutrition</button>
-<button onclick="showPage('health')">Santé</button>
+<button onclick="showPage('health')">Routines</button>
 <button onclick="showPage('sport')">Sport</button>
 </div>
 

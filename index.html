@@ -1,478 +1,723 @@
-import React, { useState, useEffect } from ‘react’;
-import { ChevronLeft, ChevronRight, Home, Utensils, Dumbbell, Heart, MoreVertical } from ‘lucide-react’;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ma Transfo">
+<meta name="theme-color" content="#B8687B">
+<title>Ma Transformation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#F9F5F2;--bg2:#FFF9F7;--card:#FFF;--a:#B8687B;--a2:#D4956B;--g:#6A9B7E;--bl:#5E8BB5;--pu:#8B7CB5;--tx:#2E2226;--tx2:#6B5558;--tx3:#A08589;--bd:#F0E4E0;--sh:0 2px 12px rgba(46,34,38,.06)}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);padding-top:env(safe-area-inset-top);padding-bottom:calc(82px + env(safe-area-inset-bottom));min-height:100vh;overflow-x:hidden}
+.hd{padding:18px 20px 10px;text-align:center}
+.hd-lb{font-size:12px;letter-spacing:3px;color:var(--a);text-transform:uppercase;font-weight:700}
+.hd h1{font-family:'DM Serif Display',Georgia,serif;font-size:26px;margin-top:4px}
+.bn{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom));box-shadow:0 -1px 16px rgba(46,34,38,.08);z-index:100;border-top:1px solid var(--bd)}
+.ni-b{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:6px 10px;border:none;background:none;font-family:'Nunito',sans-serif;border-radius:12px;transition:all .2s}
+.ni-b .ic{font-size:24px}.ni-b .lb{font-size:10px;font-weight:700;color:var(--tx3)}
+.ni-b.on{background:rgba(184,104,123,.1)}.ni-b.on .lb{color:var(--a);font-weight:800}
+.st-w{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.st-w::-webkit-scrollbar{display:none}
+.st-b{padding:9px 18px;border-radius:16px;border:none;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;flex-shrink:0}
+.st-b.on{background:var(--a);color:#FFF;box-shadow:0 3px 10px rgba(184,104,123,.2)}
+.st-b:not(.on){background:var(--card);color:var(--tx3)}
+.mp,.sp{display:none}.mp.on,.sp.on{display:block}
+.ct{padding:0 20px 20px}
+.sp.on{animation:fi .2s}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.sc{background:var(--bg2);border-radius:14px;padding:16px;margin-bottom:12px;border-left:4px solid var(--bd)}
+.sc h3{font-family:'DM Serif Display',Georgia,serif;font-size:18px;margin-bottom:8px}
+.sc p{font-size:14px;color:var(--tx2);line-height:1.65;margin-bottom:5px}.sc p:last-child{margin-bottom:0}
+.cd{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:8px;box-shadow:var(--sh);cursor:pointer}
+.cd:active{transform:scale(.985)}
+.cd-h{display:flex;align-items:center;gap:10px}
+.cd-i{flex:1}.cd-d{font-weight:700;font-size:15px}.cd-t{font-size:14px;font-weight:600;margin-top:2px}.cd-dt{font-size:12px;color:var(--tx3);font-style:italic}
+.cd-a{color:#CCC;font-size:14px;transition:transform .2s;flex-shrink:0}.cd.open .cd-a{transform:rotate(180deg)}
+.cd-b{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd);font-size:14px;color:var(--tx2);line-height:1.7;display:none}.cd.open .cd-b{display:block}
+.cd-tip{margin-top:6px;padding:6px 10px;background:#FFF5F0;border-radius:8px;font-size:12px;color:var(--a);font-style:italic}
+.sn{font-size:12px;color:var(--tx3);font-style:italic}
+.cl{background:var(--card);border-radius:14px;margin-bottom:12px;box-shadow:var(--sh);overflow:hidden}
+.ci{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--bd)}.ci:last-child{border-bottom:none}
+.cb{width:26px;height:26px;border-radius:7px;border:2.5px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.cb:checked{background:var(--g);border-color:var(--g)}.cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:15px;font-weight:800}
+.cl-l{font-size:15px;flex:1}.cl-s{display:block;font-size:11px;color:var(--tx3)}.cl-e{font-size:20px;flex-shrink:0}
+.rb{display:block;width:100%;padding:12px;border:none;border-radius:12px;background:var(--bd);color:var(--a);font-weight:700;font-size:14px;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:12px}
+.lb-b{border-radius:14px;padding:18px;margin-bottom:12px;text-align:center;cursor:pointer;position:relative;overflow:hidden}
+.lb-b:active{transform:scale(.97)}
+.lb-b h3{color:#FFF;font-size:18px;font-family:'DM Serif Display',Georgia,serif}
+.lb-b p{color:rgba(255,255,255,.75);font-size:13px;margin-top:3px}
+.lb-b .th{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.5);font-size:20px}
+.lp{display:none;margin-bottom:12px}.lp.on{display:block}
+.lbt{font-family:'DM Serif Display',Georgia,serif;font-size:16px;margin:12px 0 6px;padding:8px 12px;background:var(--card);border-radius:10px;border-left:4px solid var(--a)}
+.le{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:3px;background:var(--card);border-radius:10px}
+.le.done{background:#EFF7F1}
+.le-n{width:30px;height:30px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--a);flex-shrink:0}.le.done .le-n{background:var(--g);color:#FFF}
+.le-i{flex:1}.le-nm{font-size:14px;font-weight:700}.le.done .le-nm{color:var(--g)}.le-dt{font-size:12px;color:var(--tx3)}
+.pb-bg{background:var(--bd);border-radius:20px;height:8px;margin:8px 0 4px;overflow:hidden}
+.pb-fl{height:100%;background:linear-gradient(90deg,var(--g),var(--bl));border-radius:20px;transition:width .3s}
+.pb-tx{font-size:12px;color:var(--g);font-weight:700;text-align:center}
+.tb{padding:5px 14px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;flex-shrink:0}
+.tb-s{background:var(--a);color:#FFF}.tb-r{background:var(--a2);color:#FFF}.tb-d{background:var(--g);color:#FFF}
+.td-t{font-size:18px;font-weight:800;color:var(--a);font-family:'DM Serif Display',Georgia,serif;margin-top:2px}
+.ev{background:var(--card);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:var(--sh);display:flex;align-items:center;gap:14px}
+.ev-e{font-size:30px;flex-shrink:0}.ev-i{flex:1}.ev-nm{font-weight:800;font-size:15px}.ev-dt{font-size:13px;color:var(--tx3);margin-top:2px}.ev-tg{font-size:12px;color:var(--a);font-weight:600;margin-top:2px}
+.ev-cd{text-align:center;flex-shrink:0}.ev-dy{font-size:28px;font-weight:800;font-family:'DM Serif Display',Georgia,serif;line-height:1}.ev-dl{font-size:10px;color:var(--tx3);font-weight:600}
+.ev-pb{background:var(--bd);border-radius:6px;height:5px;margin-top:5px;overflow:hidden}.ev-pf{height:100%;border-radius:6px}
+.wt-bar{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
+.wt-bar h4{font-size:14px;font-weight:800;margin-bottom:8px}
+.wt-bg{background:var(--bd);border-radius:8px;height:10px;overflow:hidden;margin:4px 0}.wt-fl{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .4s}
+.mf{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.mf h3{font-family:'DM Serif Display',Georgia,serif;font-size:16px;margin-bottom:10px}
+.fr{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.ff{flex:1;min-width:calc(50% - 4px)}.ff.full{min-width:100%}
+.ff label{font-size:11px;color:var(--tx3);font-weight:700;display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.ff input,.ff select{width:100%;padding:10px 12px;border:2px solid var(--bd);border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;color:var(--tx);outline:none;background:var(--card)}.ff input:focus{border-color:var(--a)}
+.sv-b{width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--a2));color:#FFF;font-weight:700;font-size:14px;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:6px}
+.me{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(46,34,38,.03)}
+.me-d{font-size:13px;font-weight:800;color:var(--a);margin-bottom:6px}
+.me-g{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px}.me-i{font-size:13px;color:var(--tx2)}.me-i span{font-weight:700;color:var(--tx)}
+.me-del{float:right;background:none;border:none;color:#D48A8A;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif}
+.srch{width:100%;padding:12px 16px 12px 40px;border:2px solid var(--bd);border-radius:14px;font-size:16px;font-family:'Nunito',sans-serif;color:var(--tx);outline:none;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23A08589' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.44.856a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E") no-repeat 14px center;margin-bottom:12px}.srch:focus{border-color:var(--a)}
+.fd-r{padding:10px 14px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.fd-r:last-child{border-bottom:none}
+.fd-y{color:var(--g);font-weight:700;font-size:13px}.fd-n{color:#C45050;font-weight:700;font-size:13px}.fd-w{color:#B8860B;font-weight:700;font-size:13px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* Wellness sections */
+.wl-sec{background:var(--card);border-radius:14px;margin-bottom:12px;box-shadow:var(--sh);overflow:hidden}
+.wl-hd{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid var(--bd)}
+.wl-hd-ic{font-size:22px;flex-shrink:0}
+.wl-hd-tx{flex:1}
+.wl-hd-nm{font-weight:800;font-size:15px}
+.wl-hd-st{font-size:11px;color:var(--tx3);margin-top:1px}
+.wl-hd-ar{color:#CCC;font-size:14px;transition:transform .2s}
+.wl-sec.open .wl-hd-ar{transform:rotate(180deg)}
+.wl-body{display:none;padding:0 0 4px}.wl-sec.open .wl-body{display:block}
+.wl-sub{padding:10px 16px 2px;font-size:11px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:1px}
+.wl-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid var(--bd)}
+.wl-item:first-of-type{border-top:none}
+.wl-pb{background:var(--bd);border-radius:6px;height:5px;margin:6px 16px 8px;overflow:hidden}
+.wl-pf{height:100%;background:linear-gradient(90deg,var(--pu),var(--bl));border-radius:6px;transition:width .3s}
+/* Gut Reset calendar */
+.gr-cal-hd{display:flex;align-items:center;justify-content:space-between;padding:4px 0 10px}
+.gr-cal-nav{width:36px;height:36px;border-radius:50%;border:none;background:var(--card);color:var(--tx3);font-size:18px;cursor:pointer;box-shadow:var(--sh)}
+.gr-cal-info{text-align:center}
+.gr-cal-date{font-size:20px;font-weight:800;font-family:'DM Serif Display',Georgia,serif}
+.gr-cal-sub{font-size:12px;color:var(--tx3)}
+/* Meal card */
+.meal-card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:var(--sh)}
+.meal-card-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.meal-time{font-size:12px;font-weight:800;color:var(--a);min-width:40px}
+.meal-name{font-size:15px;font-weight:700;flex:1}
+.meal-cb{width:24px;height:24px;border-radius:7px;border:2.5px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.meal-cb:checked{background:var(--g);border-color:var(--g)}.meal-cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:13px;font-weight:800}
+.meal-input{width:100%;padding:8px 10px;border:2px solid var(--bd);border-radius:8px;font-size:13px;font-family:'Nunito',sans-serif;color:var(--tx);outline:none;background:var(--bg2);resize:none;min-height:40px}
+.meal-input:focus{border-color:var(--a)}
+/* Sport suivi */
+.sp-day{background:var(--card);border-radius:12px;margin-bottom:6px;box-shadow:var(--sh);overflow:hidden}
+.sp-day-hd{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.sp-day-dt{font-size:12px;font-weight:700;color:var(--tx3);min-width:60px}
+.sp-day-ic{font-size:18px}
+.sp-day-info{flex:1}
+.sp-day-nm{font-size:13px;font-weight:700;color:var(--a)}
+.sp-day-det{font-size:11px;color:var(--tx3)}
+.sp-day-ck{width:24px;height:24px;border-radius:7px;border:2.5px solid #D4C4C7;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s}
+.sp-day-ck:checked{background:var(--g);border-color:var(--g)}.sp-day-ck:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#FFF;font-size:13px;font-weight:800}
+.sp-week-nav{display:flex;align-items:center;justify-content:center;gap:16px;padding:6px 0 10px}
+.sp-week-lbl{font-size:15px;font-weight:800;text-align:center;min-width:160px}
+.sp-day-picker{display:none;padding:6px 12px 10px;border-top:1px dashed var(--bd)}
+.sp-day.open .sp-day-picker{display:block}
+.sp-opt{display:flex;align-items:center;gap:8px;padding:5px 8px;margin-bottom:2px;background:var(--bg2);border-radius:8px;cursor:pointer;font-size:12px}
+.sp-opt.sel{background:rgba(106,155,126,.1);font-weight:700}
+</style>
+</head>
+<body>
+<div class="hd"><div class="hd-lb">Mon Programme</div><h1>Ma Transformation</h1></div>
 
-export default function WellnessTracker() {
-const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1)); // Démarre au 1er janvier 2026
-const [activeTab, setActiveTab] = useState(‘home’);
-const [data, setData] = useState({});
+<!-- ========== 1. GUT RESET ========== -->
+<div class="mp on" id="m0">
+<div class="ct" style="padding-top:12px">
+<div class="gr-cal-hd">
+<button class="gr-cal-nav" onclick="grN(-1)">‹</button>
+<div class="gr-cal-info">
+<div class="gr-cal-date" id="gr-dn"></div>
+<div class="gr-cal-sub" id="gr-dd"></div>
+</div>
+<button class="gr-cal-nav" onclick="grN(1)">›</button>
+</div>
 
-// Au montage, aller à aujourd’hui
-useEffect(() => {
-setCurrentDate(new Date());
-}, []);
+<!-- Levothyrox -->
+<div class="meal-card">
+<div class="meal-card-hd">
+<span class="meal-time">6:30</span>
+<span class="meal-name">💊 Lévothyrox</span>
+<input type="checkbox" class="meal-cb" id="gr-levo" onchange="grSave()">
+</div>
+<p style="font-size:12px;color:var(--tx3)">+ eau tiède, à jeun</p>
+</div>
 
-const dateStr = currentDate.toISOString().split(‘T’)[0];
+<!-- Petit déjeuner -->
+<div class="meal-card">
+<div class="meal-card-hd">
+<span class="meal-time">7:30</span>
+<span class="meal-name">🌅 Petit déjeuner</span>
+<input type="checkbox" class="meal-cb" id="gr-bk-ck" onchange="grSave()">
+</div>
+<textarea class="meal-input" id="gr-bk" placeholder="Qu'est-ce que tu manges ce matin ?" rows="2" oninput="grSave()"></textarea>
+</div>
 
-const getOrCreateDay = () => {
-if (!data[dateStr]) {
-data[dateStr] = {
-levothyrox: false,
-pilule: false,
-morningMeal: ‘’,
-morningMealDone: false,
-noonMeal: ‘’,
-noonMealDone: false,
-eveningMeal: ‘’,
-eveningMealDone: false,
-omega3: false,
-vitaminD: false,
-magnesium: false,
-gluco3: false,
-sport: [],
-nutrition: {},
-wellness: {
-resetHome: { chambre: false, aspirer: false, aerer: false, tenues: false },
-shower: {
-before: { brossage: false, huileCh: false, secMassage: false },
-during: { shampoing: false, apres: false, masque: false, gel: false, scrub: false, huile: false },
-after: { creme: false, huileCorps: false, deo: false, ongles: false }
-},
-skincare: { nettoyantHuile: false, nettoyantMoussant: false, epilation: false, decolo: false, huileFace: false, cremeYeux: false, lotion: false, cremeFace: false }
-}
-};
-setData({…data});
-}
-return data[dateStr];
-};
+<!-- Déjeuner -->
+<div class="meal-card">
+<div class="meal-card-hd">
+<span class="meal-time">12:30</span>
+<span class="meal-name">☀️ Déjeuner</span>
+<input type="checkbox" class="meal-cb" id="gr-lu-ck" onchange="grSave()">
+</div>
+<textarea class="meal-input" id="gr-lu" placeholder="Qu'est-ce que tu manges à midi ?" rows="2" oninput="grSave()"></textarea>
+</div>
 
-const currentDay = getOrCreateDay();
+<!-- Dîner -->
+<div class="meal-card">
+<div class="meal-card-hd">
+<span class="meal-time">19:30</span>
+<span class="meal-name">🌙 Dîner</span>
+<input type="checkbox" class="meal-cb" id="gr-di-ck" onchange="grSave()">
+</div>
+<textarea class="meal-input" id="gr-di" placeholder="Qu'est-ce que tu manges ce soir ?" rows="2" oninput="grSave()"></textarea>
+</div>
 
-const updateDay = (updates) => {
-data[dateStr] = { …currentDay, …updates };
-setData({…data});
-};
+<!-- Compléments -->
+<div class="meal-card">
+<div class="meal-card-hd">
+<span class="meal-time">20:00</span>
+<span class="meal-name">💊 Compléments &amp; Pilule</span>
+</div>
+<div class="cl" style="margin-bottom:0;box-shadow:none;border-radius:8px">
+<div class="ci"><input type="checkbox" class="cb" id="gr-c1" onchange="grSave()"><label class="cl-l" for="gr-c1">🐟 Oméga-3</label></div>
+<div class="ci"><input type="checkbox" class="cb" id="gr-c2" onchange="grSave()"><label class="cl-l" for="gr-c2">☀️ Vitamine D</label></div>
+<div class="ci"><input type="checkbox" class="cb" id="gr-c3" onchange="grSave()"><label class="cl-l" for="gr-c3">🧲 Magnésium</label></div>
+<div class="ci"><input type="checkbox" class="cb" id="gr-c4" onchange="grSave()"><label class="cl-l" for="gr-c4">💊 Gluco-3</label></div>
+<div class="ci" style="border-bottom:none"><input type="checkbox" class="cb" id="gr-c5" onchange="grSave()"><label class="cl-l" for="gr-c5">🩷 Pilule</label></div>
+</div>
+</div>
 
-const toggleCheckbox = (field) => {
-updateDay({ [field]: !currentDay[field] });
-};
+<button class="rb" onclick="grReset()">🔄 Réinitialiser le jour</button>
+</div>
+</div>
 
-const updateNestedCheckbox = (path, value) => {
-const keys = path.split(’.’);
-const newData = {…currentDay};
-let obj = newData;
-for (let i = 0; i < keys.length - 1; i++) {
-obj = obj[keys[i]];
-}
-obj[keys[keys.length - 1]] = value;
-updateDay(newData);
-};
+<!-- ========== 2. SPORT ========== -->
+<div class="mp" id="m1">
+<div class="st-w">
+<button class="st-b on" onclick="ss(1,0)">Suivi</button>
+<button class="st-b" onclick="ss(1,1)">Renfo Live</button>
+</div>
+<div class="ct">
+<!-- Suivi sport calendrier -->
+<div class="sp on" id="s10">
+<div class="sp-week-nav">
+<button class="gr-cal-nav" onclick="spN(-7)">‹</button>
+<div class="sp-week-lbl" id="sp-wk"></div>
+<button class="gr-cal-nav" onclick="spN(7)">›</button>
+</div>
+<div id="sp-tl"></div>
+</div>
 
-const prevDay = () => {
-const newDate = new Date(currentDate);
-newDate.setDate(newDate.getDate() - 1);
-setCurrentDate(newDate);
-};
+<!-- Renfo Live -->
+<div class="sp" id="s11">
+<div class="lb-b" style="background:linear-gradient(135deg,var(--a),var(--a2))" onclick="tgL('A')" id="bA"><h3>🔥 Séance A — Burn &amp; Sculpt</h3><p>Clique pour ouvrir / fermer</p><span class="th" id="hA">▼</span></div>
+<div class="lp" id="lA">
+<div class="pb-bg"><div class="pb-fl" id="pbA" style="width:0%"></div></div><div class="pb-tx" id="ptA">0/17</div>
+<div class="lbt" style="border-left-color:var(--bl)">Échauffement</div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">1</div><div class="le-i"><div class="le-nm">Rameur</div><div class="le-dt">5 min progressif</div></div></div>
+<div class="lbt" style="border-left-color:var(--a2)">Cardio-Core × 4 tours</div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">2</div><div class="le-i"><div class="le-nm">Mountain climbers</div><div class="le-dt">40s</div><div id="t-A-2"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,40,'A-2')">40s▶</button></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">3</div><div class="le-i"><div class="le-nm">Planche commando</div><div class="le-dt">30s</div><div id="t-A-3"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,30,'A-3')">30s▶</button></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">4</div><div class="le-i"><div class="le-nm">Burpees modifiés</div><div class="le-dt">8 reps</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">5</div><div class="le-i"><div class="le-nm">Russian twists</div><div class="le-dt">20 reps</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">6</div><div class="le-i"><div class="le-nm">Inchworms</div><div class="le-dt">6 reps</div></div></div>
+<div class="lbt" style="border-left-color:var(--pu)">Abdos / Taille × 3 tours</div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">7</div><div class="le-i"><div class="le-nm">Dead bug</div><div class="le-dt">12/côté</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">8</div><div class="le-i"><div class="le-nm">Bicycle crunch</div><div class="le-dt">20 reps</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">9</div><div class="le-i"><div class="le-nm">Planche lat. + rotation</div><div class="le-dt">10/côté</div><div id="t-A-9"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,30,'A-9')">30s▶</button></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">10</div><div class="le-i"><div class="le-nm">Hip dips</div><div class="le-dt">12/côté</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">11</div><div class="le-i"><div class="le-nm">Heel taps</div><div class="le-dt">20 reps</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">12</div><div class="le-i"><div class="le-nm">Bird dog</div><div class="le-dt">10/côté</div></div></div>
+<div class="lbt" style="border-left-color:var(--a)">Finisher</div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">13</div><div class="le-i"><div class="le-nm">Rameur max</div><div class="le-dt">2 min</div><div id="t-A-13"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,120,'A-13')">2:00▶</button></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">14</div><div class="le-i"><div class="le-nm">Repos</div><div class="le-dt">1 min</div><div id="t-A-14"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,60,'A-14')">1:00▶</button></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">15</div><div class="le-i"><div class="le-nm">Tapis sprint/marche</div><div class="le-dt">2 min</div><div id="t-A-15"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,120,'A-15')">2:00▶</button></div>
+<div class="lbt" style="border-left-color:var(--g)">Retour au calme</div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">16</div><div class="le-i"><div class="le-nm">Étirements</div><div class="le-dt">3 min</div></div></div>
+<div class="le" onclick="tgE(this,'A')"><div class="le-n">17</div><div class="le-i"><div class="le-nm">Respiration abdo</div><div class="le-dt">2 min</div></div></div>
+<button class="rb" onclick="rstL('A')">🔄 Réinitialiser</button>
+</div>
+<div class="lb-b" style="background:linear-gradient(135deg,var(--bl),var(--pu))" onclick="tgL('B')" id="bB"><h3>🔵 Séance B — Core Killer</h3><p>Clique pour ouvrir / fermer</p><span class="th" id="hB">▼</span></div>
+<div class="lp" id="lB">
+<div class="pb-bg"><div class="pb-fl" id="pbB" style="width:0%"></div></div><div class="pb-tx" id="ptB">0/15</div>
+<div class="lbt" style="border-left-color:var(--bl)">Échauffement</div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">1</div><div class="le-i"><div class="le-nm">Vélo spinning</div><div class="le-dt">5 min</div></div></div>
+<div class="lbt" style="border-left-color:var(--a2)">EMOM × 4 tours</div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">2</div><div class="le-i"><div class="le-nm">MC + Pompes</div><div class="le-dt">15+5</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">3</div><div class="le-i"><div class="le-nm">Inchworms</div><div class="le-dt">6 reps</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">4</div><div class="le-i"><div class="le-nm">Dead bugs</div><div class="le-dt">12 reps</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">5</div><div class="le-i"><div class="le-nm">Burpees modifiés</div><div class="le-dt">10 reps</div></div></div>
+<div class="lbt" style="border-left-color:var(--pu)">Taille × 3 tours</div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">6</div><div class="le-i"><div class="le-nm">Planche araignée</div><div class="le-dt">10/côté</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">7</div><div class="le-i"><div class="le-nm">Crunch oblique</div><div class="le-dt">15/côté</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">8</div><div class="le-i"><div class="le-nm">Planche + hip dips</div><div class="le-dt">20</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">9</div><div class="le-i"><div class="le-nm">Toe taps</div><div class="le-dt">12/côté</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">10</div><div class="le-i"><div class="le-nm">Side crunch</div><div class="le-dt">12/côté</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">11</div><div class="le-i"><div class="le-nm">Planche</div><div class="le-dt">45s</div><div id="t-B-11"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,45,'B-11')">45s▶</button></div>
+<div class="lbt" style="border-left-color:var(--a)">Finisher Tabata</div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">12</div><div class="le-i"><div class="le-nm">Tapis sprint/repos</div><div class="le-dt">8×20s/10s</div><div id="t-B-12"></div></div><button class="tb tb-s" onclick="event.stopPropagation();tmr(this,240,'B-12')">4:00▶</button></div>
+<div class="lbt" style="border-left-color:var(--g)">Retour au calme</div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">13</div><div class="le-i"><div class="le-nm">Étirements</div><div class="le-dt">2 min</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">14</div><div class="le-i"><div class="le-nm">Posture enfant</div><div class="le-dt">1 min</div></div></div>
+<div class="le" onclick="tgE(this,'B')"><div class="le-n">15</div><div class="le-i"><div class="le-nm">Torsion allongée</div><div class="le-dt">1 min/côté</div></div></div>
+<button class="rb" onclick="rstL('B')">🔄 Réinitialiser</button>
+</div>
+</div>
+</div>
+</div>
 
-const nextDay = () => {
-const newDate = new Date(currentDate);
-newDate.setDate(newDate.getDate() + 1);
-setCurrentDate(newDate);
-};
+<!-- ========== 3. NUTRITION ========== -->
+<div class="mp" id="m2">
+<div class="ct" style="padding-top:12px">
+<div class="sc" style="border-left-color:var(--g)"><h3>🔍 Cherche un aliment</h3><p>Tape le nom d'un aliment pour savoir si tu peux le manger.</p></div>
+<input type="text" class="srch" id="food-srch" placeholder="Rechercher un aliment..." oninput="srchFood(this.value)">
+<div class="cl" id="food-results"></div>
+</div>
+</div>
 
-const formatDate = (date) => {
-const options = { weekday: ‘long’, year: ‘numeric’, month: ‘long’, day: ‘numeric’ };
-return date.toLocaleDateString(‘fr-FR’, options);
-};
+<!-- ========== 4. SANTÉ ========== -->
+<div class="mp" id="m3">
+<div class="st-w">
+<button class="st-b on" onclick="ss(3,0)">Suivi Jour</button>
+<button class="st-b" onclick="ss(3,1)">Mesures</button>
+<button class="st-b" onclick="ss(3,2)">Bilan Sang</button>
+<button class="st-b" onclick="ss(3,3)">Wellness</button>
+</div>
+<div class="ct">
+<div class="sp on" id="s30">
+<div class="sc" style="border-left-color:var(--g)"><h3>❤️ Suivi quotidien</h3></div>
+<div class="cl" id="hcl"></div>
+<button class="rb" onclick="rstH()">🔄 Nouveau jour</button>
+</div>
+<div class="sp" id="s31">
+<div class="mf"><h3>📐 Nouvelle mesure</h3>
+<div class="fr"><div class="ff full"><label>Date</label><input type="date" id="md"></div></div>
+<div class="fr"><div class="ff"><label>Poids (kg)</label><input type="number" step="0.1" id="mp2"></div><div class="ff"><label>Tour taille</label><input type="number" step="0.5" id="mta"></div></div>
+<div class="fr"><div class="ff"><label>Hanches</label><input type="number" step="0.5" id="mha"></div><div class="ff"><label>Poitrine</label><input type="number" step="0.5" id="mpo"></div></div>
+<div class="fr"><div class="ff"><label>IMC</label><input type="number" step="0.1" id="mim"></div><div class="ff"><label>Graisse %</label><input type="number" step="0.1" id="mgr"></div></div>
+<div class="fr"><div class="ff"><label>Sous-cut. %</label><input type="number" step="0.1" id="msc"></div><div class="ff"><label>Masse musc.</label><input type="number" step="0.1" id="mmu"></div></div>
+<div class="fr"><div class="ff"><label>Métab. basal</label><input type="number" id="mmb"></div><div class="ff"><label>Âge corporel</label><input type="number" id="mac"></div></div>
+<button class="sv-b" onclick="svM()">💾 Enregistrer</button>
+</div>
+<div id="mhist"></div>
+</div>
+<div class="sp" id="s32">
+<div id="last-blood"></div>
+<div class="mf"><h3>🩸 Nouveau bilan</h3>
+<div class="fr"><div class="ff full"><label>Date</label><input type="date" id="bd"></div></div>
+<div id="bFields"><div class="fr"><div class="ff full"><label>Nom</label><input type="text" placeholder="TSH, T4, HDL..." class="bf-nm"></div></div><div class="fr"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-vl"></div><div class="ff"><label>Unité</label><input type="text" class="bf-un" placeholder="mU/l"></div></div></div>
+<button class="rb" style="margin-top:4px;background:var(--bg2);color:var(--a2)" onclick="addBF()">+ Ajouter une valeur</button>
+<button class="sv-b" onclick="svB()">💾 Enregistrer</button>
+</div>
+<div id="bhist"></div>
+</div>
 
-return (
-<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-{/* Header */}
-<div className="bg-white shadow-sm border-b border-indigo-100">
-<div className="max-w-2xl mx-auto px-4 py-4">
-<div className="flex items-center justify-between mb-4">
-<button onClick={prevDay} className="p-2 hover:bg-gray-100 rounded">
-<ChevronLeft size={20} />
-</button>
-<h1 className="text-xl font-semibold text-indigo-900">{formatDate(currentDate)}</h1>
-<button onClick={nextDay} className="p-2 hover:bg-gray-100 rounded">
-<ChevronRight size={20} />
-</button>
+<!-- Wellness -->
+<div class="sp" id="s33">
+<div class="sc" style="border-left-color:var(--pu)"><h3>✨ Wellness</h3><p>Coche les étapes de ton rituel bien-être.</p></div>
+
+<!-- Reset Home -->
+<div class="wl-sec" id="wl0">
+<div class="wl-hd" onclick="tgWl(0)">
+<span class="wl-hd-ic">🏠</span>
+<div class="wl-hd-tx">
+<div class="wl-hd-nm">Reset Home</div>
+<div class="wl-hd-st" id="wl0-st">0/4 complété</div>
+</div>
+<span class="wl-hd-ar">▼</span>
+</div>
+<div class="wl-pb"><div class="wl-pf" id="wl0-pb" style="width:0%"></div></div>
+<div class="wl-body">
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-h1" onchange="updWl(0)"><label class="cl-l" for="wl-h1">🛏 Ranger ma chambre</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-h2" onchange="updWl(0)"><label class="cl-l" for="wl-h2">🧹 Aspirer</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-h3" onchange="updWl(0)"><label class="cl-l" for="wl-h3">🪟 Aérer la chambre</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-h4" onchange="updWl(0)"><label class="cl-l" for="wl-h4">👗 Préparer les tenues de la semaine</label></div>
+</div>
+</div>
+
+<!-- Everything Shower -->
+<div class="wl-sec" id="wl1">
+<div class="wl-hd" onclick="tgWl(1)">
+<span class="wl-hd-ic">🚿</span>
+<div class="wl-hd-tx">
+<div class="wl-hd-nm">Everything Shower</div>
+<div class="wl-hd-st" id="wl1-st">0/14 complété</div>
+</div>
+<span class="wl-hd-ar">▼</span>
+</div>
+<div class="wl-pb"><div class="wl-pf" id="wl1-pb" style="width:0%"></div></div>
+<div class="wl-body">
+<div class="wl-sub">Avant la douche</div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s1" onchange="updWl(1)"><label class="cl-l" for="wl-s1">💆 Brosser les cheveux</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s2" onchange="updWl(1)"><label class="cl-l" for="wl-s2">🫙 Huile cheveux</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s3" onchange="updWl(1)"><label class="cl-l" for="wl-s3">🖌 Brossage corps à sec</label></div>
+<div class="wl-sub">Dans la douche</div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s4" onchange="updWl(1)"><label class="cl-l" for="wl-s4">🧴 Shampoing + brosse massage</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s5" onchange="updWl(1)"><label class="cl-l" for="wl-s5">✨ Après-shampoing</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s6" onchange="updWl(1)"><label class="cl-l" for="wl-s6">💚 Masque cheveux</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s7" onchange="updWl(1)"><label class="cl-l" for="wl-s7">🧼 Gel douche</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s8" onchange="updWl(1)"><label class="cl-l" for="wl-s8">🍊 Scrub</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s9" onchange="updWl(1)"><label class="cl-l" for="wl-s9">💧 Huile de douche</label></div>
+<div class="wl-sub">Après la douche</div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s10" onchange="updWl(1)"><label class="cl-l" for="wl-s10">🧴 Crème corps</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s11" onchange="updWl(1)"><label class="cl-l" for="wl-s11">✨ Huile corps</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s12" onchange="updWl(1)"><label class="cl-l" for="wl-s12">🌸 Déo</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-s13" onchange="updWl(1)"><label class="cl-l" for="wl-s13">💅 Ongles pieds &amp; mains</label></div>
+</div>
+</div>
+
+<!-- Skincare -->
+<div class="wl-sec" id="wl2">
+<div class="wl-hd" onclick="tgWl(2)">
+<span class="wl-hd-ic">🌿</span>
+<div class="wl-hd-tx">
+<div class="wl-hd-nm">Skincare</div>
+<div class="wl-hd-st" id="wl2-st">0/9 complété</div>
+</div>
+<span class="wl-hd-ar">▼</span>
+</div>
+<div class="wl-pb"><div class="wl-pf" id="wl2-pb" style="width:0%"></div></div>
+<div class="wl-body">
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k1" onchange="updWl(2)"><label class="cl-l" for="wl-k1">🫧 Nettoyant huile</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k2" onchange="updWl(2)"><label class="cl-l" for="wl-k2">🧼 Nettoyant moussant</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k3" onchange="updWl(2)"><label class="cl-l" for="wl-k3">🪡 Épilation visage</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k4" onchange="updWl(2)"><label class="cl-l" for="wl-k4">🌟 Décoloration visage</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k5" onchange="updWl(2)"><label class="cl-l" for="wl-k5">💆 Huile visage + Gua sha</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k6" onchange="updWl(2)"><label class="cl-l" for="wl-k6">👁 Crème yeux</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k7" onchange="updWl(2)"><label class="cl-l" for="wl-k7">💦 Lotion</label></div>
+<div class="wl-item"><input type="checkbox" class="cb" id="wl-k8" onchange="updWl(2)"><label class="cl-l" for="wl-k8">🌸 Crème visage</label></div>
+</div>
+</div>
+
+<button class="rb" onclick="rstWl()">🔄 Réinitialiser le wellness</button>
 </div>
 </div>
 </div>
 
-```
-  {/* Contenu principal */}
-  <div className="max-w-2xl mx-auto px-4 py-6 pb-28">
-    
-    {/* TAB HOME */}
-    {activeTab === 'home' && (
-      <div className="space-y-6">
-        {/* Médicaments */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-indigo-900">Médicaments</h2>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.levothyrox}
-              onChange={() => toggleCheckbox('levothyrox')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Levothyrox</span>
-          </label>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.pilule}
-              onChange={() => toggleCheckbox('pilule')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Pilule</span>
-          </label>
-        </div>
-
-        {/* Repas */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-indigo-900">Repas</h2>
-          
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Matin</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={currentDay.morningMeal}
-                onChange={(e) => updateDay({morningMeal: e.target.value})}
-                placeholder="Description du repas..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
-              />
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={currentDay.morningMealDone}
-                  onChange={() => toggleCheckbox('morningMealDone')}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm">✓</span>
-              </label>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Midi</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={currentDay.noonMeal}
-                onChange={(e) => updateDay({noonMeal: e.target.value})}
-                placeholder="Description du repas..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
-              />
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={currentDay.noonMealDone}
-                  onChange={() => toggleCheckbox('noonMealDone')}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm">✓</span>
-              </label>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Soir</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={currentDay.eveningMeal}
-                onChange={(e) => updateDay({eveningMeal: e.target.value})}
-                placeholder="Description du repas..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
-              />
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={currentDay.eveningMealDone}
-                  onChange={() => toggleCheckbox('eveningMealDone')}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm">✓</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Compléments */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-indigo-900">Compléments</h2>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.omega3}
-              onChange={() => toggleCheckbox('omega3')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Omega 3</span>
-          </label>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.vitaminD}
-              onChange={() => toggleCheckbox('vitaminD')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Vitamine D</span>
-          </label>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.magnesium}
-              onChange={() => toggleCheckbox('magnesium')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Magnésium</span>
-          </label>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.gluco3}
-              onChange={() => toggleCheckbox('gluco3')}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Gluco 3</span>
-          </label>
-        </div>
-      </div>
-    )}
-
-    {/* TAB SPORT */}
-    {activeTab === 'sport' && (
-      <div className="space-y-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-indigo-900 mb-4">Renfo Live</h2>
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={currentDay.sport.includes('renfoLive')}
-              onChange={() => {
-                const newSport = currentDay.sport.includes('renfoLive')
-                  ? currentDay.sport.filter(s => s !== 'renfoLive')
-                  : [...currentDay.sport, 'renfoLive'];
-                updateDay({sport: newSport});
-              }}
-              className="w-5 h-5 text-indigo-600 rounded"
-            />
-            <span className="text-gray-700">Renfo Live effectué</span>
-          </label>
-        </div>
-      </div>
-    )}
-
-    {/* TAB NUTRITION */}
-    {activeTab === 'nutrition' && (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-indigo-900 mb-4">Nutrition</h2>
-        <p className="text-gray-600">Espace pour vos notes nutritionnelles</p>
-      </div>
-    )}
-
-    {/* TAB HEALTH */}
-    {activeTab === 'health' && (
-      <div className="space-y-4">
-        <div className="flex gap-2 mb-6 border-b border-indigo-200">
-          <button
-            onClick={() => setActiveTab('health')}
-            className={`px-4 py-2 ${activeTab === 'health' ? 'border-b-2 border-indigo-600 font-semibold' : ''}`}
-          >
-            Santé
-          </button>
-          <button
-            onClick={() => setActiveTab('wellness')}
-            className={`px-4 py-2 ${activeTab === 'wellness' ? 'border-b-2 border-indigo-600 font-semibold' : ''}`}
-          >
-            Wellness
-          </button>
-        </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-indigo-900 mb-4">Santé</h2>
-          <p className="text-gray-600">Espace pour vos notes de santé</p>
-        </div>
-      </div>
-    )}
-
-    {/* TAB WELLNESS */}
-    {activeTab === 'wellness' && (
-      <div className="space-y-6">
-        <div className="flex gap-2 mb-6 border-b border-indigo-200">
-          <button
-            onClick={() => setActiveTab('health')}
-            className={`px-4 py-2 ${activeTab === 'health' ? 'border-b-2 border-indigo-600 font-semibold' : ''}`}
-          >
-            Santé
-          </button>
-          <button
-            onClick={() => setActiveTab('wellness')}
-            className={`px-4 py-2 ${activeTab === 'wellness' ? 'border-b-2 border-indigo-600 font-semibold' : ''}`}
-          >
-            Wellness
-          </button>
-        </div>
-
-        {/* Reset Home */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h3 className="font-semibold text-indigo-900">Reset Home</h3>
-          {[
-            { key: 'resetHome.chambre', label: 'Ranger ma chambre' },
-            { key: 'resetHome.aspirer', label: 'Aspirer' },
-            { key: 'resetHome.aerer', label: 'Aérer la chambre' },
-            { key: 'resetHome.tenues', label: 'Préparer les tenues de la semaine' }
-          ].map(item => (
-            <label key={item.key} className="flex items-center space-x-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={getNestedValue(currentDay, item.key)}
-                onChange={() => updateNestedValue(item.key, !getNestedValue(currentDay, item.key))}
-                className="w-5 h-5 text-indigo-600 rounded"
-              />
-              <span className="text-gray-700">{item.label}</span>
-            </label>
-          ))}
-        </div>
-
-        {/* Everything Shower */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h3 className="font-semibold text-indigo-900 mb-4">Everything Shower</h3>
-          
-          <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">Avant la douche</p>
-            {[
-              { key: 'shower.before.brossage', label: 'Brosser les cheveux' },
-              { key: 'shower.before.huileCh', label: 'Huile cheveux' },
-              { key: 'shower.before.secMassage', label: 'Brossage corps à sec' }
-            ].map(item => (
-              <label key={item.key} className="flex items-center space-x-3 cursor-pointer ml-2">
-                <input
-                  type="checkbox"
-                  checked={getNestedValue(currentDay, item.key)}
-                  onChange={() => updateNestedValue(item.key, !getNestedValue(currentDay, item.key))}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm text-gray-700">{item.label}</span>
-              </label>
-            ))}
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">Dans la douche</p>
-            {[
-              { key: 'shower.during.shampoing', label: 'Shampoing + brosse massage' },
-              { key: 'shower.during.apres', label: 'Après shampoing' },
-              { key: 'shower.during.masque', label: 'Masque cheveux' },
-              { key: 'shower.during.gel', label: 'Gel douche' },
-              { key: 'shower.during.scrub', label: 'Scrub' },
-              { key: 'shower.during.huile', label: 'Huile de douche' }
-            ].map(item => (
-              <label key={item.key} className="flex items-center space-x-3 cursor-pointer ml-2">
-                <input
-                  type="checkbox"
-                  checked={getNestedValue(currentDay, item.key)}
-                  onChange={() => updateNestedValue(item.key, !getNestedValue(currentDay, item.key))}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm text-gray-700">{item.label}</span>
-              </label>
-            ))}
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">Après la douche</p>
-            {[
-              { key: 'shower.after.creme', label: 'Crème corps' },
-              { key: 'shower.after.huileCorps', label: 'Huile corps' },
-              { key: 'shower.after.deo', label: 'Déo' },
-              { key: 'shower.after.ongles', label: 'Ongles pieds et mains' }
-            ].map(item => (
-              <label key={item.key} className="flex items-center space-x-3 cursor-pointer ml-2">
-                <input
-                  type="checkbox"
-                  checked={getNestedValue(currentDay, item.key)}
-                  onChange={() => updateNestedValue(item.key, !getNestedValue(currentDay, item.key))}
-                  className="w-4 h-4 text-indigo-600 rounded"
-                />
-                <span className="text-sm text-gray-700">{item.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Skincare */}
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h3 className="font-semibold text-indigo-900">Skincare</h3>
-          {[
-            { key: 'skincare.nettoyantHuile', label: 'Nettoyant huile' },
-            { key: 'skincare.nettoyantMoussant', label: 'Nettoyant moussant' },
-            { key: 'skincare.epilation', label: 'Épilation visage' },
-            { key: 'skincare.decolo', label: 'Décoloration visage' },
-            { key: 'skincare.huileFace', label: 'Huile visage + Gua Sha' },
-            { key: 'skincare.cremeYeux', label: 'Crème yeux' },
-            { key: 'skincare.lotion', label: 'Lotion' },
-            { key: 'skincare.cremeFace', label: 'Crème visage' }
-          ].map(item => (
-            <label key={item.key} className="flex items-center space-x-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={getNestedValue(currentDay, item.key)}
-                onChange={() => updateNestedValue(item.key, !getNestedValue(currentDay, item.key))}
-                className="w-5 h-5 text-indigo-600 rounded"
-              />
-              <span className="text-gray-700">{item.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-
-  {/* Navigation Bar */}
-  <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-indigo-200 shadow-lg">
-    <div className="max-w-2xl mx-auto flex justify-around">
-      {[
-        { id: 'home', icon: Home, label: 'Accueil' },
-        { id: 'sport', icon: Dumbbell, label: 'Sport' },
-        { id: 'nutrition', icon: Utensils, label: 'Nutrition' },
-        { id: 'health', icon: Heart, label: 'Santé' }
-      ].map(tab => (
-        <button
-          key={tab.id}
-          onClick={() => setActiveTab(tab.id)}
-          className={`flex-1 py-4 flex flex-col items-center gap-1 ${
-            activeTab === tab.id ? 'text-indigo-600 border-t-2 border-indigo-600' : 'text-gray-500'
-          }`}
-        >
-          <tab.icon size={20} />
-          <span className="text-xs">{tab.label}</span>
-        </button>
-      ))}
-    </div>
-  </div>
+<!-- ========== 5. OBJECTIFS ========== -->
+<div class="mp" id="m4">
+<div class="ct" style="padding-top:12px">
+<div id="wtBar"></div>
+<div id="evC"></div>
+<div class="mf"><h3>➕ Ajouter un événement</h3>
+<div class="fr"><div class="ff full"><label>Nom</label><input type="text" id="ev-nm" placeholder="Ex: Mariage de Sophie"></div></div>
+<div class="fr"><div class="ff"><label>Date</label><input type="date" id="ev-dt"></div><div class="ff"><label>Emoji</label><input type="text" id="ev-em" placeholder="🎉" maxlength="2"></div></div>
+<div class="fr"><div class="ff"><label>Objectif poids (kg)</label><input type="number" step="0.5" id="ev-tw" placeholder="65"></div></div>
+<button class="sv-b" onclick="addEv()">Ajouter</button>
 </div>
-```
+</div>
+</div>
 
-);
+<!-- Nav -->
+<div class="bn">
+<button class="ni-b on" onclick="sm(0)"><span class="ic">🌿</span><span class="lb">Journal</span></button>
+<button class="ni-b" onclick="sm(1)"><span class="ic">💪</span><span class="lb">Sport</span></button>
+<button class="ni-b" onclick="sm(2)"><span class="ic">🍽</span><span class="lb">Nutrition</span></button>
+<button class="ni-b" onclick="sm(3)"><span class="ic">❤️</span><span class="lb">Santé</span></button>
+<button class="ni-b" onclick="sm(4)"><span class="ic">🎯</span><span class="lb">Objectifs</span></button>
+</div>
 
-function getNestedValue(obj, path) {
-return path.split(’.’).reduce((current, prop) => current?.[prop], obj) || false;
+<script>
+// ===== NAV =====
+function sm(i){document.querySelectorAll('.mp').forEach((p,j)=>p.classList.toggle('on',j===i));document.querySelectorAll('.ni-b').forEach((b,j)=>b.classList.toggle('on',j===i));scrollTo({top:0,behavior:'smooth'})}
+function ss(m,s){const p=document.getElementById('m'+m);p.querySelectorAll('.sp').forEach((x,j)=>x.classList.toggle('on',j===s));p.querySelectorAll('.st-b').forEach((b,j)=>b.classList.toggle('on',j===s))}
+function toggleCard(e){e.classList.toggle('open')}
+
+// ===== TIMER =====
+let TM={};
+function tmr(b,s,id){if(TM[id]){clearInterval(TM[id]);delete TM[id];b.className='tb tb-s';b.textContent=fT(s)+'▶';document.getElementById('t-'+id).textContent='';return}let r=s;b.className='tb tb-r';const d=document.getElementById('t-'+id);d.className='td-t';d.textContent=fT(r);TM[id]=setInterval(()=>{r--;d.textContent=fT(r);if(r<=0){clearInterval(TM[id]);delete TM[id];b.className='tb tb-d';b.textContent='✓';d.textContent='DONE!';d.style.color='var(--g)';beep();const ex=b.closest('.le');if(ex&&!ex.classList.contains('done')){ex.classList.add('done');updP(id.split('-')[0])}}},1000)}
+function fT(s){const m=Math.floor(s/60),sc=s%60;return m>0?m+':'+(sc<10?'0':'')+sc:sc+'s'}
+function beep(){try{const c=new(window.AudioContext||window.webkitAudioContext)();for(let i=0;i<3;i++){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.value=.3;o.start(c.currentTime+i*.2);o.stop(c.currentTime+i*.2+.12)}}catch(e){}}
+
+// ===== LIVE RENFO =====
+function tgL(s){document.getElementById('l'+s).classList.toggle('on');document.getElementById('h'+s).textContent=document.getElementById('l'+s).classList.contains('on')?'▲':'▼'}
+function tgE(e,s){e.classList.toggle('done');updP(s);svLv(s)}
+function updP(s){const p=document.getElementById('l'+s),a=p.querySelectorAll('.le'),d=p.querySelectorAll('.le.done'),pc=Math.round(d.length/a.length*100);document.getElementById('pb'+s).style.width=pc+'%';document.getElementById('pt'+s).textContent=d.length+'/'+a.length+(pc===100?' ✅':'')}
+function rstL(s){document.getElementById('l'+s).querySelectorAll('.le.done').forEach(e=>e.classList.remove('done'));updP(s);svLv(s)}
+function svLv(s){try{localStorage.setItem('lv_'+s,JSON.stringify([...document.getElementById('l'+s).querySelectorAll('.le')].map(e=>e.classList.contains('done'))))}catch(e){}}
+function ldLv(s){try{const d=JSON.parse(localStorage.getItem('lv_'+s));if(!d)return;document.getElementById('l'+s).querySelectorAll('.le').forEach((e,i)=>{if(d[i])e.classList.add('done')});updP(s)}catch(e){}}
+
+// ===== GUT RESET / JOURNAL =====
+let grDate = new Date();
+grDate.setHours(0,0,0,0);
+
+function grKey(dt){return 'gr2_'+dt.toISOString().split('T')[0]}
+function grLd(dt){try{return JSON.parse(localStorage.getItem(grKey(dt)))||{}}catch(e){return{}}}
+function grSave(){
+  const dt=new Date(grDate);
+  const d={
+    levo:document.getElementById('gr-levo').checked,
+    bkTxt:document.getElementById('gr-bk').value,
+    bkCk:document.getElementById('gr-bk-ck').checked,
+    luTxt:document.getElementById('gr-lu').value,
+    luCk:document.getElementById('gr-lu-ck').checked,
+    diTxt:document.getElementById('gr-di').value,
+    diCk:document.getElementById('gr-di-ck').checked,
+    c1:document.getElementById('gr-c1').checked,
+    c2:document.getElementById('gr-c2').checked,
+    c3:document.getElementById('gr-c3').checked,
+    c4:document.getElementById('gr-c4').checked,
+    c5:document.getElementById('gr-c5').checked
+  };
+  try{localStorage.setItem(grKey(dt),JSON.stringify(d))}catch(e){}
+}
+function grLoad(){
+  const d=grLd(grDate);
+  document.getElementById('gr-levo').checked=!!d.levo;
+  document.getElementById('gr-bk').value=d.bkTxt||'';
+  document.getElementById('gr-bk-ck').checked=!!d.bkCk;
+  document.getElementById('gr-lu').value=d.luTxt||'';
+  document.getElementById('gr-lu-ck').checked=!!d.luCk;
+  document.getElementById('gr-di').value=d.diTxt||'';
+  document.getElementById('gr-di-ck').checked=!!d.diCk;
+  document.getElementById('gr-c1').checked=!!d.c1;
+  document.getElementById('gr-c2').checked=!!d.c2;
+  document.getElementById('gr-c3').checked=!!d.c3;
+  document.getElementById('gr-c4').checked=!!d.c4;
+  document.getElementById('gr-c5').checked=!!d.c5;
+}
+function grRender(){
+  const days=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const months=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  document.getElementById('gr-dn').textContent=days[grDate.getDay()]+' '+grDate.getDate()+' '+months[grDate.getMonth()];
+  document.getElementById('gr-dd').textContent=grDate.getFullYear();
+  grLoad();
+}
+function grN(x){grDate.setDate(grDate.getDate()+x);grRender()}
+function grReset(){
+  ['gr-levo','gr-bk-ck','gr-lu-ck','gr-di-ck','gr-c1','gr-c2','gr-c3','gr-c4','gr-c5'].forEach(id=>document.getElementById(id).checked=false);
+  ['gr-bk','gr-lu','gr-di'].forEach(id=>document.getElementById(id).value='');
+  grSave();
 }
 
-function updateNestedValue(path, value) {
-const keys = path.split(’.’);
-const newData = JSON.parse(JSON.stringify(currentDay));
-let obj = newData;
-for (let i = 0; i < keys.length - 1; i++) {
-if (!obj[keys[i]]) obj[keys[i]] = {};
-obj = obj[keys[i]];
+// ===== SPORT SUIVI =====
+let spOff=0;
+const SP_ST='2026-01-01';
+const ALL_SESS=[
+  {ic:'💪',nm:'Renfo A',dt:'Burn & Sculpt'},
+  {ic:'💪',nm:'Renfo B',dt:'Core Killer'},
+  {ic:'🚴',nm:'Aquabike',dt:'45 min'},
+  {ic:'🏃',nm:'Running',dt:''},
+  {ic:'🧘',nm:'Yoga + Sauna',dt:'45+20 min'},
+  {ic:'🌿',nm:'Repos',dt:'Marche + récup'},
+  {ic:'🏊',nm:'Natation',dt:''},
+  {ic:'💃',nm:'Danse',dt:''},
+  {ic:'🚶',nm:'Marche',dt:''},
+  {ic:'🎾',nm:'Tennis',dt:''}
+];
+
+function grFd2(dt){
+  const days=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const months=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
+  return days[dt.getDay()]+' '+dt.getDate()+' '+months[dt.getMonth()];
 }
-obj[keys[keys.length - 1]] = value;
-updateDay(newData);
+
+function spN(x){
+  // snap to week boundary
+  spOff=Math.round((spOff+x)/7)*7;
+  rndSp();
 }
+
+function rndSp(){
+  const base=new Date(SP_ST);
+  base.setDate(base.getDate()+spOff);
+  // Compute week label from Monday
+  const mon=new Date(base);
+  const dow=mon.getDay()===0?6:mon.getDay()-1;
+  mon.setDate(mon.getDate()-dow);
+  const sun=new Date(mon);sun.setDate(sun.getDate()+6);
+  const months=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
+  document.getElementById('sp-wk').textContent=mon.getDate()+' '+months[mon.getMonth()]+' – '+sun.getDate()+' '+months[sun.getMonth()]+' '+sun.getFullYear();
+
+  let h='';
+  for(let i=0;i<7;i++){
+    const dt=new Date(mon);dt.setDate(mon.getDate()+i);
+    const key='sp2_'+dt.toISOString().split('T')[0];
+    let done=false,chosen=null;
+    try{done=localStorage.getItem(key+'_d')==='1';chosen=localStorage.getItem(key+'_s')}catch(e){}
+    const disp=chosen?ALL_SESS.find(s=>s.nm===chosen)||{ic:'✏️',nm:chosen,dt:''}:{ic:'📅',nm:'Aucune séance',dt:'Appuie pour choisir'};
+    const isToday=dt.toDateString()===new Date().toDateString();
+    h+=`<div class="sp-day${isToday?' open':''}" id="spd${key}">
+<div class="sp-day-hd" onclick="document.getElementById('spd${key}').classList.toggle('open')">
+<input type="checkbox" class="sp-day-ck" ${done?'checked':''} onclick="event.stopPropagation();try{localStorage.setItem('${key}_d',this.checked?'1':'0')}catch(e){}">
+<span class="sp-day-ic">${disp.ic}</span>
+<div class="sp-day-info">
+<div class="sp-day-dt">${grFd2(dt)}${isToday?' 📍':''}</div>
+<div class="sp-day-nm">${disp.nm}</div>
+<div class="sp-day-det">${disp.dt}</div>
+</div>
+</div>
+<div class="sp-day-picker">
+<div style="font-size:10px;color:var(--tx3);font-weight:700;margin-bottom:6px">Choisir la séance</div>
+${ALL_SESS.map(s=>`<div class="sp-opt${chosen===s.nm?' sel':''}" onclick="spPick('${key}','${s.nm}');document.getElementById('spd${key}').classList.remove('open')">
+<span>${s.ic}</span><span style="font-weight:${chosen===s.nm?'700':'400'}">${s.nm}</span><span style="font-size:10px;color:var(--tx3);margin-left:auto">${s.dt}</span>
+</div>`).join('')}
+<div class="sp-opt" onclick="spClear('${key}');document.getElementById('spd${key}').classList.remove('open')"><span>✕</span><span>Effacer</span></div>
+</div>
+</div>`;
+  }
+  document.getElementById('sp-tl').innerHTML=h;
 }
+
+function spPick(key,nm){try{localStorage.setItem(key+'_s',nm);localStorage.setItem(key+'_d','1')}catch(e){}rndSp()}
+function spClear(key){try{localStorage.removeItem(key+'_s');localStorage.removeItem(key+'_d')}catch(e){}rndSp()}
+
+function spGoToday(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const base=new Date(SP_ST);base.setHours(0,0,0,0);
+  const diff=Math.floor((today-base)/864e5);
+  const mon=diff-(today.getDay()===0?6:today.getDay()-1);
+  spOff=mon;
+  rndSp();
+}
+
+// ===== HEALTH =====
+const H_DEF=[{e:'💧',l:'2L d\'eau minimum'},{e:'🚶',l:'7 000 pas'},{e:'😴',l:'7h30 sommeil'},{e:'🤸',l:'Étirements'}];
+function bldH(){
+  try{var custom=JSON.parse(localStorage.getItem('hcustom')||'[]')}catch(e){var custom=[]}
+  const all=[...H_DEF,...custom.map(c=>({e:'✏️',l:c}))];
+  let h='';all.forEach((it,i)=>{h+=`<div class="ci"><span class="cl-e">${it.e}</span><input type="checkbox" class="cb" id="hc${i}" onchange="svH()"><label class="cl-l" for="hc${i}">${it.l}</label></div>`});
+  h+=`<div class="ci" style="border-bottom:none"><input type="text" id="h-new" placeholder="+ Ajouter un suivi..." style="border:none;font-size:12px;flex:1;outline:none;font-family:'Nunito',sans-serif" onkeydown="if(event.key==='Enter')addHItem()"><button onclick="addHItem()" style="border:none;background:var(--a);color:#FFF;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer">+</button></div>`;
+  document.getElementById('hcl').innerHTML=h;ldH();
+}
+function addHItem(){const v=document.getElementById('h-new').value.trim();if(!v)return;try{let c=JSON.parse(localStorage.getItem('hcustom')||'[]');c.push(v);localStorage.setItem('hcustom',JSON.stringify(c))}catch(e){}bldH()}
+function svH(){try{const d={};document.querySelectorAll('#hcl .cb').forEach((c,i)=>d[i]=c.checked);d.dt=new Date().toDateString();localStorage.setItem('hlt',JSON.stringify(d))}catch(e){}}
+function ldH(){try{const d=JSON.parse(localStorage.getItem('hlt'));if(!d||d.dt!==new Date().toDateString())return;document.querySelectorAll('#hcl .cb').forEach((c,i)=>{if(d[i])c.checked=true})}catch(e){}}
+function rstH(){document.querySelectorAll('#hcl .cb').forEach(c=>c.checked=false);svH()}
+
+// ===== WELLNESS =====
+const WL_COUNTS=[4,13,8];
+const WL_KEYS=[
+  ['wl-h1','wl-h2','wl-h3','wl-h4'],
+  ['wl-s1','wl-s2','wl-s3','wl-s4','wl-s5','wl-s6','wl-s7','wl-s8','wl-s9','wl-s10','wl-s11','wl-s12','wl-s13'],
+  ['wl-k1','wl-k2','wl-k3','wl-k4','wl-k5','wl-k6','wl-k7','wl-k8']
+];
+
+function tgWl(i){document.getElementById('wl'+i).classList.toggle('open')}
+function updWl(i){
+  const keys=WL_KEYS[i];
+  const done=keys.filter(k=>document.getElementById(k)?.checked).length;
+  const total=keys.length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('wl'+i+'-st').textContent=done+'/'+total+' complété'+(pct===100?' ✅':'');
+  document.getElementById('wl'+i+'-pb').style.width=pct+'%';
+  svWl();
+}
+function svWl(){
+  const d={};
+  WL_KEYS.forEach(grp=>grp.forEach(k=>{const el=document.getElementById(k);if(el)d[k]=el.checked}));
+  d.dt=new Date().toDateString();
+  try{localStorage.setItem('wlt',JSON.stringify(d))}catch(e){}
+}
+function ldWl(){
+  try{
+    const d=JSON.parse(localStorage.getItem('wlt'));
+    if(!d||d.dt!==new Date().toDateString())return;
+    WL_KEYS.forEach((grp,i)=>{grp.forEach(k=>{const el=document.getElementById(k);if(el&&d[k])el.checked=true});updWl(i)});
+  }catch(e){}
+}
+function rstWl(){
+  WL_KEYS.forEach((grp,i)=>{grp.forEach(k=>{const el=document.getElementById(k);if(el)el.checked=false});updWl(i)});
+  svWl();
+}
+
+// ===== MEASURES =====
+const MF2=['mp2','mta','mha','mpo','mim','mgr','msc','mmu','mmb','mac'];
+const ML2={mp2:'Poids',mta:'Tour taille',mha:'Hanches',mpo:'Poitrine',mim:'IMC',mgr:'Graisse%',msc:'Sous-cut%',mmu:'Masse musc.',mmb:'Métab.',mac:'Âge corp.'};
+const MU2={mp2:'kg',mta:'cm',mha:'cm',mpo:'cm',mim:'',mgr:'%',msc:'%',mmu:'kg',mmb:'kcal',mac:'ans'};
+function svM(){const e={date:document.getElementById('md').value||new Date().toISOString().split('T')[0]};let h=false;MF2.forEach(f=>{const v=document.getElementById(f).value;if(v){e[f]=parseFloat(v);h=true}});if(!h)return;try{let a=JSON.parse(localStorage.getItem('msr')||'[]');a.unshift(e);localStorage.setItem('msr',JSON.stringify(a))}catch(x){}MF2.forEach(f=>document.getElementById(f).value='');rndM();rndEv()}
+function rndM(){try{const a=JSON.parse(localStorage.getItem('msr')||'[]'),c=document.getElementById('mhist');if(!a.length){c.innerHTML='<p class="sn" style="text-align:center;padding:12px">Aucune mesure</p>';return}c.innerHTML=a.map((e,i)=>{let g='';MF2.forEach(f=>{if(e[f]!==undefined)g+=`<div class="me-i">${ML2[f]}: <span>${e[f]}${MU2[f]?' '+MU2[f]:''}</span></div>`});return`<div class="me"><div class="me-d">${fmD(e.date)}<button class="me-del" onclick="delM(${i})">✗</button></div><div class="me-g">${g}</div></div>`}).join('')}catch(e){}}
+function delM(i){try{let a=JSON.parse(localStorage.getItem('msr')||'[]');a.splice(i,1);localStorage.setItem('msr',JSON.stringify(a));rndM();rndEv()}catch(e){}}
+function fmD(d){const p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+
+// ===== BLOOD WORK =====
+function addBF(){const c=document.getElementById('bFields');c.insertAdjacentHTML('beforeend','<div style="border-top:1px dashed var(--bd);padding-top:6px;margin-top:6px"></div><div class="fr"><div class="ff full"><label>Nom</label><input type="text" class="bf-nm" placeholder="Ex: CRP..."></div></div><div class="fr"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-vl"></div><div class="ff"><label>Unité</label><input type="text" class="bf-un"></div></div>')}
+function svB(){const date=document.getElementById('bd').value||new Date().toISOString().split('T')[0];const nms=document.querySelectorAll('#bFields .bf-nm'),vls=document.querySelectorAll('#bFields .bf-vl'),uns=document.querySelectorAll('#bFields .bf-un');const vals=[];nms.forEach((n,i)=>{const nm=n.value.trim(),vl=vls[i]?.value,un=uns[i]?.value.trim()||'';if(nm&&vl)vals.push({name:nm,val:parseFloat(vl),unit:un})});if(!vals.length)return;try{let a=JSON.parse(localStorage.getItem('bld')||'[]');a.unshift({date,values:vals});localStorage.setItem('bld',JSON.stringify(a))}catch(x){}document.getElementById('bFields').innerHTML='<div class="fr"><div class="ff full"><label>Nom</label><input type="text" placeholder="TSH, T4, HDL..." class="bf-nm"></div></div><div class="fr"><div class="ff"><label>Résultat</label><input type="number" step="0.01" class="bf-vl"></div><div class="ff"><label>Unité</label><input type="text" class="bf-un" placeholder="mU/l"></div></div>';rndB()}
+function rndB(){
+  try{const a=JSON.parse(localStorage.getItem('bld')||'[]');
+  const lb=document.getElementById('last-blood');
+  if(a.length>0){const last=a[0];let lh='<div class="sc" style="border-left-color:var(--a)"><h3>🩸 Dernier bilan — '+fmD(last.date)+'</h3>';if(last.values)last.values.forEach(v=>{lh+=`<p><strong>${v.name}:</strong> ${v.val} ${v.unit}</p>`});lh+='</div>';lb.innerHTML=lh}
+  else{lb.innerHTML='<div style="background:#FFF0F0;border:1px solid #EAABAB;border-radius:12px;padding:12px 14px;margin-bottom:12px"><h4 style="color:#C45050;font-size:14px;margin-bottom:4px">🩸 Aucun bilan enregistré</h4><p style="font-size:13px;color:#7A3030">Ajoute ton premier bilan ci-dessous</p></div>'}
+  const c=document.getElementById('bhist');
+  if(a.length<=1){c.innerHTML='';return}
+  c.innerHTML='<p style="font-size:12px;font-weight:700;margin:8px 0 4px">📂 Historique</p>'+a.slice(1).map((e,i)=>{let g='';if(e.values)e.values.forEach(v=>{g+=`<div class="me-i">${v.name}: <span>${v.val} ${v.unit||''}</span></div>`});return`<div class="me"><div class="me-d">🩸 ${fmD(e.date)}<button class="me-del" onclick="delB(${i+1})">✗</button></div><div class="me-g">${g}</div></div>`}).join('')}catch(e){}}
+function delB(i){try{let a=JSON.parse(localStorage.getItem('bld')||'[]');a.splice(i,1);localStorage.setItem('bld',JSON.stringify(a));rndB()}catch(e){}}
+
+// ===== FOOD SEARCH =====
+const FOODS=[
+  {n:'Poulet',s:'y'},{n:'Dinde',s:'y'},{n:'Saumon',s:'y'},{n:'Thon',s:'y'},{n:'Cabillaud',s:'y'},{n:'Sardines',s:'y'},{n:'Crevettes',s:'y'},{n:'Œufs',s:'y'},{n:'Tofu',s:'y'},{n:'Tempeh',s:'y'},
+  {n:'Bœuf',s:'w',d:'1x/sem max'},{n:'Porc',s:'w',d:'Rare'},{n:'Charcuterie',s:'n'},{n:'Saucisson',s:'n'},{n:'Panure / friture',s:'n'},{n:'Viandelle',s:'n'},
+  {n:'Riz complet',s:'y'},{n:'Riz basmati',s:'y'},{n:'Patate douce',s:'y'},{n:'Quinoa',s:'y'},{n:'Sarrasin',s:'y'},{n:'Lentilles',s:'y'},{n:'Pois chiches',s:'y'},{n:'Haricots',s:'y'},{n:'Avoine SG',s:'y'},{n:'Pâtes SG',s:'y'},{n:'Pain SG',s:'y'},{n:'Pain sarrasin',s:'y'},{n:'Galettes sarrasin',s:'y'},
+  {n:'Pomme de terre',s:'w',d:'IG haut'},{n:'Maïs',s:'w',d:'IG 65'},{n:'Riz blanc',s:'w',d:'IG haut'},{n:'Pain blanc',s:'n'},{n:'Pâtes blé',s:'n'},{n:'Couscous',s:'n'},{n:'Cracottes',s:'n'},{n:'Pizza classique',s:'n'},{n:'Pizza SG',s:'y'},{n:'Frites',s:'n'},
+  {n:'Épinards',s:'y',d:'2x/sem max (fer)'},{n:'Brocoli cuit',s:'y'},{n:'Courgette',s:'y'},{n:'Avocat',s:'y'},{n:'Poireaux',s:'y'},{n:'Fenouil',s:'y'},{n:'Carottes',s:'y'},{n:'Concombre',s:'y'},{n:'Poivron',s:'y'},{n:'Butternut',s:'y'},{n:'Salade verte',s:'y'},{n:'Tomates',s:'w',d:'Reflux possible'},
+  {n:'Myrtilles',s:'y'},{n:'Framboises',s:'y'},{n:'Fraises',s:'y'},{n:'Pomme',s:'y'},{n:'Poire',s:'y'},{n:'Kiwi',s:'y'},{n:'Grenade',s:'y'},{n:'Banane',s:'w',d:'Jour run uniquement'},{n:'Mangue',s:'w',d:'Sucré'},{n:'Raisin',s:'w',d:'IG haut'},{n:'Jus de fruit',s:'n'},{n:'Fruits en sirop',s:'n'},
+  {n:'Lait amande',s:'y'},{n:'Lait coco',s:'y'},{n:'Yaourt coco',s:'y'},{n:'Eau plate/gazeuse',s:'y'},{n:'Tisane',s:'y'},{n:'Thé vert',s:'y'},{n:'Matcha',s:'y',d:'Avant 14h'},{n:'Café noir',s:'y',d:'1/jour max'},{n:'Vin rouge',s:'w',d:'1 verre'},{n:'Lait avoine',s:'n',d:'IG 60'},{n:'Skyr vanille',s:'n',d:'Lactose+sucre'},{n:'Lait animal',s:'n'},{n:'Soda',s:'n'},{n:'Ginger beer',s:'n'},{n:'Bière',s:'n',d:'Gluten'},{n:'Cocktails sucrés',s:'n'},
+  {n:'Amandes',s:'y'},{n:'Noix du Brésil',s:'y'},{n:'Noix cajou',s:'y'},{n:'Houmous',s:'y'},{n:'Guacamole',s:'y'},{n:'Olives',s:'y'},{n:'Chocolat noir 85%',s:'y'},{n:'Beurre amande',s:'y'},{n:'Huile olive',s:'y'},{n:'Huile coco',s:'y'},{n:'Edamame',s:'y'},{n:'Chips',s:'n'},{n:'Barres céréales',s:'n'},{n:'Viennoiseries',s:'n'},{n:'Croissant',s:'n'},{n:'Couque chocolat',s:'n'},{n:'Gâteaux',s:'n'},{n:'Glace classique',s:'n'},{n:'Confiture',s:'w',d:'Très peu'},
+  {n:'Tahini',s:'y'},{n:'Tamari',s:'y',d:'Soja SG'},{n:'Moutarde',s:'y'},{n:'Pesto SG',s:'y'},{n:'Vinaigre balsamique',s:'y'},{n:'Mayo',s:'w',d:'Petite qté'},{n:'Ketchup',s:'n',d:'Sucre'},{n:'Sauce soja classique',s:'n',d:'Gluten'},{n:'Crème fraîche',s:'n',d:'Lactose'},{n:'Sauce teriyaki',s:'n'},{n:'Fromage',s:'n',d:'Lactose'},{n:'Philadelphia',s:'n',d:'Lactose'},{n:'Beurre',s:'w',d:'Très peu, lactose'},
+  {n:'Sushi sashimi',s:'y'},{n:'Poke bowl',s:'y'},{n:'Salade composée',s:'y'},{n:'Grillades + légumes',s:'y'},{n:'Curry + riz',s:'y'},{n:'Pad thaï SG',s:'y'},{n:'Soupe miso',s:'y'},{n:'Burger SG',s:'w',d:'Sans frites'},{n:'Wrap SG',s:'w'},{n:'Pasta classique',s:'n'},{n:'Fish & chips',s:'n'},{n:'Croque-monsieur',s:'n'},{n:'Quiche',s:'n'},{n:'Crêpes',s:'n'},{n:'Fruits frais',s:'y'},{n:'Nice cream',s:'y'},{n:'Compote sans sucre',s:'y'},{n:'Sorbet',s:'w',d:'Sucré'},{n:'Tiramisu',s:'n'},{n:'Mousse chocolat',s:'n'},
+  {n:'Choucroute crue',s:'y',d:'Probiotique'},{n:'Kimchi',s:'y',d:'Probiotique'},{n:'Kombucha',s:'y',d:'Probiotique'},{n:'Bouillon d\'os',s:'y',d:'Gut healing'},{n:'Graines chia',s:'y'},{n:'Graines courge',s:'y'},{n:'Collagène marin',s:'y'},{n:'Curcuma',s:'y'},{n:'Gingembre',s:'y'}
+];
+function srchFood(q){
+  const r=document.getElementById('food-results');
+  if(!q.trim()){r.innerHTML=FOODS.map(f=>`<div class="fd-r"><span>${f.n}${f.d?' · <em style="font-size:10px;color:var(--tx3)">'+f.d+'</em>':''}</span><span class="${f.s==='y'?'fd-y':f.s==='n'?'fd-n':'fd-w'}">${f.s==='y'?'✅ OUI':f.s==='n'?'❌ NON':'⚠️ LIMITÉ'}</span></div>`).join('');return}
+  const fl=FOODS.filter(f=>f.n.toLowerCase().includes(q.toLowerCase()));
+  if(!fl.length){r.innerHTML='<div class="fd-r"><span style="color:var(--tx3)">Aucun résultat</span></div>';return}
+  r.innerHTML=fl.map(f=>`<div class="fd-r"><span>${f.n}${f.d?' · <em style="font-size:10px;color:var(--tx3)">'+f.d+'</em>':''}</span><span class="${f.s==='y'?'fd-y':f.s==='n'?'fd-n':'fd-w'}">${f.s==='y'?'✅ OUI':f.s==='n'?'❌ NON':'⚠️ LIMITÉ'}</span></div>`).join('');
+}
+
+// ===== EVENTS =====
+function getWt(){try{const a=JSON.parse(localStorage.getItem('msr')||'[]');for(let e of a)if(e.mp2)return e.mp2;return 71}catch(e){return 71}}
+function rndEv(){
+  const cw=getWt(),sw=71;
+  let evs=[{e:'🏖',n:'EVJF Barcelone',d:'2026-05-21',tw:68},{e:'💍',n:'Mariage civil',d:'2026-06-20',tw:66},{e:'🎂',n:'Mon anniversaire',d:'2026-06-25',tw:66},{e:'👗',n:'Mariage DH',d:'2026-08-22',tw:63}];
+  try{const ce=JSON.parse(localStorage.getItem('cevents')||'[]');evs=evs.concat(ce)}catch(e){}
+  const today=new Date();today.setHours(0,0,0,0);
+  const tl=sw-63,cl=sw-cw,wp=Math.min(100,Math.max(0,Math.round(cl/tl*100)));
+  document.getElementById('wtBar').innerHTML=`<div class="wt-bar"><h4>⚖️ Progression poids</h4><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)"><span>${sw} kg</span><span>63 kg</span></div><div class="wt-bg"><div class="wt-fl" style="width:${wp}%"></div></div><div style="text-align:center;font-size:16px;font-weight:800;color:var(--a);font-family:'DM Serif Display',Georgia,serif">${cw} kg</div><p class="sn" style="text-align:center">${cl>0?'-'+cl.toFixed(1)+'kg':''} · ${wp}%</p></div>`;
+  document.getElementById('evC').innerHTML=evs.map(ev=>{
+    const tgt=new Date(ev.d),dl=Math.max(0,Math.ceil((tgt-today)/864e5));
+    const start=new Date('2026-04-14'),tot=Math.ceil((tgt-start)/864e5),el=tot-dl,pct=Math.min(100,Math.round(el/tot*100));
+    const cols=['var(--a)','var(--a2)','var(--g)','var(--bl)','var(--pu)'];
+    const col=cols[evs.indexOf(ev)%cols.length];
+    return`<div class="ev"><div class="ev-e">${ev.e}</div><div class="ev-i"><div class="ev-nm">${ev.n}</div><div class="ev-dt">${fmD(ev.d)}</div>${ev.tw?'<div class="ev-tg">Objectif: '+ev.tw+' kg</div>':''}<div class="ev-pb"><div class="ev-pf" style="width:${pct}%;background:${col}"></div></div></div><div class="ev-cd"><div class="ev-dy" style="color:${col}">${dl}</div><div class="ev-dl">jours</div></div></div>`}).join('');
+}
+function addEv(){
+  const nm=document.getElementById('ev-nm').value.trim(),dt=document.getElementById('ev-dt').value,em=document.getElementById('ev-em').value||'📌',tw=document.getElementById('ev-tw').value;
+  if(!nm||!dt)return;
+  try{let a=JSON.parse(localStorage.getItem('cevents')||'[]');a.push({e:em,n:nm,d:dt,tw:tw?parseFloat(tw):null});localStorage.setItem('cevents',JSON.stringify(a))}catch(e){}
+  document.getElementById('ev-nm').value='';document.getElementById('ev-dt').value='';document.getElementById('ev-em').value='';document.getElementById('ev-tw').value='';
+  rndEv();
+}
+
+// ===== INIT =====
+try{if(!localStorage.getItem('bld')){localStorage.setItem('bld',JSON.stringify([{date:'2026-04-15',values:[{name:'TSH',val:3.1,unit:'mU/l'},{name:'T4 libre',val:1.39,unit:'ng/dl'},{name:'T3 libre',val:3.19,unit:'pg/ml'},{name:'Cortisol',val:22.40,unit:'µg/dl'},{name:'Cholestérol total',val:222,unit:'mg/dl'},{name:'HDL',val:30,unit:'mg/dl'},{name:'LDL',val:151,unit:'mg/dl'},{name:'Triglycérides',val:251,unit:'mg/dl'},{name:'HOMA IR',val:1.72,unit:''},{name:'HOMA %B',val:183.5,unit:'%'},{name:'HOMA %S',val:58.3,unit:'%'},{name:'Glucose',val:79,unit:'mg/dl'},{name:'Insuline',val:16.04,unit:'mU/l'},{name:'Vitamine D',val:32,unit:'ng/ml'},{name:'Vitamine B12',val:251,unit:'ng/l'},{name:'Acide folique',val:5.12,unit:'µg/l'},{name:'Fer',val:137,unit:'µg/dl'},{name:'Hémoglobine',val:15.1,unit:'g/dl'},{name:'CRP',val:4.5,unit:'mg/l'},{name:'Testostérone',val:21.6,unit:'ng/dl'}]}]))}}catch(e){}
+
+document.getElementById('md').valueAsDate=new Date();
+document.getElementById('bd').valueAsDate=new Date();
+grDate=new Date();grDate.setHours(0,0,0,0);
+grRender();
+spGoToday();
+ldLv('A');ldLv('B');
+bldH();
+ldWl();
+WL_KEYS.forEach((_,i)=>updWl(i));
+rndM();rndB();rndEv();srchFood('');
+</script>
+</body>
+</html>

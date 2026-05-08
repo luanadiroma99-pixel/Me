@@ -193,22 +193,71 @@ function showPage(page){
  document.getElementById(page).style.display='block';
 }
 
+let meals = [];
+
 function analyzeMeal(){
  const text = document.getElementById('mealInput').value.toLowerCase();
+ if(!text) return;
  let calories = 0;
  let proteins = 0;
  if(text.includes('oeuf')){calories += 140; proteins += 12;}
  if(text.includes('kiwi')){calories += 45;}
  if(text.includes('yaourt')){calories += 120; proteins += 4;}
  if(text.includes('avocat')){calories += 160;}
- document.getElementById('mealResult').innerHTML = `≈ ${calories} kcal<br>Protéines: ${proteins}g`;
+
+ meals.push({text,calories,proteins});
+ renderMeals();
+ document.getElementById('mealInput').value='';
 }
+
+function deleteMeal(index){
+ meals.splice(index,1);
+ renderMeals();
+}
+
+function renderMeals(){
+ const result = document.getElementById('mealResult');
+ result.innerHTML = '';
+ meals.forEach((meal,index)=>{
+  result.innerHTML += `
+  <div style='background:#fffaf7;border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid #f0ddd1;display:flex;justify-content:space-between;align-items:center;'>
+   <div>
+    <div style='font-weight:600;'>${meal.text}</div>
+    <div style='font-size:13px;color:#8a6f63;'>≈ ${meal.calories} kcal • ${meal.proteins}g protéines</div>
+   </div>
+   <button onclick='deleteMeal(${index})' style='background:#e7c1b1;'>✕</button>
+  </div>`;
+ });
+}
+
+let sessions = [];
 
 function saveSession(){
  const type = document.getElementById('sessionType').value;
  const date = document.getElementById('sessionDate').value;
+ if(!date) return;
+ sessions.push({type,date});
+ renderSessions();
+}
+
+function deleteSession(index){
+ sessions.splice(index,1);
+ renderSessions();
+}
+
+function renderSessions(){
  const div = document.getElementById('sessionList');
- div.innerHTML += `<div style='padding:8px;margin-bottom:8px;background:#f6f2ef;border-radius:10px;'>${date} • ${type}</div>`;
+ div.innerHTML = '';
+ sessions.forEach((session,index)=>{
+  div.innerHTML += `
+  <div style='padding:12px;margin-bottom:10px;background:#fffaf7;border-radius:16px;border:1px solid #f0ddd1;display:flex;justify-content:space-between;align-items:center;'>
+   <div>
+    <div style='font-weight:600;'>${session.type}</div>
+    <div style='font-size:13px;color:#8a6f63;'>${session.date}</div>
+   </div>
+   <button onclick='deleteSession(${index})' style='background:#e7c1b1;'>✕</button>
+  </div>`;
+ });
 }
 
 function updateProgress(){
@@ -219,5 +268,90 @@ function updateProgress(){
 }
 </script>
 
+<script>
+// LOCAL STORAGE
+function saveData(){
+ localStorage.setItem('hygeeMeals', JSON.stringify(meals));
+ localStorage.setItem('hygeeSessions', JSON.stringify(sessions));
+ localStorage.setItem('hygeeWeight', document.getElementById('currentWeight').value);
+ localStorage.setItem('hygeeTarget', document.getElementById('targetWeight').value);
+}
+
+function loadData(){
+ const savedMeals = localStorage.getItem('hygeeMeals');
+ const savedSessions = localStorage.getItem('hygeeSessions');
+ const savedWeight = localStorage.getItem('hygeeWeight');
+ const savedTarget = localStorage.getItem('hygeeTarget');
+
+ if(savedMeals){ meals = JSON.parse(savedMeals); renderMeals(); }
+ if(savedSessions){ sessions = JSON.parse(savedSessions); renderSessions(); }
+ if(savedWeight){ document.getElementById('currentWeight').value = savedWeight; }
+ if(savedTarget){ document.getElementById('targetWeight').value = savedTarget; }
+}
+
+// AUTO SAVE
+setInterval(saveData,2000);
+
+// DAILY SCORE
+function calculateScore(){
+ let score = 0;
+ const checks = document.querySelectorAll('input[type="checkbox"]');
+ checks.forEach(c=>{ if(c.checked) score += 2; });
+ if(document.getElementById('currentWeight').value) score += 10;
+ if(score > 100) score = 100;
+ document.getElementById('scoreBar').style.width = score + '%';
+ document.getElementById('scoreText').innerText = score + '% • journée équilibrée ✨';
+}
+setInterval(calculateScore,1000);
+
+// CALENDAR VIEW
+const calendarContainer = document.createElement('div');
+calendarContainer.className='card';
+calendarContainer.innerHTML=`
+<h3>Calendrier 📅</h3>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;font-size:13px;">
+<div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div>
+${Array.from({length:31},(_,i)=>`<div style="padding:10px;background:#fff;border-radius:12px;border:1px solid #f0ddd1;">${i+1}</div>`).join('')}
+</div>`;
+document.getElementById('dashboard').appendChild(calendarContainer);
+
+// APPLE RINGS
+const rings = document.createElement('div');
+rings.className='card';
+rings.innerHTML=`
+<h3>Progression ✨</h3>
+<div style="display:flex;justify-content:space-around;">
+<div><svg width="80" height="80"><circle cx="40" cy="40" r="30" stroke="#eee" stroke-width="8" fill="none"/><circle cx="40" cy="40" r="30" stroke="#d8b4a0" stroke-width="8" fill="none" stroke-dasharray="188" stroke-dashoffset="40" transform="rotate(-90 40 40)"/></svg><p style="text-align:center;font-size:12px;">Nutrition</p></div>
+<div><svg width="80" height="80"><circle cx="40" cy="40" r="30" stroke="#eee" stroke-width="8" fill="none"/><circle cx="40" cy="40" r="30" stroke="#c98d72" stroke-width="8" fill="none" stroke-dasharray="188" stroke-dashoffset="70" transform="rotate(-90 40 40)"/></svg><p style="text-align:center;font-size:12px;">Sport</p></div>
+<div><svg width="80" height="80"><circle cx="40" cy="40" r="30" stroke="#eee" stroke-width="8" fill="none"/><circle cx="40" cy="40" r="30" stroke="#b27d66" stroke-width="8" fill="none" stroke-dasharray="188" stroke-dashoffset="90" transform="rotate(-90 40 40)"/></svg><p style="text-align:center;font-size:12px;">Sleep</p></div>
+</div>`;
+document.getElementById('dashboard').appendChild(rings);
+
+// DEADLINES
+const goals = document.createElement('div');
+goals.className='card';
+goals.innerHTML=`
+<h3>Objectifs 🎯</h3>
+<div style="margin-bottom:12px;">
+<div>21 mai • EVJF • objectif 69kg</div>
+<div class="progress"><div class="progress-bar" style="width:25%"></div></div>
+</div>
+<div style="margin-bottom:12px;">
+<div>25 juin • Anniversaire • objectif 64kg</div>
+<div class="progress"><div class="progress-bar" style="width:15%"></div></div>
+</div>
+<div>
+<div>19 août • Mariage • objectif 60kg</div>
+<div class="progress"><div class="progress-bar" style="width:10%"></div></div>
+</div>`;
+document.getElementById('dashboard').appendChild(goals);
+
+// PWA
+if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('service-worker.js');
+}
+
+loadData();
+</script>
 </body>
 </html>

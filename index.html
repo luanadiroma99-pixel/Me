@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HYGEE</title>
+<title>HYGEE Wellness App</title>
 <style>
 body { font-family: -apple-system; margin: 0; background:#f6f2ef; }
 header { padding:15px; text-align:center; font-weight:600; }
@@ -18,7 +18,10 @@ button { padding:8px 12px; border:none; border-radius:8px; background:#d6a77a; c
 </head>
 <body>
 
-<header id="date"></header>
+<header>
+<div id="date"></div>
+<div style="font-size:13px;color:#7d6b5d;margin-top:4px;">HYGEE • Wellness & Performance</div>
+</header>
 
 <div class="container" id="dashboard">
 
@@ -34,7 +37,8 @@ button { padding:8px 12px; border:none; border-radius:8px; background:#d6a77a; c
 </div>
 
 <div class="card">
-<h3>Score du jour</h3>
+<h3>Score du jour ✨</h3>
+<p id="scoreText">0/8 objectifs validés</p>
 <div class="progress"><div id="scoreBar" class="progress-bar"></div></div>
 </div>
 
@@ -57,7 +61,11 @@ button { padding:8px 12px; border:none; border-radius:8px; background:#d6a77a; c
 
 <div class="container" id="nutrition" style="display:none">
 <div class="card">
-<h3>Nutrition</h3>
+<h3>Nutrition 🍽</h3>
+<textarea id="mealInput" placeholder="Ex: 2 œufs + kiwi + yaourt coco" style="width:100%;height:80px;border-radius:12px;border:1px solid #ddd;padding:10px;"></textarea>
+<button onclick="analyzeMeal()">Analyser le repas</button>
+<div id="mealResult" style="margin-top:10px;font-size:14px;color:#5a4d43"></div>
+<hr style="margin:15px 0;">
 <p>Calories <input type="number"></p>
 <p>Protéines <input type="number"></p>
 <p>Glucides <input type="number"></p>
@@ -68,6 +76,37 @@ button { padding:8px 12px; border:none; border-radius:8px; background:#d6a77a; c
 
 <div class="container" id="health" style="display:none">
 <div class="card">
+<h3>Everything Shower 🚿</h3>
+<label><input type="checkbox">Brosser les cheveux</label><br>
+<label><input type="checkbox">Huile cheveux</label><br>
+<label><input type="checkbox">Brossage corps à sec</label><br>
+<label><input type="checkbox">Shampoing + massage</label><br>
+<label><input type="checkbox">Après-shampoing</label><br>
+<label><input type="checkbox">Masque cheveux</label><br>
+<label><input type="checkbox">Gel douche</label><br>
+<label><input type="checkbox">Body scrub</label><br>
+<label><input type="checkbox">Body oil</label><br>
+<label><input type="checkbox">Crème corps</label><br>
+<label><input type="checkbox">Déo</label><br>
+<label><input type="checkbox">Ongles mains/pieds</label><br>
+<label><input type="checkbox">Huile nettoyante</label><br>
+<label><input type="checkbox">Nettoyant mousse</label><br>
+<label><input type="checkbox">Épilation</label><br>
+<label><input type="checkbox">Décoloration visage</label><br>
+<label><input type="checkbox">Huile visage + gua sha + lumière rouge</label><br>
+<label><input type="checkbox">Crème yeux</label><br>
+<label><input type="checkbox">Lotion bave escargot</label><br>
+<label><input type="checkbox">Crème visage</label>
+</div>
+
+<div class="card">
+<h3>Home Reset 🧹</h3>
+<label><input type="checkbox">Ranger ma chambre</label><br>
+<label><input type="checkbox">Aspirateur</label><br>
+<label><input type="checkbox">Aérer la chambre</label><br>
+<label><input type="checkbox">Préparer les tenues de la semaine</label>
+</div>
+<div class="card">
 <h3>Suivi global</h3>
 <p>Eau (L) <input type="number"></p>
 <p>Sommeil (h) <input type="number"></p>
@@ -77,10 +116,27 @@ button { padding:8px 12px; border:none; border-radius:8px; background:#d6a77a; c
 </div>
 </div>
 
+<div class="container" id="sport" style="display:none">
+<div class="card">
+<h3>Planning Sport 🏋️</h3>
+<select id="sessionType" style="width:100%;padding:10px;border-radius:12px;border:1px solid #ddd;">
+<option>Running</option>
+<option>Pilates</option>
+<option>Yoga</option>
+<option>Renforcement</option>
+<option>Recovery Walk</option>
+</select>
+<input type="date" id="sessionDate" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1px solid #ddd;">
+<button style="margin-top:10px;" onclick="saveSession()">Ajouter séance</button>
+<div id="sessionList" style="margin-top:15px;font-size:14px;"></div>
+</div>
+</div>
+
 <div class="nav">
 <button onclick="showPage('dashboard')">Accueil</button>
 <button onclick="showPage('nutrition')">Nutrition</button>
 <button onclick="showPage('health')">Santé</button>
+<button onclick="showPage('sport')">Sport</button>
 </div>
 
 <script>
@@ -97,6 +153,24 @@ function showPage(page){
  document.getElementById('nutrition').style.display='none';
  document.getElementById('health').style.display='none';
  document.getElementById(page).style.display='block';
+}
+
+function analyzeMeal(){
+ const text = document.getElementById('mealInput').value.toLowerCase();
+ let calories = 0;
+ let proteins = 0;
+ if(text.includes('oeuf')){calories += 140; proteins += 12;}
+ if(text.includes('kiwi')){calories += 45;}
+ if(text.includes('yaourt')){calories += 120; proteins += 4;}
+ if(text.includes('avocat')){calories += 160;}
+ document.getElementById('mealResult').innerHTML = `≈ ${calories} kcal<br>Protéines: ${proteins}g`;
+}
+
+function saveSession(){
+ const type = document.getElementById('sessionType').value;
+ const date = document.getElementById('sessionDate').value;
+ const div = document.getElementById('sessionList');
+ div.innerHTML += `<div style='padding:8px;margin-bottom:8px;background:#f6f2ef;border-radius:10px;'>${date} • ${type}</div>`;
 }
 
 function updateProgress(){

@@ -2,14 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-color=1.0, user-scalable=no, viewport-fit=cover">
     <title>TULIPS 🌷</title>
     
     <!-- Configuration PWA iPhone -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TULIPS">
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1520763185298-1b434c919102?w=180&h=180&fit=crop&crop=faces">
+    <link class="apple-touch-icon" href="https://images.unsplash.com/photo-1520763185298-1b434c919102?w=180&h=180&fit=crop&crop=faces">
 
     <style>
         :root {
@@ -26,13 +26,18 @@
             --warning-bg: #fffbeb; --warning-border: #f59e0b; --warning-txt: #b45309;
         }
 
-        html, body { height: 100%; background-color: var(--bg-color); }
+        html { background-color: var(--bg-color); }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             color: var(--text-color); margin: 0; padding: 0;
-            padding-bottom: calc(85px + env(safe-area-inset-bottom));
+            background-color: var(--bg-color);
             -webkit-font-smoothing: antialiased; user-select: none; box-sizing: border-box;
+            
+            /* LA CORRECTION MAGIQUE ICI : scroll global fluide et espace pour la barre du bas */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(100px + env(safe-area-inset-bottom)); 
         }
 
         header {
@@ -46,7 +51,11 @@
         header h1 { margin: 0; font-size: 18px; font-weight: 700; color: #4c1d95; letter-spacing: 1.5px; }
         header p { margin: 4px 0 0 0; font-size: 11px; color: #6d28d9; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .container { padding: 20px; box-sizing: border-box; }
+        .container { 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+        
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -64,9 +73,9 @@
         .badge-maison { background-color: var(--badge-maison-bg); color: var(--badge-maison-txt); }
 
         /* Grille des verres d'eau cliquables */
-        .water-grid { display: flex; justify-content: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .water-grid { display: flex; justify-content: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
         .water-glass {
-            width: 45px; height: 55px; border: 2px solid #60a5fa; border-radius: 4px 4px 12px 12px;
+            width: 45px; height: 52px; border: 2px solid #60a5fa; border-radius: 4px 4px 12px 12px;
             display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
             color: #2563eb; cursor: pointer; transition: all 0.2s ease; background: transparent;
         }
@@ -74,22 +83,22 @@
 
         /* Guide Stomach Vacuum */
         .vacuum-box {
-            background: #fafafa; border: 1px solid rgba(0,0,0,0.05); padding: 15px; border-radius: 14px; text-align: center; margin-bottom: 15px;
+            background: #fafafa; border: 1px solid rgba(0,0,0,0.05); padding: 12px; border-radius: 14px; text-align: center; margin-bottom: 15px;
         }
         .bubble-guide {
-            width: 70px; height: 70px; background: radial-gradient(circle, #fbcfe8 0%, #f472b6 100%);
-            border-radius: 50%; margin: 15px auto; transition: transform 4s linear;
+            width: 65px; height: 65px; background: radial-gradient(circle, #fbcfe8 0%, #f472b6 100%);
+            border-radius: 50%; margin: 10px auto; transition: transform 4s linear;
             display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 700;
         }
-        .bubble-guide.inspire { transform: scale(1.5); transition: transform 4s ease-in-out; }
+        .bubble-guide.inspire { transform: scale(1.4); transition: transform 4s ease-in-out; }
         .bubble-guide.expire { transform: scale(0.6); transition: transform 4s ease-in-out; }
         .bubble-guide.bloque { transform: scale(0.6); animation: pulse 1s infinite alternate; }
         @keyframes pulse { from { box-shadow: 0 0 0 0px rgba(244,114,182,0.4); } to { box-shadow: 0 0 0 10px rgba(244,114,182,0); } }
 
         /* Formulaires & Cartes de traçage */
-        .tracker-card { background: white; padding: 15px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.02); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01); margin-bottom: 15px; }
+        .tracker-card { background: white; padding: 12px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.02); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01); margin-bottom: 12px; }
         .form-select, .form-date { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); font-family: inherit; margin-top: 5px; background: var(--bg-color); box-sizing: border-box; font-size: 14px; color: var(--text-color); }
-        .form-group { margin-bottom: 12px; }
+        .form-group { margin-bottom: 10px; text-align: left; }
         .form-group label { font-size: 12px; font-weight: 600; color: var(--title-color); }
 
         /* Graphiques */
@@ -111,9 +120,10 @@
 
         /* Modals */
         .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: var(--bg-color); z-index: 1000; overflow-y: auto; 
             padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)) 20px; box-sizing: border-box; 
+            display: none;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.05); margin-bottom: 15px; }
         .close-btn { background: none; border: none; color: var(--text-muted); font-size: 28px; cursor: pointer; }
@@ -122,11 +132,11 @@
         .exercise-name { font-weight: 600; color: var(--title-color); font-size: 14px; }
         .exercise-details { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
         .note-box { background-color: var(--warning-bg); border-left: 4px solid var(--warning-border); padding: 12px; border-radius: 12px; font-size: 13px; margin: 15px 0; color: var(--warning-txt); line-height: 1.4; }
-        .suivi-zone { margin-top: 25px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.05); padding-bottom: 40px;}
+        .suivi-zone { margin-top: 25px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.05); padding-bottom: 60px;}
         
         /* Boutons */
-        .btn-save { background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        .btn-send-ai { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .btn-save { background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .btn-send-ai { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
         .btn-copy { background: #e2ebf0; color: #4c1d95; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 15px; }
         
         .history-item { background: var(--card-bg); border-radius: 12px; padding: 12px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.02); }
@@ -186,7 +196,7 @@
         
         <!-- SECTION CALENDRIER DE DÉBUT DE PLAQUETTE -->
         <div class="tracker-card">
-            <div style="font-weight: 700; font-size: 14px; color: #4c1d95; margin-bottom: 12px; text-align: center;">💊 Calendrier Pilule (Cycle de 3 mois)</div>
+            <div style="font-weight: 700; font-size: 14px; color: #4c1d95; margin-bottom: 8px; text-align: center;">💊 Calendrier Pilule (Cycle de 3 mois)</div>
             
             <div class="form-group">
                 <label for="pill-event-type">Événement Pilule :</label>
@@ -205,8 +215,6 @@
             </div>
 
             <button class="btn-save" style="background: #6d28d9;" onclick="savePillDate()">📌 Enregistrer la date</button>
-            
-            <!-- BOUTON D'ENVOI DIRECT À GEMINI -->
             <button class="btn-send-ai" onclick="sendToGeminiAI()">💬 M'envoyer les données (Copier pour l'IA)</button>
         </div>
 
@@ -297,6 +305,10 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
             event.currentTarget.classList.add('active');
+            
+            // Remonte automatiquement en haut de l'écran quand on change d'onglet
+            window.scrollTo(0, 0);
+            
             if(pageId === 'history') { displayHistory(); displayPillDates(); }
         }
 
@@ -331,10 +343,8 @@
             pillHistory.unshift({ date: eventDate, type: eventType });
             localStorage.setItem('tulips_pill_calendar', JSON.stringify(pillHistory));
 
-            // Met à jour la bannière globale avec l'événement le plus récent
             document.getElementById('hormone-banner').innerText = eventType;
-            
-            alert(`Événement enregistré : ${eventType} le ${eventDate}`);
+            alert(`Événement enregistré : ${eventType}`);
         }
 
         function displayPillDates() {
@@ -355,8 +365,6 @@
         function openSession(key) {
             currentSessionKey = key;
             const data = sessionsData[key];
-            
-            // On cherche le dernier état de pilule enregistré pour l'ajouter par défaut
             const pillHistory = JSON.parse(localStorage.getItem('tulips_pill_calendar')) || [];
             const lastPillState = pillHistory.length > 0 ? pillHistory[0].type : "Plaquette non définie";
 
@@ -376,7 +384,7 @@
             html += `
                 <div class="suivi-zone">
                     <div class="form-group">
-                        <label>Statut pilule actuel (déduit de ton calendrier) :</label>
+                        <label>Statut pilule actuel :</label>
                         <input type="text" id="suivi-pill-state" value="${lastPillState}" disabled style="background:#f3e8ff; font-weight:700; color:#6b21a8; border:1px solid #d8b4fe;">
                     </div>
                     <div class="form-group">
@@ -390,7 +398,7 @@
                     </div>
                     <div class="form-group">
                         <label>Notes complémentaires :</label>
-                        <input type="text" id="suivi-notes" placeholder="Ex: Sensation de jambes lourdes ce soir.">
+                        <input type="text" id="suivi-notes" placeholder="Ex: Légère sensation de jambes lourdes.">
                     </div>
                     <button class="btn-save" onclick="saveSessionData()">Sauvegarder séance & symptômes</button>
                 </div>`;
@@ -461,37 +469,29 @@
             navigator.clipboard.writeText(text).then(() => alert("Copié dans le presse-papiers !"));
         }
 
-        /* 🚀 BOUTON MAGIQUE : ENVOI DIRECT DE TOUTES LES DONNÉES À L'IA */
         function sendToGeminiAI() {
             const pillHistory = JSON.parse(localStorage.getItem('tulips_pill_calendar')) || [];
             const history = JSON.parse(localStorage.getItem('tulips_history')) || [];
             
             let report = "👋 Coucou ! Voici mes données de suivi TULIPS complètes directement exportées depuis mon application mobile.\n\n";
-            
             report += "=== 📆 HISTORIQUE DES DATES CLÉS DE MA PILULE ===\n";
             if(pillHistory.length === 0) report += "(Aucune date encore enregistrée)\n";
-            pillHistory.forEach(item => {
-                report += `- Le ${item.date} : ${item.type}\n`;
-            });
+            pillHistory.forEach(item => { report += `- Le ${item.date} : ${item.type}\n`; });
             
             report += "\n=== 🏋️‍♀️ SUIVI DE MES SÉANCES & SYMPTÔMES ASSOCIÉS ===\n";
             if(history.length === 0) report += "(Aucune séance ou symptôme enregistré)\n";
             history.forEach(log => {
                 report += `- Date : ${log.date}\n  Plaquette en cours : ${log.pillState}\n  Activité : ${log.title}\n  Ressenti/Symptôme : ${log.feeling}\n  Notes : ${log.notes || '/'}\n\n`;
             });
-            
             report += "Analyse ces données pour repérer mes phases de rétention d'eau majeures et ajuste mes recommandations de sport ou d'hydratation selon le mois de ma pilule ! 🌷";
 
             navigator.clipboard.writeText(report).then(() => {
-                alert("✨ Magique ! Tout ton rapport de pilule et tes symptômes sont copiés. Fais juste 'Coller' (ou reste appuyée dans la zone de texte) ici même dans notre chat pour me l'envoyer ! 😉");
-            }).catch(err => {
-                alert("Oups, impossible de copier automatiquement. Copie le texte manuellement.");
+                alert("✨ Magique ! Tout ton rapport de pilule et tes symptômes sont copiés. Fais juste 'Coller' ici même dans notre chat pour me l'envoyer ! 😉");
             });
         }
 
         // Init
         buildWaterGrid();
-        // Set default banner matching calendar state if present
         const initPillHisto = JSON.parse(localStorage.getItem('tulips_pill_calendar')) || [];
         if(initPillHisto.length > 0) {
             document.getElementById('hormone-banner').innerText = initPillHisto[0].type;

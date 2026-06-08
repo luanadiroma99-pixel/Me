@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-color=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>TULIPS 🌷</title>
     
     <!-- Configuration PWA iPhone -->
@@ -26,39 +26,52 @@
             --warning-bg: #fffbeb; --warning-border: #f59e0b; --warning-txt: #b45309;
         }
 
-        html { background-color: var(--bg-color); }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: var(--text-color); margin: 0; padding: 0;
+        /* FIX IOS : On force l'application à occuper l'écran sans bloquer le défilement */
+        html, body {
             background-color: var(--bg-color);
-            -webkit-font-smoothing: antialiased; user-select: none; box-sizing: border-box;
-            
-            /* LA CORRECTION MAGIQUE ICI : scroll global fluide et espace pour la barre du bas */
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: calc(100px + env(safe-area-inset-bottom)); 
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            user-select: none;
+            overflow: hidden; /* Empêche le rebond moche de toute l'application */
         }
 
         header {
             background: var(--accent-gradient); 
-            padding: calc(20px + env(safe-area-inset-top)) 20px 20px 20px; 
+            padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; 
             text-align: center;
             border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            position: relative;
+            z-index: 950;
         }
 
         header h1 { margin: 0; font-size: 18px; font-weight: 700; color: #4c1d95; letter-spacing: 1.5px; }
         header p { margin: 4px 0 0 0; font-size: 11px; color: #6d28d9; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .container { 
-            padding: 20px; 
-            box-sizing: border-box; 
+        /* Chaque page devient une zone de défilement ultra-fluide propre à iOS */
+        .page { 
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* On commence le contenu sous le header et on s'arrête pile au-dessus de la nav bar */
+            padding-top: calc(75px + env(safe-area-inset-top)); 
+            padding-bottom: calc(85px + env(safe-area-inset-bottom));
+            padding-left: 20px;
+            padding-right: 20px;
+            overflow-y: scroll; 
+            -webkit-overflow-scrolling: touch; /* Force la fluidité native iPhone */
+            box-sizing: border-box;
         }
         
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .page.active { display: block; }
 
         .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin: 25px 0 12px 5px; font-weight: 700; }
         
@@ -106,15 +119,15 @@
         .bar { flex: 1; background: #db2777; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative; min-height: 5px; }
         .bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--text-muted); }
 
-        /* Menu Basse iOS */
+        /* Menu Basse iOS Fixe */
         .nav-bar {
             position: fixed; bottom: 0; left: 0; width: 100%; 
             height: calc(65px + env(safe-area-inset-bottom)); 
             background: var(--card-bg); border-top: 1px solid rgba(0, 0, 0, 0.05); 
             display: flex; justify-content: space-around; 
-            padding-bottom: env(safe-area-inset-bottom); align-items: center; z-index: 900; box-sizing: border-box;
+            padding-bottom: env(safe-area-inset-bottom); align-items: center; z-index: 950; box-sizing: border-box;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; padding: 5px 10px; }
         .nav-item.active { color: var(--tulip-pink); }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
 
@@ -122,7 +135,8 @@
         .modal { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: var(--bg-color); z-index: 1000; overflow-y: auto; 
-            padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)) 20px; box-sizing: border-box; 
+            -webkit-overflow-scrolling: touch;
+            padding: calc(20px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom)) 20px; box-sizing: border-box; 
             display: none;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.05); margin-bottom: 15px; }
@@ -132,12 +146,12 @@
         .exercise-name { font-weight: 600; color: var(--title-color); font-size: 14px; }
         .exercise-details { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
         .note-box { background-color: var(--warning-bg); border-left: 4px solid var(--warning-border); padding: 12px; border-radius: 12px; font-size: 13px; margin: 15px 0; color: var(--warning-txt); line-height: 1.4; }
-        .suivi-zone { margin-top: 25px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.05); padding-bottom: 60px;}
+        .suivi-zone { margin-top: 25px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.05); padding-bottom: 40px;}
         
         /* Boutons */
-        .btn-save { background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; }
-        .btn-send-ai { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-        .btn-copy { background: #e2ebf0; color: #4c1d95; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 15px; }
+        .btn-save { background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; -webkit-appearance: none; }
+        .btn-send-ai { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); -webkit-appearance: none; }
+        .btn-copy { background: #e2ebf0; color: #4c1d95; border: none; padding: 12px; width: 100%; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 15px; -webkit-appearance: none; }
         
         .history-item { background: var(--card-bg); border-radius: 12px; padding: 12px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.02); }
         .history-date { font-size: 11px; font-weight: 700; color: var(--tulip-pink); }
@@ -152,7 +166,7 @@
     </header>
 
     <!-- ONGLET 1 : SÉANCES -->
-    <div id="page-workouts" class="page active container">
+    <div id="page-workouts" class="page active">
         <div id="cycle-alert" style="display:none; background:#fdf2f8; border-left:4px solid #db2777; padding:12px; border-radius:8px; font-size:12px; margin-bottom:15px; color:#9d174d;"></div>
 
         <div class="section-title">À la Salle de Sport</div>
@@ -184,9 +198,8 @@
         </div>
     </div>
 
-    <!-- ONGLET 2 : MON JOURNAL (EAU & CALENDRIER PILULE) -->
-    <div id="page-journal" class="page container">
-        
+    <!-- ONGLET 2 : MON JOURNAL -->
+    <div id="page-journal" class="page">
         <!-- SECTION EAU -->
         <div class="tracker-card">
             <div style="text-align: center; font-weight: 700; font-size: 14px; color: #1e3a8a;">💧 Objectif Eau (Verres de 500ml)</div>
@@ -194,10 +207,9 @@
             <div id="water-total-desc" style="text-align:center; font-size:12px; font-weight:700; margin-top:8px; color:#2563eb;">Total : 0L / 2.5L</div>
         </div>
         
-        <!-- SECTION CALENDRIER DE DÉBUT DE PLAQUETTE -->
+        <!-- SECTION CALENDRIER PILULE -->
         <div class="tracker-card">
             <div style="font-weight: 700; font-size: 14px; color: #4c1d95; margin-bottom: 8px; text-align: center;">💊 Calendrier Pilule (Cycle de 3 mois)</div>
-            
             <div class="form-group">
                 <label for="pill-event-type">Événement Pilule :</label>
                 <select id="pill-event-type" class="form-select">
@@ -208,12 +220,10 @@
                     <option value="Fin des Pilules Blanches ✅">✅ Fin des Pilules Blanches</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="pill-event-date">Date de l'événement :</label>
                 <input type="date" id="pill-event-date" class="form-date">
             </div>
-
             <button class="btn-save" style="background: #6d28d9;" onclick="savePillDate()">📌 Enregistrer la date</button>
             <button class="btn-send-ai" onclick="sendToGeminiAI()">💬 M'envoyer les données (Copier pour l'IA)</button>
         </div>
@@ -228,7 +238,7 @@
     </div>
 
     <!-- ONGLET 3 : HISTORIQUE -->
-    <div id="page-history" class="page container">
+    <div id="page-history" class="page">
         <div class="section-title">📈 Rétention d'Eau & Gonflements</div>
         <div id="chart-water" class="mini-chart-bar"></div>
 
@@ -242,13 +252,13 @@
 
     <!-- NAVIGATION BASSE -->
     <div class="nav-bar">
-        <div class="nav-item active" onclick="switchPage('workouts')">
+        <div id="nav-workouts" class="nav-item active" onclick="switchPage('workouts')">
             <span class="nav-icon">🏋️‍♀️</span><span>Séances</span>
         </div>
-        <div class="nav-item" onclick="switchPage('journal')">
+        <div id="nav-journal" class="nav-item" onclick="switchPage('journal')">
             <span class="nav-icon">🌸</span><span>Mon Journal</span>
         </div>
-        <div class="nav-item" onclick="switchPage('history')">
+        <div id="nav-history" class="nav-item" onclick="switchPage('history')">
             <span class="nav-icon">📅</span><span>Historique</span>
         </div>
     </div>
@@ -276,7 +286,6 @@
         let todayDate = new Date().toISOString().split('T')[0];
         document.getElementById('pill-event-date').value = todayDate;
 
-        // EAU
         let waterState = JSON.parse(localStorage.getItem('water_grid_' + todayDate)) || [false, false, false, false, false];
 
         function buildWaterGrid() {
@@ -301,18 +310,21 @@
         }
 
         function switchPage(pageId) {
+            // Cacher toutes les pages et enlever la classe active du menu
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            event.currentTarget.classList.add('active');
             
-            // Remonte automatiquement en haut de l'écran quand on change d'onglet
-            window.scrollTo(0, 0);
+            // Activer la bonne page et le bon bouton
+            const targetPage = document.getElementById('page-' + pageId);
+            targetPage.classList.add('active');
+            document.getElementById('nav-' + pageId).classList.add('active');
+            
+            // Reset le scroll interne de la page choisie vers le haut
+            targetPage.scrollTop = 0;
             
             if(pageId === 'history') { displayHistory(); displayPillDates(); }
         }
 
-        /* VACUUM */
         function startVacuumGuide() {
             const bubble = document.getElementById('vacuum-bubble');
             const txt = document.getElementById('vacuum-text');
@@ -332,11 +344,9 @@
             }, 4000);
         }
 
-        /* AJOUT DE DATE DANS LE CALENDRIER PILULE */
         function savePillDate() {
             const eventType = document.getElementById('pill-event-type').value;
             const eventDate = document.getElementById('pill-event-date').value;
-            
             if(!eventDate) { alert("Choisis une date valide."); return; }
 
             let pillHistory = JSON.parse(localStorage.getItem('tulips_pill_calendar')) || [];
@@ -361,7 +371,6 @@
             `).join('');
         }
 
-        /* HISTORIQUE GENERAL ET SÉANCES */
         function openSession(key) {
             currentSessionKey = key;
             const data = sessionsData[key];
@@ -385,7 +394,7 @@
                 <div class="suivi-zone">
                     <div class="form-group">
                         <label>Statut pilule actuel :</label>
-                        <input type="text" id="suivi-pill-state" value="${lastPillState}" disabled style="background:#f3e8ff; font-weight:700; color:#6b21a8; border:1px solid #d8b4fe;">
+                        <input type="text" id="suivi-pill-state" value="${lastPillState}" disabled style="background:#f3e8ff; font-weight:700; color:#6b21a8; border:1px solid #d8b4fe; padding:10px; border-radius:8px; width:100%; box-sizing:border-box;">
                     </div>
                     <div class="form-group">
                         <label>Symptôme marquant aujourd'hui :</label>
@@ -398,7 +407,7 @@
                     </div>
                     <div class="form-group">
                         <label>Notes complémentaires :</label>
-                        <input type="text" id="suivi-notes" placeholder="Ex: Légère sensation de jambes lourdes.">
+                        <input type="text" id="suivi-notes" class="form-date" placeholder="Ex: Légère sensation de jambes lourdes.">
                     </div>
                     <button class="btn-save" onclick="saveSessionData()">Sauvegarder séance & symptômes</button>
                 </div>`;
